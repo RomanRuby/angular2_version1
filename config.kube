@@ -1,0 +1,28 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/roman/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    namespace: office
+    user: employee
+  name: employee-context
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: employee
+  user:
+    client-certificate: /home/employee/.certs/employee.crt
+    client-key: /home/employee/.certs/employee.key
+- name: minikube
+  user:
+    client-certificate: /home/roman/.minikube/apiserver.crt
+    client-key: /home/roman/.minikube/apiserver.key

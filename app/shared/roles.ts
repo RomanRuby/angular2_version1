@@ -2,6 +2,25 @@ export class Role {
     typeMeta: TypeMeta;
     objectMeta: ObjectMeta;
     policyRules: Array<PolicyRule>;
+
+    constructor(typeMeta: TypeMeta,
+                objectMeta: ObjectMeta,
+                policyRules: Array<PolicyRule>) {
+        this.typeMeta = typeMeta;
+        this.objectMeta = objectMeta;
+        this.policyRules = policyRules;
+    }
+}
+
+export class RoleDto {
+    kind: string;
+    apiVersion: string;
+    name: string;
+    generateName?: string;
+    namespace: string;
+    selfLink?: string;
+    uid?: UID;
+    policyRules: Array<PolicyRuleDto>;
 }
 
 export class RoleBinding {
@@ -20,7 +39,7 @@ export class RoleRef {
     }
 }
 export class DeleteCollectionDto {
-    nameUrl:string;
+    nameUrl: string;
     kind: string;
     apiVersion: string;
     name: string;
@@ -44,8 +63,8 @@ export class Subject {
 }
 
 export class DeleteResult {
-    deleteOption:DeleteOptions;
-    name:string;
+    deleteOption: DeleteOptions;
+    name: string;
 
     constructor() {
     }
@@ -92,6 +111,26 @@ export class PolicyRule {
     resources: Array<string>;
     resourceNames: Array<string>;
     nonResourceURLs: Array<string>;
+
+    constructor(verbs: Array<string>,
+                apiGroups: Array<string>,
+                resources: Array<string>,
+                resourceNames: Array<string>,
+                nonResourceURLs: Array<string>) {
+
+        this.verbs = verbs;
+        this.apiGroups = apiGroups;
+        this.resources = resources;
+        this.resourceNames = resourceNames;
+        this.nonResourceURLs = nonResourceURLs;
+    }
+}
+export class PolicyRuleDto {
+    verbs: string;
+    apiGroups: string;
+    resources: string;
+    resourceNames: string;
+    nonResourceURLs: string;
 }
 export class ListOptions {
     typeMeta: TypeMeta;
@@ -138,8 +177,43 @@ export class DeleteOptionsDto {
 
 }
 export class PatchType {
-    patchType: string
+    patchType: string;
+    data: string;
+    subresources: string;
+
+    constructor(patchType: string,
+                data: string,
+                subresources: string) {
+        this.patchType = patchType;
+        this.data = data;
+        this.subresources = subresources;
+    }
+}
+export class PatchTypeDto {
+    namespace: string;
+    patchType: string;
+    name: string;
+    data: string;
+    subresources: string;
 }
 export class GetOptions {
     typeMeta: TypeMeta;
+    resourceVersion: string;
+    includeUninitialized: boolean;
+
+    constructor(typeMeta: TypeMeta,
+                resourceVersion: string,
+                includeUninitialized: boolean) {
+        this.typeMeta = typeMeta;
+        this.resourceVersion = resourceVersion;
+        this.includeUninitialized = includeUninitialized;
+    }
+}
+export class GetOptionsDto {
+    namespace: string;
+    nameUrl: string;
+    kind: string;
+    apiVersion: string;
+    resourceVersion: string;
+    includeUninitialized: boolean;
 }

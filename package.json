@@ -11,6 +11,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@angular/animations": "^4.2.0",
     "@angular/common": "2.0.0",                     
     "@angular/compiler": "2.0.0",                   
     "@angular/core": "2.0.0",                       
@@ -29,6 +30,7 @@
     "bootstrap": "^3.3.6"                            
   },
   "devDependencies": {
+
     "concurrently": "^2.2.0",
     "lite-server": "^2.2.2",  
     "typescript": "^2.0.2",    

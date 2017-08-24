@@ -14,6 +14,10 @@ import {RoleBindingService} from "./shared/rolebinding.service";
 import {DeleteRoleComponent} from "./role/delete/delete.component";
 import {WatchRoleComponent} from "./role/watch/watch.component";
 import {DeleteCollectionRoleComponent} from "./role/deleteCollection/deleteCollection.component";
+import {GetRoleComponent} from "./role/get/get.component";
+import {CreateRoleComponent} from "./role/create/create.component";
+import {PatchRoleComponent} from "./role/patch/patch.component";
+import {UpdateRoleComponent} from "./role/update/update.component";
 
 
 
@@ -26,7 +30,8 @@ import {DeleteCollectionRoleComponent} from "./role/deleteCollection/deleteColle
     ],
     declarations: [
         AppComponent,
-        ListRoleComponent,DeleteRoleComponent,WatchRoleComponent,DeleteCollectionRoleComponent],
+        ListRoleComponent,DeleteRoleComponent,WatchRoleComponent,DeleteCollectionRoleComponent,GetRoleComponent
+        ,CreateRoleComponent,PatchRoleComponent,UpdateRoleComponent,PatchRoleComponent],
     bootstrap: [AppComponent],
     providers: [RoleService,ClusterRoleBindingService,ClusterRoleService,RoleBindingService]
 })

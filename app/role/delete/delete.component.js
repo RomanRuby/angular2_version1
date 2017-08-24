@@ -81,4 +81,4 @@ DeleteRoleComponent = __decorate([
         router_1.Router])
 ], DeleteRoleComponent);
 exports.DeleteRoleComponent = DeleteRoleComponent;
-//# sourceMappingURL=deleteCollection.component.js.map
+//# sourceMappingURL=delete.component.js.map

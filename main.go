@@ -59,7 +59,7 @@ func main() {
 	router.HandleFunc("/rolebinding/patch/{name}/{namespace}", role.PatchRoleBinding).Methods("POST")
 
 
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static", fileHandler))
+	router.PathPrefix("/").Handler(http.StripPrefix("/static", fileHandler))
 	http.Handle("/", router)
 
 	log.Printf("Running on port %d\n", *port)

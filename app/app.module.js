@@ -21,6 +21,10 @@ var rolebinding_service_1 = require("./shared/rolebinding.service");
 var delete_component_1 = require("./role/delete/delete.component");
 var watch_component_1 = require("./role/watch/watch.component");
 var deleteCollection_component_1 = require("./role/deleteCollection/deleteCollection.component");
+var get_component_1 = require("./role/get/get.component");
+var create_component_1 = require("./role/create/create.component");
+var patch_component_1 = require("./role/patch/patch.component");
+var update_component_1 = require("./role/update/update.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -36,7 +40,8 @@ AppModule = __decorate([
         ],
         declarations: [
             app_component_1.AppComponent,
-            list_component_1.ListRoleComponent, delete_component_1.DeleteRoleComponent, watch_component_1.WatchRoleComponent, deleteCollection_component_1.DeleteCollectionRoleComponent
+            list_component_1.ListRoleComponent, delete_component_1.DeleteRoleComponent, watch_component_1.WatchRoleComponent, deleteCollection_component_1.DeleteCollectionRoleComponent, get_component_1.GetRoleComponent,
+            create_component_1.CreateRoleComponent, patch_component_1.PatchRoleComponent, update_component_1.UpdateRoleComponent, patch_component_1.PatchRoleComponent
         ],
         bootstrap: [app_component_1.AppComponent],
         providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService]

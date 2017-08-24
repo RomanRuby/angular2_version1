@@ -1,11 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Role = (function () {
-    function Role() {
+    function Role(typeMeta, objectMeta, policyRules) {
+        this.typeMeta = typeMeta;
+        this.objectMeta = objectMeta;
+        this.policyRules = policyRules;
     }
     return Role;
 }());
 exports.Role = Role;
+var RoleDto = (function () {
+    function RoleDto() {
+    }
+    return RoleDto;
+}());
+exports.RoleDto = RoleDto;
 var RoleBinding = (function () {
     function RoleBinding() {
     }
@@ -64,11 +73,22 @@ var UID = (function () {
     return UID;
 }());
 var PolicyRule = (function () {
-    function PolicyRule() {
+    function PolicyRule(verbs, apiGroups, resources, resourceNames, nonResourceURLs) {
+        this.verbs = verbs;
+        this.apiGroups = apiGroups;
+        this.resources = resources;
+        this.resourceNames = resourceNames;
+        this.nonResourceURLs = nonResourceURLs;
     }
     return PolicyRule;
 }());
 exports.PolicyRule = PolicyRule;
+var PolicyRuleDto = (function () {
+    function PolicyRuleDto() {
+    }
+    return PolicyRuleDto;
+}());
+exports.PolicyRuleDto = PolicyRuleDto;
 var ListOptions = (function () {
     function ListOptions() {
     }
@@ -95,15 +115,33 @@ var DeleteOptionsDto = (function () {
 }());
 exports.DeleteOptionsDto = DeleteOptionsDto;
 var PatchType = (function () {
-    function PatchType() {
+    function PatchType(patchType, data, subresources) {
+        this.patchType = patchType;
+        this.data = data;
+        this.subresources = subresources;
     }
     return PatchType;
 }());
 exports.PatchType = PatchType;
+var PatchTypeDto = (function () {
+    function PatchTypeDto() {
+    }
+    return PatchTypeDto;
+}());
+exports.PatchTypeDto = PatchTypeDto;
 var GetOptions = (function () {
-    function GetOptions() {
+    function GetOptions(typeMeta, resourceVersion, includeUninitialized) {
+        this.typeMeta = typeMeta;
+        this.resourceVersion = resourceVersion;
+        this.includeUninitialized = includeUninitialized;
     }
     return GetOptions;
 }());
 exports.GetOptions = GetOptions;
+var GetOptionsDto = (function () {
+    function GetOptionsDto() {
+    }
+    return GetOptionsDto;
+}());
+exports.GetOptionsDto = GetOptionsDto;
 //# sourceMappingURL=roles.js.map

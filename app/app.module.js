@@ -25,6 +25,8 @@ var get_component_1 = require("./role/get/get.component");
 var create_component_1 = require("./role/create/create.component");
 var patch_component_1 = require("./role/patch/patch.component");
 var update_component_1 = require("./role/update/update.component");
+var sidebar_module_1 = require("./sidebar/sidebar.module");
+var app_service_1 = require("./shared/app.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -36,6 +38,7 @@ AppModule = __decorate([
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
             forms_1.ReactiveFormsModule,
+            sidebar_module_1.SidebarModule,
             router_1.RouterModule.forRoot(app_routes_1.routes)
         ],
         declarations: [
@@ -44,7 +47,7 @@ AppModule = __decorate([
             create_component_1.CreateRoleComponent, patch_component_1.PatchRoleComponent, update_component_1.UpdateRoleComponent, patch_component_1.PatchRoleComponent
         ],
         bootstrap: [app_component_1.AppComponent],
-        providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService]
+        providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService, app_service_1.AppService]
     })
 ], AppModule);
 exports.AppModule = AppModule;

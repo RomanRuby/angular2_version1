@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteOptions, GetOptions, ListOptions, PatchType, Role} from "./roles";
+import {DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
+import {AppService} from "./app.service";
 
 
 @Injectable()
@@ -10,7 +11,7 @@ export class RoleService {
     // адрес сервиса
     private url = "http://localhost:8081";
 
-    constructor(private http: Http) { }
+    constructor(private http: AppService) { }
 
     public createRole(role: Role) {
         return this.http.post(this.url +"/role/create", role)
@@ -26,8 +27,8 @@ export class RoleService {
         return this.http.post(this.url +"/role/watch"+ "/"+ id, listOptions)
             .catch(RoleService.handleError);
     }
-    public listRole(id: string, listOptions: ListOptions) {
-        return this.http.post(this.url +"/role/list"+ "/"+ id, listOptions)
+    public listRole(id: string, listOptions: ListOptions) :Observable<ResponseRole> {
+        return this.http.post(this.url +"/clusterrole/list", listOptions)
             .catch(RoleService.handleError);
     }
 

@@ -11,6 +11,10 @@ require("./rx-js.operators");
 var AppComponent = (function () {
     function AppComponent() {
     }
+    AppComponent.prototype.ngOnInit = function () {
+        $.getScript('../assets/js/material-dashboard.js');
+        $.getScript('../assets/js/initMenu.js');
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([

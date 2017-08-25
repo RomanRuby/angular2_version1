@@ -18,6 +18,8 @@ import {GetRoleComponent} from "./role/get/get.component";
 import {CreateRoleComponent} from "./role/create/create.component";
 import {PatchRoleComponent} from "./role/patch/patch.component";
 import {UpdateRoleComponent} from "./role/update/update.component";
+import {SidebarModule} from "./sidebar/sidebar.module";
+import {AppService} from "./shared/app.service";
 
 
 
@@ -26,6 +28,7 @@ import {UpdateRoleComponent} from "./role/update/update.component";
         BrowserModule,
         HttpModule,
         ReactiveFormsModule,
+        SidebarModule,
         RouterModule.forRoot(routes)
     ],
     declarations: [
@@ -33,6 +36,6 @@ import {UpdateRoleComponent} from "./role/update/update.component";
         ListRoleComponent,DeleteRoleComponent,WatchRoleComponent,DeleteCollectionRoleComponent,GetRoleComponent
         ,CreateRoleComponent,PatchRoleComponent,UpdateRoleComponent,PatchRoleComponent],
     bootstrap: [AppComponent],
-    providers: [RoleService,ClusterRoleBindingService,ClusterRoleService,RoleBindingService]
+    providers: [RoleService,ClusterRoleBindingService,ClusterRoleService,RoleBindingService,AppService]
 })
 export class AppModule { }

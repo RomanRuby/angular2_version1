@@ -9,6 +9,36 @@ var Role = (function () {
     return Role;
 }());
 exports.Role = Role;
+var ResponseRole = (function () {
+    function ResponseRole() {
+    }
+    return ResponseRole;
+}());
+exports.ResponseRole = ResponseRole;
+var ItemsResponse = (function () {
+    function ItemsResponse() {
+    }
+    return ItemsResponse;
+}());
+exports.ItemsResponse = ItemsResponse;
+var Rules = (function () {
+    function Rules() {
+    }
+    return Rules;
+}());
+exports.Rules = Rules;
+var MetaDataMeta = (function () {
+    function MetaDataMeta() {
+    }
+    return MetaDataMeta;
+}());
+exports.MetaDataMeta = MetaDataMeta;
+var MetaData = (function () {
+    function MetaData() {
+    }
+    return MetaData;
+}());
+exports.MetaData = MetaData;
 var RoleDto = (function () {
     function RoleDto() {
     }

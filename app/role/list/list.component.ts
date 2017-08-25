@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {RoleService} from "../../shared/role.service";
-import {ListOptions, ListDto, TypeMeta} from "../../shared/roles";
+import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../shared/roles";
 
 @Component({
     moduleId: module.id,
@@ -13,14 +13,18 @@ import {ListOptions, ListDto, TypeMeta} from "../../shared/roles";
 })
 
 export class ListRoleComponent implements OnInit {
-    roleDto: ListDto ;
+    roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
+    responseRole: ResponseRole;
+    type: boolean = false;
+
 
     constructor(private service: RoleService,
-        private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
-        private router: Router) { }
+                private activatedRoute: ActivatedRoute,
+                private fb: FormBuilder,
+                private router: Router) {
+    }
 
     ngOnInit() {
         this.buildForm();
@@ -39,16 +43,21 @@ export class ListRoleComponent implements OnInit {
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind,this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
-        this.service.listRole(this.roleDto.namespace,listOptions)
-                .subscribe(
-                () => console.log("asdf"),
+        this.service.listRole(this.roleDto.namespace, listOptions)
+            .subscribe(
+                data => {   console.log(data);
+                    this.responseRole = data;
+                    console.log(this.responseRole);
+                    this.type = true;
+                },
                 error => this.errorMessage = error
-                );
+            );
     }
 
     public goBack() {
+
         this.router.navigate(["/products/create"]);
     }
 
@@ -56,8 +65,8 @@ export class ListRoleComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             let id = params["id"];
 
-                this.roleDto = new ListDto();
-                this.productForm.patchValue(this.roleDto);
+            this.roleDto = new ListDto();
+            this.productForm.patchValue(this.roleDto);
         });
     }
 
@@ -68,4 +77,6 @@ export class ListRoleComponent implements OnInit {
             apiVersion: ["", Validators.required]
         });
     }
+
+
 }

@@ -20,6 +20,7 @@ var ListRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
     }
     ListRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -38,7 +39,12 @@ var ListRoleComponent = (function () {
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            console.log(data);
+            _this.responseRole = data;
+            console.log(_this.responseRole);
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     ListRoleComponent.prototype.goBack = function () {
         this.router.navigate(["/products/create"]);

@@ -12,6 +12,35 @@ export class Role {
     }
 }
 
+export class ResponseRole {
+    metaData: MetaDataMeta;
+    items: Array<ItemsResponse>;
+
+    constructor() {
+    }
+}
+export class ItemsResponse {
+    metaData: MetaData;
+    responseRule: Array<Rules>;
+}
+export class Rules {
+    apiGroups: Array<string>;
+    resources: Array<string>;
+    verbs: Array<string>;
+}
+export class MetaDataMeta {
+
+    selfLink: string;
+    resourceVersion: number;
+
+}
+export class MetaData {
+    name: string;
+    selfLink: string;
+    resourceVersion: number;
+    uid: string;
+    creationTimestamp: string;
+}
 export class RoleDto {
     kind: string;
     apiVersion: string;

@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 var roles_1 = require("./roles");
+var app_service_1 = require("./app.service");
 var RoleService = RoleService_1 = (function () {
     function RoleService(http) {
         this.http = http;
@@ -32,7 +33,7 @@ var RoleService = RoleService_1 = (function () {
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.listRole = function (id, listOptions) {
-        return this.http.post(this.url + "/role/list" + "/" + id, listOptions)
+        return this.http.post(this.url + "/clusterrole/list", listOptions)
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.deleteRole = function (id, namespace, deleteOptions) {
@@ -68,7 +69,7 @@ var RoleService = RoleService_1 = (function () {
 }());
 RoleService = RoleService_1 = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [app_service_1.AppService])
 ], RoleService);
 exports.RoleService = RoleService;
 var RoleService_1;

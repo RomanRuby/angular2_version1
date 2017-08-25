@@ -60,6 +60,7 @@ func main() {
 
 
 	router.PathPrefix("/").Handler(http.StripPrefix("/static", fileHandler))
+	http.Handle("/assets/", http.FileServer(http.Dir(".")))
 	http.Handle("/", router)
 
 	log.Printf("Running on port %d\n", *port)

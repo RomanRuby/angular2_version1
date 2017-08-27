@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/clusterrole/create/create.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/delete/delete.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/get/get.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/list/list.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/patch/patch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/update/update.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/clusterrole/watch/watch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/create/create.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/delete/delete.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/get/get.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/list/list.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/patch/patch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/update/update.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/role/watch/watch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/create/create.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/delete/delete.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/get/get.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/list/list.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/patch/patch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/update/update.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/rolebinding/watch/watch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/create/create.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/delete/delete.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/get/get.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/list/list.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/patch/patch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/update/update.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrole/watch/watch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/create/create.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/delete/delete.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/get/get.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/list/list.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/patch/patch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/update/update.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/watch/watch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/create/create.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/delete/delete.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/get/get.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/list/list.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/main/main.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/patch/patch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/update/update.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/role/watch/watch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/create/create.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/delete/delete.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/get/get.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/list/list.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/patch/patch.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/update/update.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/component/rolebinding/watch/watch.component.ts" charset="ISO-8859-1" />
   </component>
 </project>

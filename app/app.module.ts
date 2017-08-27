@@ -6,20 +6,15 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
-import {RoleService} from "./shared/role.service";
-import {ListRoleComponent} from "./role/list/list.component";
-import {ClusterRoleBindingService} from "./shared/clusterrolebinding.service";
-import {ClusterRoleService} from "./shared/clusterrole.service";
-import {RoleBindingService} from "./shared/rolebinding.service";
-import {DeleteRoleComponent} from "./role/delete/delete.component";
-import {WatchRoleComponent} from "./role/watch/watch.component";
-import {DeleteCollectionRoleComponent} from "./role/deleteCollection/deleteCollection.component";
-import {GetRoleComponent} from "./role/get/get.component";
-import {CreateRoleComponent} from "./role/create/create.component";
-import {PatchRoleComponent} from "./role/patch/patch.component";
-import {UpdateRoleComponent} from "./role/update/update.component";
-import {SidebarModule} from "./sidebar/sidebar.module";
-import {AppService} from "./shared/app.service";
+import {RoleService} from "./logic-service/role.service";
+import {SidebarModule} from "./view-menu/sidebar/sidebar.module";
+import {NavbarModule} from "./view-menu/navbar/navbar.module";
+import {FooterModule} from "./view-menu/footer/footer.module";
+import {ClusterRoleBindingService} from "./logic-service/clusterrolebinding.service";
+import {ClusterRoleService} from "./logic-service/clusterrole.service";
+import {RoleBindingService} from "./logic-service/rolebinding.service";
+import {AppService} from "./logic-service/app.service";
+
 
 
 
@@ -29,12 +24,13 @@ import {AppService} from "./shared/app.service";
         HttpModule,
         ReactiveFormsModule,
         SidebarModule,
+        NavbarModule,
+        FooterModule,
         RouterModule.forRoot(routes)
     ],
     declarations: [
         AppComponent,
-        ListRoleComponent,DeleteRoleComponent,WatchRoleComponent,DeleteCollectionRoleComponent,GetRoleComponent
-        ,CreateRoleComponent,PatchRoleComponent,UpdateRoleComponent,PatchRoleComponent],
+      ],
     bootstrap: [AppComponent],
     providers: [RoleService,ClusterRoleBindingService,ClusterRoleService,RoleBindingService,AppService]
 })

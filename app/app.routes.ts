@@ -1,20 +1,23 @@
 import { Routes } from "@angular/router";
-import {ListRoleComponent} from "./role/list/list.component";
-import {DeleteRoleComponent} from "./role/delete/delete.component";
-import {WatchRoleComponent} from "./role/watch/watch.component";
-import {DeleteCollectionRoleComponent} from "./role/deleteCollection/deleteCollection.component";
-import {GetRoleComponent} from "./role/get/get.component";
-import {CreateRoleComponent} from "./role/create/create.component";
-import {UpdateRoleComponent} from "./role/update/update.component";
-import {PatchRoleComponent} from "./role/patch/patch.component";
+import {ListRoleComponent} from "./component/role/list/list.component";
+import {DeleteRoleComponent} from "./component/role/delete/delete.component";
+import {WatchRoleComponent} from "./component/role/watch/watch.component";
+import {DeleteCollectionRoleComponent} from "./component/role/deleteCollection/deleteCollection.component";
+import {GetRoleComponent} from "./component/role/get/get.component";
+import {CreateRoleComponent} from "./component/role/create/create.component";
+import {UpdateRoleComponent} from "./component/role/update/update.component";
+import {PatchRoleComponent} from "./component/role/patch/patch.component";
+import {HomeComponent} from "./component/home/home.component";
 
 
 export const routes: Routes = [
     {
         path: "",
-        redirectTo: "role/patch",
+        redirectTo: "dashboard",
         pathMatch: "full"
     },
+
+    { path: 'dashboard', component: HomeComponent },
     { path: "role/list", component: ListRoleComponent},
     { path: "role/patch", component: PatchRoleComponent},
     { path: "role/create", component: CreateRoleComponent},

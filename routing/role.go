@@ -15,7 +15,6 @@ import (
 var inter = v1beta12.RbacV1beta1Client{}
 
 func Create(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("cre")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := v1beta1.Role{}
 	json.Unmarshal(data, &roleInterfaceParsing)

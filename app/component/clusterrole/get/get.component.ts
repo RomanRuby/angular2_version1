@@ -4,6 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -16,7 +17,7 @@ export class GetRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -33,7 +34,6 @@ export class GetRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.namespace = productForm.value.namespace;
         this.getOptions.apiVersion = productForm.value.apiVersion;
         this.getOptions.kind = productForm.value.kind;
@@ -44,7 +44,7 @@ export class GetRoleComponent implements OnInit {
         let getOption = new GetOptions(
             new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace , this.getOptions.nameUrl,getOption)
+        this.service.getRole(this.getOptions.namespace ,getOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -67,7 +67,6 @@ export class GetRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             namespace: ["", Validators.required],
-            nameUrl: ["", Validators.required],
             kind: ["", Validators.required],
             apiVersion: ["", Validators.required],
             resourceVersion: ["", Validators.required],

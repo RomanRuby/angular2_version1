@@ -8,6 +8,7 @@ import {
     TypeMeta
 } from "../../../logic-service/roles";
 import {listeners} from "cluster";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +21,7 @@ export class DeleteCollectionRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -37,7 +38,6 @@ export class DeleteCollectionRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteCollection.nameUrl = productForm.value.nameUrl;
         this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
         this.deleteCollection.kind = productForm.value.kind;
@@ -57,7 +57,7 @@ export class DeleteCollectionRoleComponent implements OnInit {
       let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
           this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
 
-        this.service.deleteCollectionRole(this.deleteCollection.nameUrl,deleteOption,listOption)
+        this.service.deleteCollectionRole(deleteOption,listOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error

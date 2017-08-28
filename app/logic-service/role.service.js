@@ -33,7 +33,7 @@ var RoleService = RoleService_1 = (function () {
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.listRole = function (id, listOptions) {
-        return this.http.post(this.url + "/clusterrole/list", listOptions)
+        return this.http.post(this.url + "/role/list/{id}", listOptions)
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.deleteRole = function (id, namespace, deleteOptions) {

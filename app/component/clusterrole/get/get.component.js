@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var GetRoleComponent = (function () {
     function GetRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,14 +31,13 @@ var GetRoleComponent = (function () {
     };
     GetRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.namespace = productForm.value.namespace;
         this.getOptions.apiVersion = productForm.value.apiVersion;
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace, this.getOptions.nameUrl, getOption)
+        this.service.getRole(this.getOptions.namespace, getOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleComponent.prototype.goBack = function () {
@@ -55,7 +54,6 @@ var GetRoleComponent = (function () {
     GetRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             namespace: ["", forms_1.Validators.required],
-            nameUrl: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             apiVersion: ["", forms_1.Validators.required],
             resourceVersion: ["", forms_1.Validators.required],
@@ -70,7 +68,7 @@ GetRoleComponent = __decorate([
         selector: "get",
         templateUrl: "get.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

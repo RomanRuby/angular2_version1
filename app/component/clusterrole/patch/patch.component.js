@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var PatchRoleComponent = (function () {
     function PatchRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -32,11 +32,10 @@ var PatchRoleComponent = (function () {
     PatchRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.patchOptions.patchType = productForm.value.patchType;
-        this.patchOptions.name = productForm.value.name;
         this.patchOptions.data = productForm.value.data;
         this.patchOptions.subresources = productForm.value.subresources;
         this.patchOptions.namespace = productForm.value.namespace;
-        this.service.patchRole(this.patchOptions.name, this.patchOptions.namespace, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
+        this.service.patchRole(this.patchOptions.namespace, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     PatchRoleComponent.prototype.goBack = function () {
@@ -53,7 +52,6 @@ var PatchRoleComponent = (function () {
     PatchRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             patchType: ["", forms_1.Validators.required],
-            name: ["", forms_1.Validators.required],
             data: ["", forms_1.Validators.required],
             subresources: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
@@ -67,7 +65,7 @@ PatchRoleComponent = __decorate([
         selector: "patch",
         templateUrl: "patch.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

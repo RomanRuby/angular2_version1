@@ -34,7 +34,6 @@ export class WatchRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.kind = productForm.value.kind;
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
         let listOptions;
@@ -64,7 +63,6 @@ export class WatchRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            namespace: ["", Validators.required],
             apiVersion: ["", Validators.required]
         });
     }

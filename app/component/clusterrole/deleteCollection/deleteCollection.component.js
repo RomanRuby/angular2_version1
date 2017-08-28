@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var DeleteCollectionRoleComponent = (function () {
     function DeleteCollectionRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,7 +31,6 @@ var DeleteCollectionRoleComponent = (function () {
     };
     DeleteCollectionRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteCollection.nameUrl = productForm.value.nameUrl;
         this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
         this.deleteCollection.kind = productForm.value.kind;
@@ -45,7 +44,7 @@ var DeleteCollectionRoleComponent = (function () {
         var listOption = new roles_1.ListOptions();
         listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
-        this.service.deleteCollectionRole(this.deleteCollection.nameUrl, deleteOption, listOption)
+        this.service.deleteCollectionRole(deleteOption, listOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     DeleteCollectionRoleComponent.prototype.goBack = function () {
@@ -83,7 +82,7 @@ DeleteCollectionRoleComponent = __decorate([
         selector: "deleteCollection",
         templateUrl: "deleteCollection.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

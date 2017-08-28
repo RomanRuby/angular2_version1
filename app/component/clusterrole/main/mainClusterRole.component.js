@@ -7,17 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var MainRoleComponent = (function () {
-    function MainRoleComponent() {
+var MainClusterRoleComponent = (function () {
+    function MainClusterRoleComponent() {
     }
-    return MainRoleComponent;
+    return MainClusterRoleComponent;
 }());
-MainRoleComponent = __decorate([
+MainClusterRoleComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: "main",
-        templateUrl: "mainRole.component.html",
+        templateUrl: "mainClusterRole.component.html",
     })
-], MainRoleComponent);
-exports.MainRoleComponent = MainRoleComponent;
-//# sourceMappingURL=mainRole.component.js.map
+], MainClusterRoleComponent);
+exports.MainClusterRoleComponent = MainClusterRoleComponent;
+//# sourceMappingURL=mainClusterRole.component.js.map

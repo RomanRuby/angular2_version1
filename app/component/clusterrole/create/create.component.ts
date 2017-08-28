@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,7 @@ export class CreateRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -34,7 +35,6 @@ export class CreateRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.name = productForm.value.name;
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
@@ -78,7 +78,6 @@ export class CreateRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
             kind: ["", Validators.required],
             name: ["", Validators.required],
             apiVersion: ["", Validators.required],

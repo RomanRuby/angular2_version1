@@ -4,9 +4,9 @@ import {Component, OnInit} from "@angular/core";
 @Component({
     moduleId: module.id,
     selector: "main",
-    templateUrl: "mainRole.component.html",
+    templateUrl: "mainClusterRole.component.html",
 })
 
-export class MainRoleComponent  {
+export class MainClusterRoleComponent  {
 
 }

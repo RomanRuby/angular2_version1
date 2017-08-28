@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
+var roles_1 = require("./roles");
 var ClusterRoleService = ClusterRoleService_1 = (function () {
     function ClusterRoleService(http) {
         this.http = http;
@@ -42,10 +43,11 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
         return this.http.post(this.url + "/clusterrole/deleteCollection", deleteOptions, listOptions)
             .catch(ClusterRoleService_1.handleError);
     };
-    // public patchRole(namespace:string, patchType: string,data :string,subresources:string) {
-    //     return this.http.post(this.url +"/role/patch"+"/"+ namespace, patchType,data,subresources)
-    //         .catch(RoleService.handleError);
-    // }
+    ClusterRoleService.prototype.patchRole = function (namespace, patchType, data, subresources) {
+        var patchTypes = new roles_1.PatchType(patchType, data, subresources);
+        return this.http.post(this.url + "/clusterrole/patch" + "/" + namespace, patchTypes)
+            .catch(ClusterRoleService_1.handleError);
+    };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {
         return this.http.post(this.url + "/clusterrole/get/" + namespace, getOptions)
             .catch(ClusterRoleService_1.handleError);

@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var ListRoleComponent = (function () {
     function ListRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -38,7 +38,7 @@ var ListRoleComponent = (function () {
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.service.listRole(listOptions)
             .subscribe(function (data) {
             console.log(data);
             _this.responseRole = data;
@@ -72,7 +72,7 @@ ListRoleComponent = __decorate([
         selector: "list",
         templateUrl: "list.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

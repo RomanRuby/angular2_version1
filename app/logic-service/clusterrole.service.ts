@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteOptions, GetOptions, ListOptions, Role} from "./roles";
+import {DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
+import {RoleService} from "./role.service";
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class ClusterRoleService {
         return this.http.post(this.url +"/clusterrole/watch", listOptions)
             .catch(ClusterRoleService.handleError);
     }
-    public listRole(listOptions: ListOptions) {
+    public listRole(listOptions: ListOptions)  :Observable<ResponseRole> {
         return this.http.post(this.url +"/clusterrole/list", listOptions)
             .catch(ClusterRoleService.handleError);
     }
@@ -41,10 +42,11 @@ export class ClusterRoleService {
             .catch(ClusterRoleService.handleError);
     }
 
-    // public patchRole(namespace:string, patchType: string,data :string,subresources:string) {
-    //     return this.http.post(this.url +"/role/patch"+"/"+ namespace, patchType,data,subresources)
-    //         .catch(RoleService.handleError);
-    // }
+    public patchRole(namespace:string, patchType: string,data :string,subresources:string) {
+        let  patchTypes = new PatchType(patchType,data,subresources);
+        return this.http.post(this.url +"/clusterrole/patch"+"/"+namespace, patchTypes)
+            .catch(ClusterRoleService.handleError);
+    }
 
     public getRole(namespace:string, getOptions: GetOptions) {
         return this.http.post(this.url +"/clusterrole/get/"+namespace, getOptions)

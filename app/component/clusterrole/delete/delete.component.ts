@@ -4,6 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {DeleteOptions, DeleteOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -16,7 +17,7 @@ export class DeleteRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -33,7 +34,6 @@ export class DeleteRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteOptions.namespace = productForm.value.namespace;
         this.deleteOptions.name = productForm.value.name;
         this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
@@ -45,7 +45,7 @@ export class DeleteRoleComponent implements OnInit {
         let deleteOption = new DeleteOptions(
             new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
-        this.service.deleteRole(this.deleteOptions.name, this.deleteOptions.namespace, deleteOption)
+        this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -67,7 +67,6 @@ export class DeleteRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
             kind: ["", Validators.required],
             name: ["", Validators.required],
             apiVersion: ["", Validators.required],

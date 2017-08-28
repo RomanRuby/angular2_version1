@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +21,7 @@ export class ListRoleComponent implements OnInit {
     type: boolean = false;
 
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -45,7 +46,7 @@ export class ListRoleComponent implements OnInit {
         listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.service.listRole( listOptions)
             .subscribe(
                 data => {   console.log(data);
                     this.responseRole = data;

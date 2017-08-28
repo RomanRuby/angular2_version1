@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,7 @@ export class PatchRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -35,14 +36,13 @@ export class PatchRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.patchOptions.patchType = productForm.value.patchType;
-        this.patchOptions.name = productForm.value.name;
         this.patchOptions.data = productForm.value.data;
         this.patchOptions.subresources = productForm.value.subresources;
         this.patchOptions.namespace = productForm.value.namespace;
 
 
 
-        this.service.patchRole( this.patchOptions.name,this.patchOptions.namespace,
+        this.service.patchRole( this.patchOptions.namespace,
         this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(
                 () => console.log("asdf"),
@@ -66,7 +66,6 @@ export class PatchRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             patchType: ["", Validators.required],
-            name: ["", Validators.required],
             data: ["", Validators.required],
             subresources: ["", Validators.required],
             namespace: ["", Validators.required],

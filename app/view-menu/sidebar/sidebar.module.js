@@ -11,6 +11,7 @@ var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 var sidebar_component_1 = require("./sidebar.component");
 var mainRole_component_1 = require("../../component/role/main/mainRole.component");
+var mainClusterRole_component_1 = require("../../component/clusterrole/main/mainClusterRole.component");
 var SidebarModule = (function () {
     function SidebarModule() {
     }
@@ -19,7 +20,7 @@ var SidebarModule = (function () {
 SidebarModule = __decorate([
     core_1.NgModule({
         imports: [router_1.RouterModule, common_1.CommonModule],
-        declarations: [sidebar_component_1.SidebarComponent, mainRole_component_1.MainRoleComponent],
+        declarations: [sidebar_component_1.SidebarComponent, mainRole_component_1.MainRoleComponent, mainClusterRole_component_1.MainClusterRoleComponent],
         exports: [sidebar_component_1.SidebarComponent]
     })
 ], SidebarModule);

@@ -10,6 +10,7 @@ var delete_component_1 = require("./component/role/delete/delete.component");
 var deleteCollection_component_1 = require("./component/role/deleteCollection/deleteCollection.component");
 var home_component_1 = require("./component/home/home.component");
 var mainRole_component_1 = require("./component/role/main/mainRole.component");
+var mainClusterRole_component_1 = require("./component/clusterrole/main/mainClusterRole.component");
 exports.routes = [
     {
         path: "",
@@ -26,5 +27,6 @@ exports.routes = [
     { path: "role/delete", component: delete_component_1.DeleteRoleComponent },
     { path: "role/deleteCollection", component: deleteCollection_component_1.DeleteCollectionRoleComponent },
     { path: "role", component: mainRole_component_1.MainRoleComponent },
+    { path: "clusterrole", component: mainClusterRole_component_1.MainClusterRoleComponent },
 ];
 //# sourceMappingURL=app.routes.js.map

@@ -28,7 +28,7 @@ export class RoleService {
             .catch(RoleService.handleError);
     }
     public listRole(id: string, listOptions: ListOptions) :Observable<ResponseRole> {
-        return this.http.post(this.url +"/clusterrole/list", listOptions)
+        return this.http.post(this.url +"/role/list/{id}", listOptions)
             .catch(RoleService.handleError);
     }
 

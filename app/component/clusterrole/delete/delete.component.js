@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var DeleteRoleComponent = (function () {
     function DeleteRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,7 +31,6 @@ var DeleteRoleComponent = (function () {
     };
     DeleteRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteOptions.namespace = productForm.value.namespace;
         this.deleteOptions.name = productForm.value.name;
         this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
@@ -40,7 +39,7 @@ var DeleteRoleComponent = (function () {
         this.deleteOptions.preconditions = productForm.value.preconditions;
         this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
-        this.service.deleteRole(this.deleteOptions.name, this.deleteOptions.namespace, deleteOption)
+        this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     DeleteRoleComponent.prototype.goBack = function () {
@@ -56,7 +55,6 @@ var DeleteRoleComponent = (function () {
     };
     DeleteRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
             apiVersion: ["", forms_1.Validators.required],
@@ -75,7 +73,7 @@ DeleteRoleComponent = __decorate([
         selector: "delete",
         templateUrl: "delete.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

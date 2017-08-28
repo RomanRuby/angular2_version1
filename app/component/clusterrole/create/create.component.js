@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var CreateRoleComponent = (function () {
     function CreateRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,7 +31,6 @@ var CreateRoleComponent = (function () {
     };
     CreateRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.name = productForm.value.name;
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
@@ -60,7 +59,6 @@ var CreateRoleComponent = (function () {
     };
     CreateRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
             apiVersion: ["", forms_1.Validators.required],
@@ -97,7 +95,7 @@ CreateRoleComponent = __decorate([
         selector: "create",
         templateUrl: "create.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

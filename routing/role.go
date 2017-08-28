@@ -9,10 +9,9 @@ import (
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types2 "k8s.io/apimachinery/pkg/types"
 	"fmt"
-	v1beta12 "k8s.io/client-go/kubernetes/typed/rbac/v1beta1"
 )
 
-var inter = v1beta12.RbacV1beta1Client{}
+var inter = clientSet()
 
 func Create(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)

@@ -5,10 +5,12 @@ import { SidebarComponent } from './sidebar.component';
 import {MainRoleComponent} from "../../component/role/main/mainRole.component";
 import {ClusterRoleService} from "../../logic-service/clusterrole.service";
 import {MainClusterRoleComponent} from "../../component/clusterrole/main/mainClusterRole.component";
+import {MainClusterRoleBindingComponent} from "../../component/clusterrolebinding/main/mainClusterRoleBinding.component";
+import {MainRoleBindingComponent} from "../../component/rolebinding/main/mainRoleBinding.component";
 
 @NgModule({
     imports: [ RouterModule, CommonModule ],
-    declarations: [ SidebarComponent,MainRoleComponent,MainClusterRoleComponent ],
+    declarations: [ SidebarComponent,MainRoleComponent,MainClusterRoleComponent,MainClusterRoleBindingComponent ,MainRoleBindingComponent],
     exports: [ SidebarComponent ]
 })
 

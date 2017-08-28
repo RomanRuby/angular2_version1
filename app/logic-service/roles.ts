@@ -12,12 +12,57 @@ export class Role {
     }
 }
 
+export class RoleBindingDto {
+    kind: string;
+    apiVersion: string;
+    name: string;
+    generateName?: string;
+    namespace: string;
+    subjectRules: Array<Subject>;
+    apiGroup: string;
+    kindRef: string;
+    nameRef: string;
+
+
+}
+
+export class RoleBinding {
+    typeMeta: TypeMeta;
+
+    objectMeta: ObjectMeta;
+    subjectRules: Array<Subject>;
+    roleRef:RoleRef;
+    constructor(typeMeta: TypeMeta,
+                objectMeta: ObjectMeta,
+                subjectRules: Array<Subject>,roleRef: RoleRef) {
+        this.typeMeta = typeMeta;
+        this.objectMeta = objectMeta;
+        this.subjectRules = subjectRules;
+        this.roleRef = roleRef;
+    }
+}
+
+
 export class ResponseRole {
     metaData: MetaDataMeta;
+
     items: Array<ItemsResponse>;
 
     constructor() {
     }
+}
+
+export class ResponseRoleBinding {
+    typeMeta: MetaDataResponse;
+    ListData: MetaDataMeta;
+    items: Array<RoleBinding>;
+
+    constructor() {
+    }
+}
+export class MetaDataResponse {
+    Kind: string;
+    APIVersion :string;
 }
 export class ItemsResponse {
     metaData: MetaData;
@@ -32,7 +77,6 @@ export class MetaDataMeta {
 
     selfLink: string;
     resourceVersion: number;
-
 }
 export class MetaData {
     name: string;
@@ -52,19 +96,18 @@ export class RoleDto {
     policyRules: Array<PolicyRuleDto>;
 }
 
-export class RoleBinding {
-    typeMeta: TypeMeta;
-    objectMeta: ObjectMeta;
-    policyRules: Array<Subject>;
-    roleRef: RoleRef;
-}
 
 export class RoleRef {
     apiGroup: string;
     kind: string;
     name: string;
 
-    constructor() {
+    constructor(apiGroup: string,
+    kind: string,
+    name: string) {
+        this.apiGroup = apiGroup;
+        this.kind = kind;
+        this.name = name;
     }
 }
 export class DeleteCollectionDto {
@@ -87,7 +130,14 @@ export class Subject {
     name: string;
     namespace: string;
 
-    constructor() {
+    constructor(apiGroup: string,
+    kind: string,
+    name: string,
+    namespace: string) {
+        this.apiGroup = apiGroup;
+        this.kind = kind;
+        this.name = name;
+        this.namespace = namespace;
     }
 }
 

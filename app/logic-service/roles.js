@@ -9,12 +9,40 @@ var Role = (function () {
     return Role;
 }());
 exports.Role = Role;
+var RoleBindingDto = (function () {
+    function RoleBindingDto() {
+    }
+    return RoleBindingDto;
+}());
+exports.RoleBindingDto = RoleBindingDto;
+var RoleBinding = (function () {
+    function RoleBinding(typeMeta, objectMeta, subjectRules, roleRef) {
+        this.typeMeta = typeMeta;
+        this.objectMeta = objectMeta;
+        this.subjectRules = subjectRules;
+        this.roleRef = roleRef;
+    }
+    return RoleBinding;
+}());
+exports.RoleBinding = RoleBinding;
 var ResponseRole = (function () {
     function ResponseRole() {
     }
     return ResponseRole;
 }());
 exports.ResponseRole = ResponseRole;
+var ResponseRoleBinding = (function () {
+    function ResponseRoleBinding() {
+    }
+    return ResponseRoleBinding;
+}());
+exports.ResponseRoleBinding = ResponseRoleBinding;
+var MetaDataResponse = (function () {
+    function MetaDataResponse() {
+    }
+    return MetaDataResponse;
+}());
+exports.MetaDataResponse = MetaDataResponse;
 var ItemsResponse = (function () {
     function ItemsResponse() {
     }
@@ -45,14 +73,11 @@ var RoleDto = (function () {
     return RoleDto;
 }());
 exports.RoleDto = RoleDto;
-var RoleBinding = (function () {
-    function RoleBinding() {
-    }
-    return RoleBinding;
-}());
-exports.RoleBinding = RoleBinding;
 var RoleRef = (function () {
-    function RoleRef() {
+    function RoleRef(apiGroup, kind, name) {
+        this.apiGroup = apiGroup;
+        this.kind = kind;
+        this.name = name;
     }
     return RoleRef;
 }());
@@ -64,7 +89,11 @@ var DeleteCollectionDto = (function () {
 }());
 exports.DeleteCollectionDto = DeleteCollectionDto;
 var Subject = (function () {
-    function Subject() {
+    function Subject(apiGroup, kind, name, namespace) {
+        this.apiGroup = apiGroup;
+        this.kind = kind;
+        this.name = name;
+        this.namespace = namespace;
     }
     return Subject;
 }());

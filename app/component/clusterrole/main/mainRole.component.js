@@ -16,8 +16,8 @@ MainRoleComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: "main",
-        templateUrl: "main.component.html",
+        templateUrl: "mainRole.component.html",
     })
 ], MainRoleComponent);
 exports.MainRoleComponent = MainRoleComponent;
-//# sourceMappingURL=main.component.js.map
+//# sourceMappingURL=mainRole.component.js.map

@@ -1,0 +1,96 @@
+<div class="container" *ngIf="productForm">
+	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+		<div class="form-group">
+			<label for="kind">kind</label>
+			<input id="kind" type="text" class="form-control" formControlName="kind">
+
+		</div>
+
+		<div class="form-group">
+			<label for="apiVersion">apiVersion</label>
+			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+
+		</div>
+
+		<div class="form-group">
+			<label for="namespace">namespace</label>
+			<input id="namespace" type="text" class="form-control" formControlName="namespace">
+		</div>
+
+		<div class="form-group">
+			<label for="name">name</label>
+			<input id="name" type="text" class="form-control" formControlName="name">
+		</div>
+
+		<div class="form-group">
+			<label for="generateName">generateName</label>
+			<input id="generateName" type="text" class="form-control" formControlName="generateName">
+		</div>
+
+		<div class="form-group">
+			<label for="selfLink">selfLink</label>
+			<input id="selfLink" type="text" class="form-control" formControlName="selfLink">
+		</div>
+
+		<div class="form-group">
+			<label for="uid">uid</label>
+			<input id="uid" type="text" class="form-control" formControlName="uid">
+		</div>
+
+
+		<div formArrayName="policyRules">
+			<div *ngFor="let policyRules of productForm.controls.policyRules.controls; let i=index" class="panel panel-default">
+				<div class="panel-heading">
+					<span>PolicyRules {{i + 1}}</span>
+					<span class="glyphicon glyphicon-remove pull-right" *ngIf="productForm.controls.policyRules.controls.length > 1" (click)="removePolicyRules(i)"></span>
+				</div>
+				<div class="panel-body" [formGroupName]="i">
+					<div class="form-group col-xs-6">
+						<label>verbs</label>
+						<input type="text" class="form-control" formControlName="verbs">
+						<small [hidden]="productForm.controls.policyRules.controls[i].controls.verbs.valid" class="text-danger">
+							verbs is required
+						</small>
+					</div>
+					<div class="form-group col-xs-6">
+						<label>apiGroups</label>
+						<input type="text" class="form-control" formControlName="apiGroups">
+						<small [hidden]="productForm.controls.policyRules.controls[i].controls.apiGroups.valid" class="text-danger">
+							apiGroups is required
+						</small>
+					</div>
+					<div class="form-group col-xs-6">
+						<label>resources</label>
+						<input type="text" class="form-control" formControlName="resources">
+						<small [hidden]="productForm.controls.policyRules.controls[i].controls.resources.valid" class="text-danger">
+							verbs is required
+						</small>
+					</div>
+					<div class="form-group col-xs-6">
+						<label>resourceNames</label>
+						<input type="text" class="form-control" formControlName="resourceNames">
+						<small [hidden]="productForm.controls.policyRules.controls[i].controls.resourceNames.valid" class="text-danger">
+							resourceNames is required
+						</small>
+					</div>
+					<div class="form-group col-xs-6">
+						<label>nonResourceURLs</label>
+						<input type="text" class="form-control" formControlName="nonResourceURLs">
+						<small [hidden]="productForm.controls.policyRules.controls[i].controls.nonResourceURLs.valid" class="text-danger">
+							nonResourceURLs is required
+						</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="margin-20">
+			<a (click)="addPolicyRules()" style="cursor: default">
+				Add another +
+			</a>
+		</div>
+
+
+		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
+		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
+	</form>
+</div>

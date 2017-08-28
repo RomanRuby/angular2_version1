@@ -10,7 +10,7 @@ nav {
 }
 h1.lesson-title {
     padding: 0 0 6px 65px;
-    background: url('app/images/angular.png') no-repeat;
+    background:  url(../assets/img/cover.jpeg) no-repeat;
 }
 nav h4 {
     margin: 4px 0 10px 0;

@@ -1,13 +1,14 @@
 import { Routes } from "@angular/router";
 import {ListRoleComponent} from "./component/role/list/list.component";
-import {DeleteRoleComponent} from "./component/role/delete/delete.component";
-import {WatchRoleComponent} from "./component/role/watch/watch.component";
-import {DeleteCollectionRoleComponent} from "./component/role/deleteCollection/deleteCollection.component";
-import {GetRoleComponent} from "./component/role/get/get.component";
+import {PatchRoleComponent} from "./component/role/patch/patch.component";
 import {CreateRoleComponent} from "./component/role/create/create.component";
 import {UpdateRoleComponent} from "./component/role/update/update.component";
-import {PatchRoleComponent} from "./component/role/patch/patch.component";
+import {GetRoleComponent} from "./component/role/get/get.component";
+import {WatchRoleComponent} from "./component/role/watch/watch.component";
+import {DeleteRoleComponent} from "./component/role/delete/delete.component";
+import {DeleteCollectionRoleComponent} from "./component/role/deleteCollection/deleteCollection.component";
 import {HomeComponent} from "./component/home/home.component";
+import {MainRoleComponent} from "./component/role/main/mainRole.component";
 
 
 export const routes: Routes = [
@@ -17,7 +18,7 @@ export const routes: Routes = [
         pathMatch: "full"
     },
 
-    { path: 'dashboard', component: HomeComponent },
+    { path: "dashboard", component: HomeComponent },
     { path: "role/list", component: ListRoleComponent},
     { path: "role/patch", component: PatchRoleComponent},
     { path: "role/create", component: CreateRoleComponent},
@@ -25,5 +26,6 @@ export const routes: Routes = [
     { path: "role/get", component: GetRoleComponent},
     { path: "role/watch", component: WatchRoleComponent},
     { path: "role/delete", component: DeleteRoleComponent},
-    { path: "role/deleteCollection", component: DeleteCollectionRoleComponent}
+    { path: "role/deleteCollection", component: DeleteCollectionRoleComponent},
+    { path: "role", component: MainRoleComponent },
 ];

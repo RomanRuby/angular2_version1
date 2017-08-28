@@ -1,4 +1,4 @@
-package main
+package angular2_version1
 
 import (
 	"flag"

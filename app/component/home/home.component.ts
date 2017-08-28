@@ -9,7 +9,5 @@ declare var $:any;
     templateUrl: 'home.component.html'
 })
 
-export class HomeComponent implements OnInit{
-    ngOnInit(){
-    }
+export class HomeComponent{
 }

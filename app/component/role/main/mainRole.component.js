@@ -7,21 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
-var router_1 = require("@angular/router");
-var sidebar_component_1 = require("./sidebar.component");
-var mainRole_component_1 = require("../../component/role/main/mainRole.component");
-var SidebarModule = (function () {
-    function SidebarModule() {
+var MainRoleComponent = (function () {
+    function MainRoleComponent() {
     }
-    return SidebarModule;
+    return MainRoleComponent;
 }());
-SidebarModule = __decorate([
-    core_1.NgModule({
-        imports: [router_1.RouterModule, common_1.CommonModule],
-        declarations: [sidebar_component_1.SidebarComponent, mainRole_component_1.MainRoleComponent],
-        exports: [sidebar_component_1.SidebarComponent]
+MainRoleComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: "main",
+        templateUrl: "mainRole.component.html",
     })
-], SidebarModule);
-exports.SidebarModule = SidebarModule;
-//# sourceMappingURL=sidebar.module.js.map
+], MainRoleComponent);
+exports.MainRoleComponent = MainRoleComponent;
+//# sourceMappingURL=mainRole.component.js.map

@@ -3,16 +3,58 @@
 		<div class="form-group">
 			<label for="kind">kind</label>
 			<input id="kind" type="text" class="form-control" formControlName="kind">
-
 		</div>
 
-		<div class="form-group">
-			<label for="apiVersion">apiVersion</label>
-			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+
+
+		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
+		<div *ngIf="!saveUsername" class="form-group">
+
+			<div class="form-group">
+				<label for="apiVersion">apiVersion</label>
+				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			</div>
 
 		</div>
-
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
-		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
+		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel"/>
+		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
 	</form>
+	<div *ngIf="type">
+		<div *ngFor="let item of responseRole.items; let i = index; ">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>number</th>
+					<th>name</th>
+					<th>uid</th>
+					<th>creationTimestamp</th>
+					<th>  verbs</th>
+					<th> apiGroups</th>
+					<th> resources</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th>{{i}}</th>
+					<th> {{item.metadata.name}}</th>
+					<th>{{item.metadata.uid}}</th>
+					<th>{{item.metadata.creationTimestamp}}</th>
+					<div *ngFor="let rule of item.rules; ">
+						<div *ngFor="let verb of rule.verbs; ">
+							<td>{{verb}}</td>
+						</div>
+						<div *ngFor="let api of rule.apiGroups; ">
+							<td>{{api}}</td>
+						</div>
+						<div *ngFor="let resources of rule.resources; ">
+							<td>{{resources}}</td>
+						</div>
+					</div>
+				</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

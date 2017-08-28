@@ -32,10 +32,10 @@ var PatchClusterRoleComponent = (function () {
     PatchClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.patchOptions.patchType = productForm.value.patchType;
+        this.patchOptions.name = productForm.value.name;
         this.patchOptions.data = productForm.value.data;
         this.patchOptions.subresources = productForm.value.subresources;
-        this.patchOptions.namespace = productForm.value.namespace;
-        this.service.patchRole(this.patchOptions.namespace, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
+        this.service.patchRole(this.patchOptions.name, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     PatchClusterRoleComponent.prototype.goBack = function () {
@@ -52,9 +52,9 @@ var PatchClusterRoleComponent = (function () {
     PatchClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             patchType: ["", forms_1.Validators.required],
+            name: ["", forms_1.Validators.required],
             data: ["", forms_1.Validators.required],
             subresources: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required],
         });
     };
     return PatchClusterRoleComponent;

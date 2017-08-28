@@ -74,7 +74,7 @@ export class ListRoleComponent implements OnInit {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
             namespace: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            apiVersion: ["",]
         });
     }
 

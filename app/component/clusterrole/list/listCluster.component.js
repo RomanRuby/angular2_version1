@@ -33,7 +33,6 @@ var ListClusterRoleComponent = (function () {
     ListClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleDto.kind = productForm.value.kind;
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
         listOptions = new roles_1.ListOptions();
@@ -60,8 +59,7 @@ var ListClusterRoleComponent = (function () {
     ListClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required]
+            apiVersion: ["",]
         });
     };
     return ListClusterRoleComponent;

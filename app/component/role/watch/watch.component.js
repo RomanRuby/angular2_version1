@@ -20,6 +20,7 @@ var WatchRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
     }
     WatchRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -37,8 +38,13 @@ var WatchRoleComponent = (function () {
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+        this.service.watchRole(this.roleDto.namespace, listOptions)
+            .subscribe(function (data) {
+            console.log(data);
+            _this.responseRole = data;
+            console.log(_this.responseRole);
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     WatchRoleComponent.prototype.goBack = function () {
         this.router.navigate(["/products/create"]);
@@ -55,7 +61,7 @@ var WatchRoleComponent = (function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required]
+            apiVersion: ["",]
         });
     };
     return WatchRoleComponent;

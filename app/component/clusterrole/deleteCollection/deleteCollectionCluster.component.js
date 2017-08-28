@@ -31,6 +31,7 @@ var DeleteCollectionClusterRoleComponent = (function () {
     };
     DeleteCollectionClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
+        this.deleteCollection.nameUrl = productForm.value.namespace;
         this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
         this.deleteCollection.kind = productForm.value.kind;
@@ -60,18 +61,16 @@ var DeleteCollectionClusterRoleComponent = (function () {
     };
     DeleteCollectionClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            nameUrl: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            gracePeriodSeconds: ["", forms_1.Validators.required],
-            preconditions: ["", forms_1.Validators.required],
-            orphanDependents: ["", forms_1.Validators.required],
-            propagationPolicy: ["", forms_1.Validators.required],
-            deletionPropagation: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",],
             kindList: ["", forms_1.Validators.required],
-            namespaceList: ["", forms_1.Validators.required],
+            namespaceList: [""],
         });
     };
     return DeleteCollectionClusterRoleComponent;

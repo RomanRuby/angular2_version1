@@ -37,7 +37,7 @@ export class DeleteCollectionRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteCollection.nameUrl = productForm.value.nameUrl;
+        this.deleteCollection.nameUrl = productForm.value.namespace;
         this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
         this.deleteCollection.kind = productForm.value.kind;
@@ -79,18 +79,16 @@ export class DeleteCollectionRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            nameUrl: ["", Validators.required],
             namespace: ["", Validators.required],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            gracePeriodSeconds: ["", Validators.required],
-            preconditions: ["", Validators.required],
-            orphanDependents: ["", Validators.required],
-            propagationPolicy: ["", Validators.required],
-            deletionPropagation: ["", Validators.required],
+            apiVersion: ["", ],
+            gracePeriodSeconds: ["",],
+            preconditions: ["", ],
+            orphanDependents: ["", ],
+            propagationPolicy: ["", ],
             kindList: ["", Validators.required],
-            namespaceList: ["", Validators.required],
+            namespaceList: [""],
         });
     }
 }

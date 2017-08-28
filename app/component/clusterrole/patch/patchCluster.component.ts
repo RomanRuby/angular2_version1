@@ -36,14 +36,14 @@ export class PatchClusterRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.patchOptions.patchType = productForm.value.patchType;
+        this.patchOptions.name = productForm.value.name;
         this.patchOptions.data = productForm.value.data;
         this.patchOptions.subresources = productForm.value.subresources;
-        this.patchOptions.namespace = productForm.value.namespace;
 
 
 
-        this.service.patchRole( this.patchOptions.namespace,
-        this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
+        this.service.patchRole( this.patchOptions.name,
+            this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -66,9 +66,9 @@ export class PatchClusterRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             patchType: ["", Validators.required],
+            name: ["", Validators.required],
             data: ["", Validators.required],
             subresources: ["", Validators.required],
-            namespace: ["", Validators.required],
         });
     }
 }

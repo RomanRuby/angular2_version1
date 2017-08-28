@@ -44,7 +44,7 @@ export class GetRoleComponent implements OnInit {
         let getOption = new GetOptions(
             new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace , this.getOptions.nameUrl,getOption)
+        this.service.getRole( this.getOptions.nameUrl,this.getOptions.namespace ,getOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -69,9 +69,9 @@ export class GetRoleComponent implements OnInit {
             namespace: ["", Validators.required],
             nameUrl: ["", Validators.required],
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            resourceVersion: ["", Validators.required],
-            includeUninitialized: ["", Validators.required]
+            apiVersion: ["", ],
+            resourceVersion: ["", ],
+            includeUninitialized: ["",]
         });
     }
 }

@@ -4,14 +4,6 @@
 			<label for="kind">kind</label>
 			<input id="kind" type="text" class="form-control" formControlName="kind">
 		</div>
-		<div class="form-group">
-			<label for="nameUrl">nameUrl</label>
-			<input id="nameUrl" type="text" class="form-control" formControlName="nameUrl">
-		</div>
-		<div class="form-group">
-			<label for="apiVersion">apiVersion</label>
-			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-		</div>
 
 		<div class="form-group">
 			<label for="namespace">namespace</label>
@@ -21,37 +13,43 @@
 			<label for="name">name</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
-		<div class="form-group">
-			<label for="gracePeriodSeconds">gracePeriodSeconds</label>
-			<input id="gracePeriodSeconds" type="text" class="form-control" formControlName="gracePeriodSeconds">
-		</div>
-		<div class="form-group">
-			<label for="orphanDependents">orphanDependents</label>
-			<input id="orphanDependents" type="text" class="form-control" formControlName="orphanDependents">
-		</div>
-		<div class="form-group">
-			<label for="preconditions">preconditions</label>
-			<input id="preconditions" type="text" class="form-control" formControlName="preconditions">
-		</div>
 
-		<div class="form-group">
-			<label for="propagationPolicy">propagationPolicy</label>
-			<input id="propagationPolicy" type="text" class="form-control" formControlName="propagationPolicy">
-		</div>
-
-		<div class="form-group">
-			<label for="deletionPropagation">deletionPropagation</label>
-			<input id="deletionPropagation" type="text" class="form-control" formControlName="deletionPropagation">
-		</div>
 		<div class="form-group">
 			<label for="kindList">kindList</label>
 			<input id="kindList" type="text" class="form-control" formControlName="kindList">
 		</div>
 
-		<div class="form-group">
-			<label for="namespaceList">deletionPropagation</label>
-			<input id="namespaceList" type="text" class="form-control" formControlName="namespaceList">
+
+
+		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
+		<div *ngIf="!saveUsername" class="form-group">
+			<div class="form-group">
+				<label for="apiVersion">apiVersion</label>
+				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			</div>
+			<div class="form-group">
+				<label for="gracePeriodSeconds">gracePeriodSeconds</label>
+				<input id="gracePeriodSeconds" type="text" class="form-control" formControlName="gracePeriodSeconds">
+			</div>
+			<div class="form-group">
+				<label for="orphanDependents">orphanDependents</label>
+				<input id="orphanDependents" type="text" class="form-control" formControlName="orphanDependents">
+			</div>
+			<div class="form-group">
+				<label for="preconditions">preconditions</label>
+				<input id="preconditions" type="text" class="form-control" formControlName="preconditions">
+			</div>
+
+			<div class="form-group">
+				<label for="propagationPolicy">propagationPolicy</label>
+				<input id="propagationPolicy" type="text" class="form-control" formControlName="propagationPolicy">
+			</div>
+			<div class="form-group">
+				<label for="namespaceList">deletionPropagation</label>
+				<input id="namespaceList" type="text" class="form-control" formControlName="namespaceList">
+			</div>
 		</div>
+
 		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>

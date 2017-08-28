@@ -16,6 +16,7 @@ export class CreateRoleComponent implements OnInit {
     roleDto: RoleDto;
     errorMessage: string;
     productForm: FormGroup;
+    private saveUsername: boolean = true;
 
     constructor(private service: RoleService,
                 private activatedRoute: ActivatedRoute,
@@ -49,12 +50,11 @@ export class CreateRoleComponent implements OnInit {
         for (let i = 0; i < this.roleDto.policyRules.length; i++) {
             policyRulesArrsys.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
             this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
-            this.roleDto.policyRules[i].resourceNames.split(','), this.roleDto.policyRules[i].nonResourceURLs.split(',')));
+            this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new ObjectMeta(this.roleDto.namespace,
-            this.roleDto.name), policyRulesArrsys);
-
+        let role = new Role(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new ObjectMeta(
+            this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
@@ -78,13 +78,13 @@ export class CreateRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
+            namespace: ["",Validators.required ],
             kind: ["", Validators.required],
-            name: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            generateName: ["", Validators.required],
-            selfLink: ["", Validators.required],
-            uid: ["", Validators.required],
+            name: ["",  Validators.required],
+            apiVersion: ["", ],
+            generateName: ["", ],
+            selfLink: ["", ],
+            uid: ["", ],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])
@@ -94,10 +94,9 @@ export class CreateRoleComponent implements OnInit {
     initPolicyRules() {
         return this.fb.group({
             verbs: ["", Validators.required],
-            apiGroups: ["", Validators.required],
-            resources: ["", Validators.required],
-            nonResourceURLs: ["", Validators.required],
-            resourceNames: ["", Validators.required],
+            apiGroups: ["", ],
+            resources: ["", ],
+            resourceNames: ["",],
         });
     }
 

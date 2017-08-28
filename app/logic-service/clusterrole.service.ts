@@ -42,9 +42,9 @@ export class ClusterRoleService {
             .catch(ClusterRoleService.handleError);
     }
 
-    public patchRole(namespace:string, patchType: string,data :string,subresources:string) {
+    public patchRole(id: string, patchType: string,data :string,subresources:string) {
         let  patchTypes = new PatchType(patchType,data,subresources);
-        return this.http.post(this.url +"/clusterrole/patch"+"/"+namespace, patchTypes)
+        return this.http.post(this.url +"/role/patch"+ "/"+ id, patchTypes)
             .catch(ClusterRoleService.handleError);
     }
 

@@ -20,6 +20,7 @@ var CreateClusterRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.saveUsername = true;
     }
     CreateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -40,9 +41,9 @@ var CreateClusterRoleComponent = (function () {
         this.roleDto.policyRules = productForm.value.policyRules;
         var policyRulesArrsys = [];
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new roles_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(','), this.roleDto.policyRules[i].nonResourceURLs.split(',')));
+            policyRulesArrsys.push(new roles_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new roles_1.Role(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.namespace, this.roleDto.name), policyRulesArrsys);
+        var role = new roles_1.Role(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.createRole(role)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
@@ -61,10 +62,10 @@ var CreateClusterRoleComponent = (function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            generateName: ["", forms_1.Validators.required],
-            selfLink: ["", forms_1.Validators.required],
-            uid: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            selfLink: ["",],
+            uid: ["",],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])
@@ -73,10 +74,9 @@ var CreateClusterRoleComponent = (function () {
     CreateClusterRoleComponent.prototype.initPolicyRules = function () {
         return this.fb.group({
             verbs: ["", forms_1.Validators.required],
-            apiGroups: ["", forms_1.Validators.required],
-            resources: ["", forms_1.Validators.required],
-            nonResourceURLs: ["", forms_1.Validators.required],
-            resourceNames: ["", forms_1.Validators.required],
+            apiGroups: ["",],
+            resources: ["",],
+            resourceNames: ["",],
         });
     };
     CreateClusterRoleComponent.prototype.addPolicyRules = function () {

@@ -12,14 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var WatchClusterRoleComponent = (function () {
     function WatchClusterRoleComponent(service, activatedRoute, fb, router) {
         this.service = service;
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
     }
     WatchClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -36,8 +37,13 @@ var WatchClusterRoleComponent = (function () {
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+        this.service.watchRole(listOptions)
+            .subscribe(function (data) {
+            console.log(data);
+            // this.responseRole = data;
+            console.log(_this.responseRole);
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     WatchClusterRoleComponent.prototype.goBack = function () {
         this.router.navigate(["/products/create"]);
@@ -53,7 +59,7 @@ var WatchClusterRoleComponent = (function () {
     WatchClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required]
+            apiVersion: ["",]
         });
     };
     return WatchClusterRoleComponent;
@@ -64,7 +70,7 @@ WatchClusterRoleComponent = __decorate([
         selector: "watch",
         templateUrl: "watchCluster.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

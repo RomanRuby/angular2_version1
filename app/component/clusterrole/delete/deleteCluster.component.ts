@@ -43,7 +43,8 @@ export class DeleteClusterRoleComponent implements OnInit {
         this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
 
         let deleteOption = new DeleteOptions(
-            new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
+            new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds,
+            this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(
@@ -69,12 +70,11 @@ export class DeleteClusterRoleComponent implements OnInit {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            gracePeriodSeconds: ["", Validators.required],
-            preconditions: ["", Validators.required],
-            orphanDependents: ["", Validators.required],
-            propagationPolicy: ["", Validators.required],
-            deletionPropagation: ["", Validators.required]
+            apiVersion: ["", ],
+            gracePeriodSeconds: ["", ],
+            preconditions: ["", ],
+            orphanDependents: ["", ],
+            propagationPolicy: ["", ]
         });
     }
 }

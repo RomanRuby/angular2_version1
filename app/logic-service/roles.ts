@@ -1,20 +1,22 @@
 export class Role {
     typeMeta: TypeMeta;
-    objectMeta: ObjectMeta;
-    policyRules: Array<PolicyRule>;
+    metadata: ObjectMeta;
+    rules: Array<PolicyRule>;
 
     constructor(typeMeta: TypeMeta,
-                objectMeta: ObjectMeta,
-                policyRules: Array<PolicyRule>) {
+                metadata: ObjectMeta,
+                rules: Array<PolicyRule>) {
         this.typeMeta = typeMeta;
-        this.objectMeta = objectMeta;
-        this.policyRules = policyRules;
+        this.metadata = metadata;
+        this.rules = rules;
     }
 }
 
 export class RoleBindingDto {
     kind: string;
+    kindMeta: string;
     apiVersion: string;
+    apiGroupRef: string;
     name: string;
     generateName?: string;
     namespace: string;
@@ -31,10 +33,11 @@ export class RoleBinding {
 
     objectMeta: ObjectMeta;
     subjectRules: Array<Subject>;
-    roleRef:RoleRef;
+    roleRef: RoleRef;
+
     constructor(typeMeta: TypeMeta,
                 objectMeta: ObjectMeta,
-                subjectRules: Array<Subject>,roleRef: RoleRef) {
+                subjectRules: Array<Subject>, roleRef: RoleRef) {
         this.typeMeta = typeMeta;
         this.objectMeta = objectMeta;
         this.subjectRules = subjectRules;
@@ -62,7 +65,7 @@ export class ResponseRoleBinding {
 }
 export class MetaDataResponse {
     Kind: string;
-    APIVersion :string;
+    APIVersion: string;
 }
 export class ItemsResponse {
     metaData: MetaData;
@@ -103,8 +106,8 @@ export class RoleRef {
     name: string;
 
     constructor(apiGroup: string,
-    kind: string,
-    name: string) {
+                kind: string,
+                name: string) {
         this.apiGroup = apiGroup;
         this.kind = kind;
         this.name = name;
@@ -131,9 +134,9 @@ export class Subject {
     namespace: string;
 
     constructor(apiGroup: string,
-    kind: string,
-    name: string,
-    namespace: string) {
+                kind: string,
+                name: string,
+                namespace: string) {
         this.apiGroup = apiGroup;
         this.kind = kind;
         this.name = name;
@@ -148,7 +151,16 @@ export class DeleteResult {
     constructor() {
     }
 }
+export class DeleteCol {
+    deleteOption: DeleteOptions;
+    list: ListOptions;
 
+    constructor(deleteOption: DeleteOptions,
+                list: ListOptions) {
+        this.deleteOption = deleteOption;
+        this.list = list;
+    }
+}
 export class ListDto {
     kind: string;
     namespace: string;
@@ -159,12 +171,15 @@ export class ListDto {
 }
 export class TypeMeta {
     kind: string;
-    apiVersion: string;
+    apiVersion?: string;
 
-    constructor(kind: string, apiVersion: string) {
+    constructor(kind: string, apiVersion?: string) {
         this.kind = kind;
-        this.apiVersion = apiVersion;
+        if (apiVersion != null) {
+            this.apiVersion = apiVersion;
+        }
     }
+
 }
 
 export class ObjectMeta {
@@ -189,19 +204,18 @@ export class PolicyRule {
     apiGroups: Array<string>;
     resources: Array<string>;
     resourceNames: Array<string>;
-    nonResourceURLs: Array<string>;
+
 
     constructor(verbs: Array<string>,
                 apiGroups: Array<string>,
                 resources: Array<string>,
-                resourceNames: Array<string>,
-                nonResourceURLs: Array<string>) {
+                resourceNames: Array<string>) {
 
         this.verbs = verbs;
         this.apiGroups = apiGroups;
         this.resources = resources;
         this.resourceNames = resourceNames;
-        this.nonResourceURLs = nonResourceURLs;
+
     }
 }
 export class PolicyRuleDto {
@@ -236,10 +250,7 @@ export class DeleteOptions {
                 orphanDependents?: boolean,
                 preconditions?: string,
                 propagationPolicy?: string) {
-        this.gracePeriodSeconds = gracePeriodSeconds;
-        this.orphanDependents = orphanDependents;
-        this.preconditions = preconditions;
-        this.propagationPolicy = propagationPolicy;
+        this.typeMeta = typeMeta;
     }
 
 }

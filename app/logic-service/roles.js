@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Role = (function () {
-    function Role(typeMeta, objectMeta, policyRules) {
+    function Role(typeMeta, metadata, rules) {
         this.typeMeta = typeMeta;
-        this.objectMeta = objectMeta;
-        this.policyRules = policyRules;
+        this.metadata = metadata;
+        this.rules = rules;
     }
     return Role;
 }());
@@ -104,6 +104,14 @@ var DeleteResult = (function () {
     return DeleteResult;
 }());
 exports.DeleteResult = DeleteResult;
+var DeleteCol = (function () {
+    function DeleteCol(deleteOption, list) {
+        this.deleteOption = deleteOption;
+        this.list = list;
+    }
+    return DeleteCol;
+}());
+exports.DeleteCol = DeleteCol;
 var ListDto = (function () {
     function ListDto() {
     }
@@ -113,7 +121,9 @@ exports.ListDto = ListDto;
 var TypeMeta = (function () {
     function TypeMeta(kind, apiVersion) {
         this.kind = kind;
-        this.apiVersion = apiVersion;
+        if (apiVersion != null) {
+            this.apiVersion = apiVersion;
+        }
     }
     return TypeMeta;
 }());
@@ -132,12 +142,11 @@ var UID = (function () {
     return UID;
 }());
 var PolicyRule = (function () {
-    function PolicyRule(verbs, apiGroups, resources, resourceNames, nonResourceURLs) {
+    function PolicyRule(verbs, apiGroups, resources, resourceNames) {
         this.verbs = verbs;
         this.apiGroups = apiGroups;
         this.resources = resources;
         this.resourceNames = resourceNames;
-        this.nonResourceURLs = nonResourceURLs;
     }
     return PolicyRule;
 }());
@@ -159,10 +168,7 @@ var ListOptions = (function () {
 exports.ListOptions = ListOptions;
 var DeleteOptions = (function () {
     function DeleteOptions(typeMeta, gracePeriodSeconds, orphanDependents, preconditions, propagationPolicy) {
-        this.gracePeriodSeconds = gracePeriodSeconds;
-        this.orphanDependents = orphanDependents;
-        this.preconditions = preconditions;
-        this.propagationPolicy = propagationPolicy;
+        this.typeMeta = typeMeta;
     }
     return DeleteOptions;
 }());

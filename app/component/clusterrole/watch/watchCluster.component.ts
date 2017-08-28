@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../../logic-service/roles";
+import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
     moduleId: module.id,
@@ -13,14 +14,18 @@ import {ListOptions, ListDto, TypeMeta} from "../../../logic-service/roles";
 })
 
 export class WatchClusterRoleComponent implements OnInit {
-    roleDto: ListDto ;
+    roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
+    responseRole: ResponseRole;
+    type: boolean = false;
 
-    constructor(private service: RoleService,
-        private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
-        private router: Router) { }
+
+    constructor(private service: ClusterRoleService,
+                private activatedRoute: ActivatedRoute,
+                private fb: FormBuilder,
+                private router: Router) {
+    }
 
     ngOnInit() {
         this.buildForm();
@@ -38,16 +43,21 @@ export class WatchClusterRoleComponent implements OnInit {
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind,this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
-        this.service.listRole(this.roleDto.namespace,listOptions)
-                .subscribe(
-                () => console.log("asdf"),
+        this.service.watchRole( listOptions)
+            .subscribe(
+                data => {   console.log(data);
+                   // this.responseRole = data;
+                    console.log(this.responseRole);
+                    this.type = true;
+                },
                 error => this.errorMessage = error
-                );
+            );
     }
 
     public goBack() {
+
         this.router.navigate(["/products/create"]);
     }
 
@@ -55,15 +65,15 @@ export class WatchClusterRoleComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             let id = params["id"];
 
-                this.roleDto = new ListDto();
-                this.productForm.patchValue(this.roleDto);
+            this.roleDto = new ListDto();
+            this.productForm.patchValue(this.roleDto);
         });
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            apiVersion: ["",]
         });
     }
 }

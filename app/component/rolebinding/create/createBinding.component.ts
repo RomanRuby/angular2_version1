@@ -9,6 +9,7 @@ import {
     RoleBindingDto, Subject, RoleBinding, RoleRef
 } from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -21,7 +22,7 @@ export class CreateBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: ClusterRoleBindingService,
+    constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -41,8 +42,10 @@ export class CreateBindingComponent implements OnInit {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
+        this.roleBindingDto.kindMeta = productForm.value.kindMeta;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
+        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
 
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
@@ -61,7 +64,7 @@ export class CreateBindingComponent implements OnInit {
             this.roleBindingDto.kindRef,
             this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta(this.roleBindingDto.kind, this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
+        let rolebinding = new RoleBinding(new TypeMeta(this.roleBindingDto.kindMeta, this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
             this.roleBindingDto.name), subjectRules, roleRef);
 
 
@@ -87,9 +90,13 @@ export class CreateBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["", Validators.required],
-            generateName: ["", Validators.required],
+            apiVersion: ["", ],
+            generateName: ["", ],
+            name: ["", ],
+            namespace: ["", ],
             kindRef: ["", Validators.required],
+            kindMeta: ["", Validators.required],
+            apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
@@ -99,10 +106,10 @@ export class CreateBindingComponent implements OnInit {
 
     initSubject() {
         return this.fb.group({
-            apiGroup: ["", Validators.required],
+            apiGroup: ["", ],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            namespace: ["", Validators.required]
+            namespace: ["", ]
         });
     }
 

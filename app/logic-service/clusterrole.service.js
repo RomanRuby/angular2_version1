@@ -43,9 +43,9 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
         return this.http.post(this.url + "/clusterrole/deleteCollection", deleteOptions, listOptions)
             .catch(ClusterRoleService_1.handleError);
     };
-    ClusterRoleService.prototype.patchRole = function (namespace, patchType, data, subresources) {
+    ClusterRoleService.prototype.patchRole = function (id, patchType, data, subresources) {
         var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/clusterrole/patch" + "/" + namespace, patchTypes)
+        return this.http.post(this.url + "/role/patch" + "/" + id, patchTypes)
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {

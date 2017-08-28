@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var CreateBindingComponent = (function () {
     function CreateBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -34,8 +34,10 @@ var CreateBindingComponent = (function () {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
+        this.roleBindingDto.kindMeta = productForm.value.kindMeta;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
+        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
         this.roleBindingDto.kindRef = productForm.value.kindRef;
@@ -45,7 +47,7 @@ var CreateBindingComponent = (function () {
             subjectRules.push(new roles_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kind, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
+        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kindMeta, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
         this.service.createRole(rolebinding)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
@@ -62,9 +64,13 @@ var CreateBindingComponent = (function () {
     };
     CreateBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["", forms_1.Validators.required],
-            generateName: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            name: ["",],
+            namespace: ["",],
             kindRef: ["", forms_1.Validators.required],
+            kindMeta: ["", forms_1.Validators.required],
+            apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
@@ -73,10 +79,10 @@ var CreateBindingComponent = (function () {
     };
     CreateBindingComponent.prototype.initSubject = function () {
         return this.fb.group({
-            apiGroup: ["", forms_1.Validators.required],
+            apiGroup: ["",],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required]
+            namespace: ["",]
         });
     };
     CreateBindingComponent.prototype.addSubjectRules = function () {
@@ -95,7 +101,7 @@ CreateBindingComponent = __decorate([
         selector: "create",
         templateUrl: "createBinding.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
+import {DeleteCol, DeleteOptions, DeleteResult, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
 import {AppService} from "./app.service";
 
 
@@ -28,7 +28,7 @@ export class RoleService {
             .catch(RoleService.handleError);
     }
     public listRole(id: string, listOptions: ListOptions) :Observable<ResponseRole> {
-        return this.http.post(this.url +"/role/list/{id}", listOptions)
+        return this.http.post(this.url +"/role/list/"+id, listOptions)
             .catch(RoleService.handleError);
     }
 
@@ -38,7 +38,7 @@ export class RoleService {
     }
 
     public deleteCollectionRole(id: string, deleteOptions: DeleteOptions,listOptions: ListOptions) {
-        return this.http.post(this.url +"/role/deleteCollection/"+ id, deleteOptions,listOptions)
+        return this.http.post(this.url +"/role/deleteCollection/"+ id, new DeleteCol( deleteOptions,listOptions))
             .catch(RoleService.handleError);
     }
 

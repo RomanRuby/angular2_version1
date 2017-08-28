@@ -38,7 +38,7 @@ var GetRoleComponent = (function () {
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace, this.getOptions.nameUrl, getOption)
+        this.service.getRole(this.getOptions.nameUrl, this.getOptions.namespace, getOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleComponent.prototype.goBack = function () {
@@ -57,9 +57,9 @@ var GetRoleComponent = (function () {
             namespace: ["", forms_1.Validators.required],
             nameUrl: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            resourceVersion: ["", forms_1.Validators.required],
-            includeUninitialized: ["", forms_1.Validators.required]
+            apiVersion: ["",],
+            resourceVersion: ["",],
+            includeUninitialized: ["",]
         });
     };
     return GetRoleComponent;

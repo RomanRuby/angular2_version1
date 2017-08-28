@@ -1,25 +1,44 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+
 		<div class="form-group">
-			<label for="apiVersion">apiVersion</label>
-			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			<label for="kindMeta">kind Meta</label>
+			<input id="kindMeta" type="text" class="form-control" formControlName="kindMeta">
 		</div>
 
 		<div class="form-group">
-			<label for="generateName">generateName</label>
-			<input id="generateName" type="text" class="form-control" formControlName="generateName">
-		</div>
-
-		<div class="form-group">
-			<label for="kindRef">kindRef</label>
+			<label for="kindRef">kind Authorizer</label>
 			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
 		</div>
-
 		<div class="form-group">
-			<label for="nameRef">nameRef</label>
-			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
+			<label for="name">name Meta</label>
+			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
 
+		<div class="form-group">
+			<label for="namespace">kind namespace</label>
+			<input id="namespace" type="text" class="form-control" formControlName="namespace">
+		</div>
+		<div class="form-group">
+			<label for="nameRef">name Authorizer</label>
+			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
+		</div>
+		<div class="form-group">
+			<label for="apiGroupRef">apiGroup Authorizer</label>
+			<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
+		</div>
+
+		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
+		<div *ngIf="!saveUsername" class="form-group">
+			<div class="form-group">
+				<label for="generateName">generateName</label>
+				<input id="generateName" type="text" class="form-control" formControlName="generateName">
+			</div>
+			<div class="form-group">
+				<label for="apiVersion">apiVersion</label>
+				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			</div>
+		</div>
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
 				<div class="panel-heading">

@@ -4,28 +4,29 @@ import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import {
     DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, ResponseRoleBinding, Role,
-    RoleBinding
+    RoleBinding, RoleResponse
 } from "./roles";
+import {AppService} from "./app.service";
 
 
 @Injectable()
 export class ClusterRoleBindingService {
-    // адрес сервиса
+
     private url = "http://localhost:8081";
 
-    constructor(private http: Http) { }
+    constructor(private http: AppService) { }
 
-    public createRole(role: RoleBinding) {
+    public createRole(role: RoleBinding) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/create", role)
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public updateRole(role: RoleBinding) {
+    public updateRole(role: RoleBinding) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/update", role)
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public watchRole( listOptions: ListOptions) {
+    public watchRole( listOptions: ListOptions) :Observable<string>{
         return this.http.post(this.url +"/clusterrolebinding/watch", listOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
@@ -34,22 +35,22 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public deleteRole(id: string, deleteOptions: DeleteOptions) {
+    public deleteRole(id: string, deleteOptions: DeleteOptions) :Observable<string>{
         return this.http.post(this.url + "/clusterrolebinding/delete/"+ id, deleteOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public deleteCollectionRole( deleteOptions: DeleteOptions,listOptions: ListOptions) {
+    public deleteCollectionRole( deleteOptions: DeleteOptions,listOptions: ListOptions):Observable<string> {
         return this.http.post(this.url +"/clusterrolebinding/deleteCollection", deleteOptions,listOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public patchRole(id: string, patchType: string,data :string,subresources:string) {
+    public patchRole(id: string, patchType: string,data :string,subresources:string) :Observable<RoleResponse> {
         let  patchTypes = new PatchType(patchType,data,subresources);
         return this.http.post(this.url +"/clusterrolebinding/patch"+ "/"+ id, patchTypes)
             .catch(ClusterRoleBindingService.handleError);
     }
-    public getRole(namespace:string, getOptions: GetOptions) {
+    public getRole(namespace:string, getOptions: GetOptions) :Observable<RoleResponse>{
         return this.http.post(this.url +"/clusterrolebinding/get/"+namespace, getOptions)
             .catch(ClusterRoleBindingService.handleError);
     }

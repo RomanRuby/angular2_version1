@@ -4,7 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, ResponseRole, RoleResponses} from "../../../logic-service/roles";
 
 @Component({
     moduleId: module.id,
@@ -16,8 +16,10 @@ export class ListRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    responseRole: ResponseRole;
+    saveUsername: boolean = false;
+    responseRole: RoleResponses;
     type: boolean = false;
+    responseValue: boolean =true;
 
 
     constructor(private service: RoleService,
@@ -37,19 +39,24 @@ export class ListRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
 
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(
-                data => {   console.log(data);
-                    this.responseRole = data;
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
                     console.log(this.responseRole);
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
                     this.type = true;
                 },
                 error => this.errorMessage = error
@@ -58,7 +65,7 @@ export class ListRoleComponent implements OnInit {
 
     public goBack() {
 
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     }
 
     private getProductFromRoute() {
@@ -72,7 +79,6 @@ export class ListRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             namespace: ["", Validators.required],
             apiVersion: ["",]
         });

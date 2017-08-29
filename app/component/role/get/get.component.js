@@ -20,6 +20,9 @@ var GetRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
+        this.responseValue = true;
+        this.saveUsername = false;
     }
     GetRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -32,17 +35,21 @@ var GetRoleComponent = (function () {
     GetRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.getOptions.nameUrl = productForm.value.nameUrl;
-        this.getOptions.namespace = productForm.value.namespace;
-        this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
-        this.getOptions.resourceVersion = productForm.value.resourceVersion;
-        this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.nameUrl, this.getOptions.namespace, getOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+        this.getOptions.name = productForm.value.name;
+        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
+            .subscribe(function (data) {
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     };
     GetRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -54,9 +61,8 @@ var GetRoleComponent = (function () {
     };
     GetRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
+            name: ["", forms_1.Validators.required],
             nameUrl: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
             apiVersion: ["",],
             resourceVersion: ["",],
             includeUninitialized: ["",]

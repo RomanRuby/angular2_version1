@@ -3,7 +3,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
-import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta, RoleResponse} from "../../../logic-service/roles";
 
 @Component({
     moduleId: module.id,
@@ -15,6 +15,10 @@ export class GetRoleComponent implements OnInit {
     getOptions: GetOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    responseRole: RoleResponse;
+    type: boolean = false;
+    responseValue: boolean =true;
+    saveUsername: boolean = false;
 
     constructor(private service: RoleService,
                 private activatedRoute: ActivatedRoute,
@@ -34,25 +38,31 @@ export class GetRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.getOptions.nameUrl = productForm.value.nameUrl;
-        this.getOptions.namespace = productForm.value.namespace;
-        this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
-        this.getOptions.resourceVersion = productForm.value.resourceVersion;
-        this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
+        this.getOptions.name = productForm.value.name;
+
 
 
         let getOption = new GetOptions(
-            new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
+            new TypeMeta("Role", this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole( this.getOptions.nameUrl,this.getOptions.namespace ,getOption)
+        this.service.getRole(this.getOptions.name  ,this.getOptions.nameUrl,getOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     }
 
     private getProductFromRoute() {
@@ -66,9 +76,8 @@ export class GetRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
+            name: ["", Validators.required],
             nameUrl: ["", Validators.required],
-            kind: ["", Validators.required],
             apiVersion: ["", ],
             resourceVersion: ["", ],
             includeUninitialized: ["",]

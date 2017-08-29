@@ -20,6 +20,9 @@ var CreateBindingComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.saveUsername = false;
+        this.type = false;
+        this.responseValue = true;
     }
     CreateBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -49,7 +52,15 @@ var CreateBindingComponent = (function () {
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
         var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kindMeta, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
         this.service.createRole(rolebinding)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     CreateBindingComponent.prototype.goBack = function () {
         this.router.navigate(["/products/create"]);

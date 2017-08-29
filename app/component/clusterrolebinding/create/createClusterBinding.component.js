@@ -20,6 +20,9 @@ var CreateClusterBindingComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.saveUsername = false;
+        this.type = false;
+        this.responseValue = true;
     }
     CreateClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -33,7 +36,6 @@ var CreateClusterBindingComponent = (function () {
         var _this = this;
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
-        this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
@@ -47,7 +49,15 @@ var CreateClusterBindingComponent = (function () {
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
         var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kind, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
         this.service.createRole(rolebinding)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     CreateClusterBindingComponent.prototype.goBack = function () {
         this.router.navigate(["/products/create"]);
@@ -62,7 +72,8 @@ var CreateClusterBindingComponent = (function () {
     };
     CreateClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            apiGroupRef: ["", forms_1.Validators.required],
             generateName: ["", forms_1.Validators.required],
             kindRef: ["", forms_1.Validators.required],
             nameRef: ["", forms_1.Validators.required],
@@ -73,10 +84,10 @@ var CreateClusterBindingComponent = (function () {
     };
     CreateClusterBindingComponent.prototype.initSubject = function () {
         return this.fb.group({
-            apiGroup: ["", forms_1.Validators.required],
+            apiGroup: ["",],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required]
+            namespace: ["",]
         });
     };
     CreateClusterBindingComponent.prototype.addSubjectRules = function () {

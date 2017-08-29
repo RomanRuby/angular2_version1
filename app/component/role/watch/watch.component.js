@@ -21,6 +21,7 @@ var WatchRoleComponent = (function () {
         this.fb = fb;
         this.router = router;
         this.type = false;
+        this.saveUsername = false;
     }
     WatchRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -32,18 +33,16 @@ var WatchRoleComponent = (function () {
     };
     WatchRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
         listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new roles_1.TypeMeta("Role", this.roleDto.apiVersion));
         this.service.watchRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRole = data;
-            console.log(_this.responseRole);
+            _this.response = data;
             _this.type = true;
+            console.log(_this.response);
         }, function (error) { return _this.errorMessage = error; });
     };
     WatchRoleComponent.prototype.goBack = function () {
@@ -59,7 +58,6 @@ var WatchRoleComponent = (function () {
     };
     WatchRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
             apiVersion: ["",]
         });

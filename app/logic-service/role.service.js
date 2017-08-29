@@ -17,7 +17,6 @@ var app_service_1 = require("./app.service");
 var RoleService = RoleService_1 = (function () {
     function RoleService(http) {
         this.http = http;
-        // адрес сервиса
         this.url = "http://localhost:8081";
     }
     RoleService.prototype.createRole = function (role) {

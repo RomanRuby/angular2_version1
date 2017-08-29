@@ -3,7 +3,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
-import {DeleteOptions, DeleteOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {DeleteOptions, DeleteOptionsDto, RoleResponse, TypeMeta} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -16,6 +16,9 @@ export class DeleteClusterRoleComponent implements OnInit {
     deleteOptions: DeleteOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    response:string;
+    type: boolean = false;
+    saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -35,26 +38,29 @@ export class DeleteClusterRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.deleteOptions.name = productForm.value.name;
-        this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
+
 
         let deleteOption = new DeleteOptions(
-            new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds,
+            new TypeMeta("ClusterRole",this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds,
             this.deleteOptions.orphanDependents,
-            this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
+            this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                        this.response = data;
+                        this.type = true;
+                        console.log(this.response)
+                },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {
@@ -68,13 +74,11 @@ export class DeleteClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             name: ["", Validators.required],
             apiVersion: ["", ],
             gracePeriodSeconds: ["", ],
             preconditions: ["", ],
-            orphanDependents: ["", ],
-            propagationPolicy: ["", ]
+            orphanDependents: ["", ]
         });
     }
 }

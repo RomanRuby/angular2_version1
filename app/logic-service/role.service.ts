@@ -2,13 +2,16 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteCol, DeleteOptions, DeleteResult, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
+import {
+    DeleteCol, DeleteOptions, GetOptions, ListOptions, PatchType, Role, RoleResponse,
+    RoleResponses
+} from "./roles";
 import {AppService} from "./app.service";
 
 
 @Injectable()
 export class RoleService {
-    // адрес сервиса
+
     private url = "http://localhost:8081";
 
     constructor(private http: AppService) { }
@@ -23,32 +26,32 @@ export class RoleService {
             .catch(RoleService.handleError);
     }
 
-    public watchRole(id: string, listOptions: ListOptions) {
+    public watchRole(id: string, listOptions: ListOptions) :Observable<string> {
         return this.http.post(this.url +"/role/watch"+ "/"+ id, listOptions)
             .catch(RoleService.handleError);
     }
-    public listRole(id: string, listOptions: ListOptions) :Observable<ResponseRole> {
+    public listRole(id: string, listOptions: ListOptions) :Observable<RoleResponses> {
         return this.http.post(this.url +"/role/list/"+id, listOptions)
             .catch(RoleService.handleError);
     }
 
-    public deleteRole(id: string,namespace:string, deleteOptions: DeleteOptions) {
+    public deleteRole(id: string,namespace:string, deleteOptions: DeleteOptions):Observable<string> {
         return this.http.post(this.url + "/role/delete/"+ id+"/"+namespace, deleteOptions)
             .catch(RoleService.handleError);
     }
 
-    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions,listOptions: ListOptions) {
+    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions,listOptions: ListOptions):Observable<string>  {
         return this.http.post(this.url +"/role/deleteCollection/"+ id, new DeleteCol( deleteOptions,listOptions))
             .catch(RoleService.handleError);
     }
 
-    public patchRole(id: string,namespace:string, patchType: string,data :string,subresources:string) {
+    public patchRole(id: string,namespace:string, patchType: string,data :string,subresources:string) :Observable<RoleResponse>{
       let  patchTypes = new PatchType(patchType,data,subresources);
         return this.http.post(this.url +"/role/patch"+ "/"+ id+"/"+namespace, patchTypes)
             .catch(RoleService.handleError);
     }
 
-    public getRole(id: string,namespace:string, getOptions: GetOptions) {
+    public getRole(id: string,namespace:string, getOptions: GetOptions):Observable<RoleResponse> {
         return this.http.post(this.url +"/role/get"+ "/"+ id+"/"+namespace, getOptions)
             .catch(RoleService.handleError);
     }

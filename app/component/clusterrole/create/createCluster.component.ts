@@ -2,8 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
-import {DataTableModule,SharedModule} from 'primeng/primeng';
-import {RoleService} from "../../../logic-service/role.service";
+
 import {
     ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
     RoleResponse
@@ -23,7 +22,8 @@ export class CreateClusterRoleComponent implements OnInit {
     saveUsername: boolean = false;
     responseRole: RoleResponse;
     type: boolean = false;
-    cols: any[];
+    responseValue: boolean =true;
+
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -34,11 +34,7 @@ export class CreateClusterRoleComponent implements OnInit {
     ngOnInit() {
         this.buildForm();
         this.getProductFromRoute();
-        this.cols = [
-            {field: 'creationTimestamp', header: 'creationTimestamp'},
-            {field: 'name', header: 'name'},
-            {field: 'uid', header: 'uid'}
-        ];
+
     }
 
     public checkError(element: string, errorType: string) {
@@ -67,9 +63,14 @@ export class CreateClusterRoleComponent implements OnInit {
 
         this.service.createRole(role)
             .subscribe(
-                data => {   console.log(data);
+                data => {
+                if(data)
                     this.responseRole = data;
-                    console.log(this.responseRole);
+                    this.responseValue =true;
+                  if (typeof this.responseRole =="string"){
+                      this.responseValue =false;
+                  }
+
                     this.type = true;
                 },
                 error => this.errorMessage = error
@@ -77,7 +78,7 @@ export class CreateClusterRoleComponent implements OnInit {
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {

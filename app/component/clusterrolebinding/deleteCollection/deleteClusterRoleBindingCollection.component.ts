@@ -45,7 +45,6 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
-        this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
         this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
@@ -55,7 +54,7 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
         listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
 
         let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
-            this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
+            this.deleteCollection.preconditions);
 
         this.service.deleteCollectionRole(deleteOption,listOption)
             .subscribe(
@@ -85,7 +84,6 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
             gracePeriodSeconds: ["",],
             preconditions: ["", ],
             orphanDependents: ["", ],
-            propagationPolicy: ["",],
             deletionPropagation: ["", ],
             kindList: ["", Validators.required],
             apiVersionList: ["", ],

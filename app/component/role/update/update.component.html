@@ -1,25 +1,27 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<label for="kind">kind</label>
-			<input id="kind" type="text" class="form-control" formControlName="kind">
+			<label><b> Role</b></label>
+		</div>
 
+		<div class="form-group">
+			<label for="name">Name Role</label>
+			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
 		<div class="form-group">
 			<label for="namespace">namespace</label>
 			<input id="namespace" type="text" class="form-control" formControlName="namespace">
 		</div>
-		<div class="form-group">
-			<label for="name">name</label>
-			<input id="name" type="text" class="form-control" formControlName="name">
-		</div>
-
 		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
 		<div *ngIf="!saveUsername" class="form-group">
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">Application version </label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-
+				<!--<div *ngIf="-->
+				<!--productForm.get('apiVersion').touched"-->
+				<!--class="text-primary">-->
+				<!--example:v1beta1-->
+				<!--</div>-->
 			</div>
 			<div class="form-group">
 				<label for="generateName">generateName</label>
@@ -77,7 +79,39 @@
 		</div>
 
 
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
+		<input type="button" class="btn btn-default" (click)="goBack()" value="Back" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
+
+
+	<div *ngIf="type">
+		<h3 class="first">Information </h3>
+		<div *ngIf="responseValue">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>creationTimestamp</th>
+					<th>name</th>
+					<th>uid</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.metadata.creationTimestamp}}</th>
+					<th>{{responseRole.metadata.name}}</th>
+					<th>{{responseRole.metadata.uid}}</th>
+				</tr>
+				</tbody>
+			</table>
+			<p-dataTable [value]="responseRole.rules" >
+				<p-column field="apiGroups" header="apiGroups"></p-column>
+				<p-column field="resourceNames" header="resourceNames"></p-column>
+				<p-column field="resources" header="resources"></p-column>
+				<p-column field="verbs" header="verbs"></p-column>
+			</p-dataTable>
+		</div>
+		<div *ngIf="!responseValue">
+			<p>{{responseRole}}</p></div>
+	</div>
 </div>

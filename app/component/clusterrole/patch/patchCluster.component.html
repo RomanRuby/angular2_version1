@@ -22,12 +22,37 @@
 			<input id="subresources" type="text" class="form-control" formControlName="subresources">
 		</div>
 
-		<div class="form-group">
-			<label for="namespace">namespace</label>
-			<input id="namespace" type="text" class="form-control" formControlName="namespace">
-		</div>
-
 		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
+	<div *ngIf="type">
+		<h3 class="first">Information </h3>
+		<div *ngIf="responseValue">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>creationTimestamp</th>
+					<th>name</th>
+					<th>uid</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.metadata.creationTimestamp}}</th>
+					<th>{{responseRole.metadata.name}}</th>
+					<th>{{responseRole.metadata.uid}}</th>
+				</tr>
+				</tbody>
+			</table>
+			<p-dataTable [value]="responseRole.rules" >
+				<p-column field="apiGroups" header="apiGroups"></p-column>
+				<p-column field="resourceNames" header="resourceNames"></p-column>
+				<p-column field="resources" header="resources"></p-column>
+				<p-column field="verbs" header="verbs"></p-column>
+			</p-dataTable>
+		</div>
+		<div *ngIf="!responseValue">
+			<p>{{responseRole}}</p></div>
+	</div>
 </div>

@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 var roles_1 = require("./roles");
+var app_service_1 = require("./app.service");
 var ClusterRoleService = ClusterRoleService_1 = (function () {
     function ClusterRoleService(http) {
         this.http = http;
@@ -39,12 +40,12 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.deleteCollectionRole = function (deleteOptions, listOptions) {
-        return this.http.post(this.url + "/clusterrole/deleteCollection", deleteOptions, listOptions)
+        return this.http.post(this.url + "/clusterrole/deleteCollection", new roles_1.DeleteCol(deleteOptions, listOptions))
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.patchRole = function (id, patchType, data, subresources) {
         var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/role/patch" + "/" + id, patchTypes)
+        return this.http.post(this.url + "/clusterrole/patch" + "/" + id, patchTypes)
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {
@@ -67,7 +68,7 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
 }());
 ClusterRoleService = ClusterRoleService_1 = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [app_service_1.AppService])
 ], ClusterRoleService);
 exports.ClusterRoleService = ClusterRoleService;
 var ClusterRoleService_1;

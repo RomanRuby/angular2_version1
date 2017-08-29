@@ -15,6 +15,18 @@ var RoleResponse = (function () {
     return RoleResponse;
 }());
 exports.RoleResponse = RoleResponse;
+var MetaD = (function () {
+    function MetaD() {
+    }
+    return MetaD;
+}());
+exports.MetaD = MetaD;
+var RoleResponses = (function () {
+    function RoleResponses() {
+    }
+    return RoleResponses;
+}());
+exports.RoleResponses = RoleResponses;
 var MetaResponse = (function () {
     function MetaResponse() {
     }
@@ -179,7 +191,10 @@ var ListOptions = (function () {
 }());
 exports.ListOptions = ListOptions;
 var DeleteOptions = (function () {
-    function DeleteOptions(typeMeta, gracePeriodSeconds, orphanDependents, preconditions, propagationPolicy) {
+    function DeleteOptions(typeMeta, gracePeriodSeconds, orphanDependents, preconditions) {
+        this.gracePeriodSeconds = gracePeriodSeconds;
+        this.orphanDependents = orphanDependents;
+        this.preconditions = preconditions;
         this.typeMeta = typeMeta;
     }
     return DeleteOptions;

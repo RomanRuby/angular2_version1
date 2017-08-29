@@ -21,19 +21,20 @@ func Create(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.Roles(roleInterfaceParsing.ObjectMeta.Namespace)
 	roles, err := roleInterface.Create(&role)
-	fmt.Println(roles)
-	response.Header().Set("Content-Type", "application/json")
+	fmt.Println(err)
 	if err == nil {
 		j, error := json.Marshal(roles)
 		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -52,11 +53,13 @@ func Update(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 func List(response http.ResponseWriter, request *http.Request) {
@@ -77,10 +80,13 @@ func List(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
+
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -101,11 +107,12 @@ func Watch(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
-
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -121,12 +128,12 @@ func Delete(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.Roles(namespace)
 	error := roleInterface.Delete(category, &role)
-	j, err := json.Marshal(error)
-	if err == nil {
-		response.Header().Set("Content-Type", "application/json")
-		response.Write(j)
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 
 }
@@ -151,17 +158,12 @@ func DeleteCollection(response http.ResponseWriter, request *http.Request) {
 	roleInterface := inter.Roles(namespace)
 	error := roleInterface.DeleteCollection(&role, listOptions)
 	fmt.Println(error)
-	if error == nil {
-		j, error := json.Marshal(error)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			response.Write([]byte(error.Error()))
-		}
-
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(error.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 }
 
@@ -184,11 +186,13 @@ func Get(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -215,11 +219,13 @@ func Patch(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(error.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 

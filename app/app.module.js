@@ -54,6 +54,7 @@ var updateBinding_component_1 = require("./component/rolebinding/update/updateBi
 var watchRoleBinding_component_1 = require("./component/rolebinding/watch/watchRoleBinding.component");
 var getRoleBinding_component_1 = require("./component/rolebinding/get/getRoleBinding.component");
 var deleteClusterRoleBindingCollection_component_1 = require("./component/clusterrolebinding/deleteCollection/deleteClusterRoleBindingCollection.component");
+var primeng_1 = require("primeng/primeng");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -68,6 +69,7 @@ AppModule = __decorate([
             sidebar_module_1.SidebarModule,
             navbar_module_1.NavbarModule,
             footer_module_1.FooterModule,
+            primeng_1.InputTextModule, primeng_1.DataTableModule, primeng_1.ButtonModule, primeng_1.DialogModule,
             router_1.RouterModule.forRoot(app_routes_1.routes)
         ],
         declarations: [

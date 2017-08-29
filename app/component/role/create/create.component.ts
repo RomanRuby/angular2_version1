@@ -4,7 +4,10 @@ import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule} from "../../../logic-service/roles";
+import {
+    ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
+    RoleResponse
+} from "../../../logic-service/roles";
 
 @Component({
     moduleId: module.id,
@@ -16,7 +19,10 @@ export class CreateRoleComponent implements OnInit {
     roleDto: RoleDto;
     errorMessage: string;
     productForm: FormGroup;
-    private saveUsername: boolean = true;
+    saveUsername: boolean = false;
+    responseRole: RoleResponse;
+    type: boolean = false;
+    responseValue: boolean =true;
 
     constructor(private service: RoleService,
                 private activatedRoute: ActivatedRoute,
@@ -53,18 +59,27 @@ export class CreateRoleComponent implements OnInit {
             this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new ObjectMeta(
+        let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMeta(
             this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     }
 
     private getProductFromRoute() {
@@ -79,7 +94,6 @@ export class CreateRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             namespace: ["",Validators.required ],
-            kind: ["", Validators.required],
             name: ["",  Validators.required],
             apiVersion: ["", ],
             generateName: ["", ],

@@ -2,8 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-
-import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
@@ -17,9 +15,9 @@ export class WatchClusterRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    responseRole: ResponseRole;
+    response:string;
     type: boolean = false;
-
+    saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -38,19 +36,18 @@ export class WatchClusterRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("ClusterRole", this.roleDto.apiVersion));
 
         this.service.watchRole( listOptions)
             .subscribe(
-                data => {   console.log(data);
-                   // this.responseRole = data;
-                    console.log(this.responseRole);
+                data => {
+                    this.response = data;
                     this.type = true;
+                    console.log(this.response)
                 },
                 error => this.errorMessage = error
             );
@@ -58,7 +55,7 @@ export class WatchClusterRoleComponent implements OnInit {
 
     public goBack() {
 
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {
@@ -72,7 +69,6 @@ export class WatchClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             apiVersion: ["",]
         });
     }

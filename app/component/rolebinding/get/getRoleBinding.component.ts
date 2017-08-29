@@ -39,12 +39,12 @@ export class GetRoleBindingComponent implements OnInit {
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-        this.getOptions.namespace = productForm.value.namespace;
+        this.getOptions.name = productForm.value.name;
 
         let getOption = new GetOptions(
             new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace,this.getOptions.nameUrl,getOption)
+        this.service.getRole(this.getOptions.name,this.getOptions.nameUrl,getOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -67,7 +67,7 @@ export class GetRoleBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             nameUrl: ["", Validators.required],
-            namespace: ["", Validators.required],
+            name: ["", Validators.required],
             kind: ["", Validators.required],
             apiVersion: ["",],
             resourceVersion: ["", ],

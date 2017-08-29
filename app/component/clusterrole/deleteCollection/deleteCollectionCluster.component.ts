@@ -20,6 +20,9 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
     deleteCollection: DeleteCollectionDto;
     errorMessage: string;
     productForm: FormGroup;
+    response:string;
+    type: boolean = false;
+    saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -38,35 +41,33 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteCollection.nameUrl = productForm.value.namespace;
-        this.deleteCollection.namespace = productForm.value.namespace;
-        this.deleteCollection.name = productForm.value.name;
-        this.deleteCollection.kind = productForm.value.kind;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
-        this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
-        this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
         let listOption = new ListOptions();
-        listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
+        listOption.setTypeMeta(new TypeMeta("ClusterRole", this.deleteCollection.apiVersionList));
 
-        let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
-            this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
+        let deleteOption = new DeleteOptions( new TypeMeta("ClusterRole", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
+            this.deleteCollection.preconditions);
 
         this.service.deleteCollectionRole(deleteOption,listOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.response = data;
+                    this.type = true;
+                    console.log(this.response)
+                },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {
@@ -80,16 +81,10 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
-            kind: ["", Validators.required],
-            name: ["", Validators.required],
             apiVersion: ["", ],
             gracePeriodSeconds: ["",],
             preconditions: ["", ],
-            orphanDependents: ["", ],
-            propagationPolicy: ["", ],
-            kindList: ["", Validators.required],
-            namespaceList: [""],
+            orphanDependents: ["", ]
         });
     }
 }

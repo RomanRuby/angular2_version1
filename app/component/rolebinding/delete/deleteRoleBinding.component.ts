@@ -41,11 +41,10 @@ export class DeleteRoleBindingComponent implements OnInit {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
 
         let deleteOption = new DeleteOptions(
             new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
-            this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
+            this.deleteOptions.preconditions);
         this.service.deleteRole(    this.deleteOptions.name,   this.deleteOptions.namespace,deleteOption)
             .subscribe(
                 () => console.log("asdf"),
@@ -75,7 +74,6 @@ export class DeleteRoleBindingComponent implements OnInit {
             gracePeriodSeconds: ["",],
             preconditions: ["",],
             orphanDependents: ["",],
-            propagationPolicy: ["",],
             deletionPropagation: ["",]
         });
     }

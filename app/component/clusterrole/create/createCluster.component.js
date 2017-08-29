@@ -22,15 +22,11 @@ var CreateClusterRoleComponent = (function () {
         this.router = router;
         this.saveUsername = false;
         this.type = false;
+        this.responseValue = true;
     }
     CreateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
         this.getProductFromRoute();
-        this.cols = [
-            { field: 'creationTimestamp', header: 'creationTimestamp' },
-            { field: 'name', header: 'name' },
-            { field: 'uid', header: 'uid' }
-        ];
     };
     CreateClusterRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -51,14 +47,17 @@ var CreateClusterRoleComponent = (function () {
         var role = new roles_1.Role(new roles_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.createRole(role)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRole = data;
-            console.log(_this.responseRole);
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     CreateClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     };
     CreateClusterRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;

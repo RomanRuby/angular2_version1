@@ -20,7 +20,9 @@ var ListClusterRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
-        this.type = true;
+        this.saveUsername = false;
+        this.type = false;
+        this.responseValue = true;
     }
     ListClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -36,17 +38,21 @@ var ListClusterRoleComponent = (function () {
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
         listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new roles_1.TypeMeta("ClusterRole", this.roleDto.apiVersion));
         this.service.listRole(listOptions)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRole = data;
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
             console.log(_this.responseRole);
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     };
     ListClusterRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -58,7 +64,6 @@ var ListClusterRoleComponent = (function () {
     };
     ListClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
             apiVersion: ["",]
         });
     };

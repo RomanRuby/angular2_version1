@@ -13,10 +13,10 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 var roles_1 = require("./roles");
+var app_service_1 = require("./app.service");
 var RoleBindingService = RoleBindingService_1 = (function () {
     function RoleBindingService(http) {
         this.http = http;
-        // адрес сервиса
         this.url = "http://localhost:8081";
     }
     RoleBindingService.prototype.createRole = function (role) {
@@ -68,7 +68,7 @@ var RoleBindingService = RoleBindingService_1 = (function () {
 }());
 RoleBindingService = RoleBindingService_1 = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [app_service_1.AppService])
 ], RoleBindingService);
 exports.RoleBindingService = RoleBindingService;
 var RoleBindingService_1;

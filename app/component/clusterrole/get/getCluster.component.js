@@ -20,6 +20,9 @@ var GetClusterRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
+        this.responseValue = true;
+        this.saveUsername = false;
     }
     GetClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -31,17 +34,24 @@ var GetClusterRoleComponent = (function () {
     };
     GetClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.getOptions.namespace = productForm.value.namespace;
+        this.getOptions.name = productForm.value.name;
         this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace, getOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("ClusterRole", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        this.service.getRole(this.getOptions.name, getOption)
+            .subscribe(function (data) {
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     GetClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     };
     GetClusterRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -53,8 +63,7 @@ var GetClusterRoleComponent = (function () {
     };
     GetClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
+            name: ["", forms_1.Validators.required],
             apiVersion: ["",],
             resourceVersion: ["",],
             includeUninitialized: ["",]

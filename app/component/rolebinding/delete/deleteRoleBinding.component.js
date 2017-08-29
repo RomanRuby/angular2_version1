@@ -38,8 +38,7 @@ var DeleteRoleBindingComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, this.deleteOptions.namespace, deleteOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
@@ -63,7 +62,6 @@ var DeleteRoleBindingComponent = (function () {
             gracePeriodSeconds: ["",],
             preconditions: ["",],
             orphanDependents: ["",],
-            propagationPolicy: ["",],
             deletionPropagation: ["",]
         });
     };

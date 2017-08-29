@@ -17,14 +17,21 @@ func CreateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	rolebinding := roleInterfaceParsing
 	roleInterface := inter.RoleBindings(rolebinding.Namespace)
-	roles, _ := roleInterface.Create(&rolebinding)
+	roles, err := roleInterface.Create(&rolebinding)
+	if err == nil {
 		j, error := json.Marshal(roles)
-		if error == nil{
+		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
-		}else{
-			response.Write([]byte(error.Error()))
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
+
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
+	}
 }
 
 func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -34,13 +41,20 @@ func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	rolebinding := roleInterfaceParsing
 	roleInterface := inter.RoleBindings(rolebinding.Namespace)
-	roles, _ := roleInterface.Update(&rolebinding)
-	j, error := json.Marshal(roles)
-	if error == nil{
-		response.Header().Set("Content-Type", "application/json")
-		response.Write(j)
-	}else{
-		response.Write([]byte(error.Error()))
+	roles, err := roleInterface.Update(&rolebinding)
+	if err == nil {
+		j, error := json.Marshal(roles)
+		if error == nil {
+			response.Header().Set("Content-Type", "application/json")
+			response.Write(j)
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
+		}
+
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 
 }
@@ -57,14 +71,17 @@ func ListRoleBinding(response http.ResponseWriter, request *http.Request) {
 	roles, err := roleInterface.List(listOptions)
 	if err == nil {
 		j, error := json.Marshal(roles)
-		if error == nil{
+		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
-		}else{
-			response.Write([]byte(err.Error()))
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
-	}else {
-		response.Write([]byte(err.Error()))
+
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -81,15 +98,16 @@ func WatchRoleBinding(response http.ResponseWriter, request *http.Request) {
 	roles, err := roleInterface.Watch(listOptions)
 	if err == nil {
 		j, error := json.Marshal(roles)
-		if error == nil{
+		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
-		}else{
-			response.Write([]byte(err.Error()))
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
-
-	}else {
-		response.Write([]byte(err.Error()))
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -105,12 +123,12 @@ func DeleteRoleBinding(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.RoleBindings(namespace)
 	error := roleInterface.Delete(category, &role)
-	j, err := json.Marshal(error)
-	if err == nil{
-		response.Header().Set("Content-Type", "application/json")
-		response.Write(j)
-	}else{
-		response.Write([]byte(err.Error()))
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
+	} else {
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 
 }
@@ -130,17 +148,12 @@ func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Req
 	roleInterface := inter.RoleBindings(namespace)
 	error := roleInterface.DeleteCollection(&role, listOptions)
 	fmt.Println(error)
-	if error == nil {
-		j, error := json.Marshal(error)
-		if error == nil{
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		}else{
-			response.Write([]byte(error.Error()))
-		}
-
-	}else {
-		response.Write([]byte(error.Error()))
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
+	} else {
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 }
 
@@ -158,18 +171,19 @@ func GetRoleBinding(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.RoleBindings(namespace)
 	roles, err := roleInterface.Get(category, role)
-	fmt.Println(err)
 	if err == nil {
 		j, error := json.Marshal(roles)
-		if error == nil{
+		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
-		}else{
-			response.Write([]byte(err.Error()))
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
-	}else {
-		response.Write([]byte(err.Error()))
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -191,16 +205,19 @@ func PatchRoleBinding(response http.ResponseWriter, request *http.Request) {
 	byt := []byte(role1)
 	fmt.Println(byt)
 	roles, err := roleInterface.Patch(category, typesRole, byt, role2)
+	fmt.Println(err)
 	if err == nil {
 		j, error := json.Marshal(roles)
-		if error == nil{
+		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
-		}else{
-			response.Write([]byte(err.Error()))
+		} else {
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
-	}else {
-		response.Write([]byte(err.Error()))
+	} else {
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }

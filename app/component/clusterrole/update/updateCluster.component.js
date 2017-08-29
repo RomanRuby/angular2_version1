@@ -20,7 +20,9 @@ var UpdateClusterRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
-        this.saveUsername = true;
+        this.saveUsername = false;
+        this.type = false;
+        this.responseValue = true;
     }
     UpdateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -33,7 +35,6 @@ var UpdateClusterRoleComponent = (function () {
     UpdateClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleDto.name = productForm.value.name;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.generateName = productForm.value.generateName;
         this.roleDto.selfLink = productForm.value.selfLink;
@@ -43,12 +44,20 @@ var UpdateClusterRoleComponent = (function () {
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
             policyRulesArrsys.push(new roles_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new roles_1.Role(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
+        var role = new roles_1.Role(new roles_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.updateRole(role)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     UpdateClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     };
     UpdateClusterRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -60,7 +69,6 @@ var UpdateClusterRoleComponent = (function () {
     };
     UpdateClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
             apiVersion: ["",],
             generateName: ["",],

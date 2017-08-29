@@ -16,6 +16,15 @@ export class RoleResponse {
     rules: Array<PolicyRule>;
 
 }
+export class MetaD {
+    resourceVersion:string;
+    selfLink:string;
+}
+export class RoleResponses {
+    metadata:MetaD;
+    roleResponse:RoleResponse;
+
+}
 export class MetaResponse {
     creationTimestamp: string;
     name: string;
@@ -258,14 +267,17 @@ export class DeleteOptions {
     gracePeriodSeconds?: number;
     orphanDependents?: boolean;
     preconditions?: string;
-    propagationPolicy?: string;
 
     constructor(typeMeta: TypeMeta,
                 gracePeriodSeconds?: number,
                 orphanDependents?: boolean,
-                preconditions?: string,
-                propagationPolicy?: string) {
+                preconditions?: string
+               ) {
+        this.gracePeriodSeconds = gracePeriodSeconds;
+        this.orphanDependents = orphanDependents;
+        this.preconditions = preconditions;
         this.typeMeta = typeMeta;
+
     }
 
 }
@@ -315,7 +327,7 @@ export class GetOptions {
     }
 }
 export class GetOptionsDto {
-    namespace: string;
+    name: string;
     nameUrl: string;
     kind: string;
     apiVersion: string;

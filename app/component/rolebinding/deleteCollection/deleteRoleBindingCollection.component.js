@@ -38,12 +38,11 @@ var DeleteCollectionRoleBindingComponent = (function () {
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
-        this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
         this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
         listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
         this.service.deleteCollectionRole(this.deleteCollection.namespace, deleteOption, listOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
@@ -67,7 +66,6 @@ var DeleteCollectionRoleBindingComponent = (function () {
             gracePeriodSeconds: ["",],
             preconditions: ["",],
             orphanDependents: ["",],
-            propagationPolicy: ["",],
             deletionPropagation: ["",],
             kindList: ["", forms_1.Validators.required],
             apiVersionList: ["",],

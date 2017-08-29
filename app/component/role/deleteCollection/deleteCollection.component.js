@@ -20,6 +20,8 @@ var DeleteCollectionRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.type = false;
+        this.saveUsername = false;
     }
     DeleteCollectionRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -33,8 +35,6 @@ var DeleteCollectionRoleComponent = (function () {
         var _this = this;
         this.deleteCollection.nameUrl = productForm.value.namespace;
         this.deleteCollection.namespace = productForm.value.namespace;
-        this.deleteCollection.name = productForm.value.name;
-        this.deleteCollection.kind = productForm.value.kind;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
@@ -44,12 +44,16 @@ var DeleteCollectionRoleComponent = (function () {
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
         listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("Role", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
         this.service.deleteCollectionRole(this.deleteCollection.nameUrl, deleteOption, listOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            _this.response = data;
+            _this.type = true;
+            console.log(_this.response);
+        }, function (error) { return _this.errorMessage = error; });
     };
     DeleteCollectionRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     };
     DeleteCollectionRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -62,8 +66,6 @@ var DeleteCollectionRoleComponent = (function () {
     DeleteCollectionRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             namespace: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
-            name: ["", forms_1.Validators.required],
             apiVersion: ["",],
             gracePeriodSeconds: ["",],
             preconditions: ["",],

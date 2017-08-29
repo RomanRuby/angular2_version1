@@ -4,7 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, ResponseRole} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, ResponseRole, RoleResponse, RoleResponses} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -17,8 +17,10 @@ export class ListClusterRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    responseRole: ResponseRole;
-    type: boolean = true;
+    saveUsername: boolean = false;
+    responseRole: RoleResponses;
+    type: boolean = false;
+    responseValue: boolean =true;
 
 
     constructor(private service: ClusterRoleService,
@@ -44,13 +46,19 @@ export class ListClusterRoleComponent implements OnInit {
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("ClusterRole", this.roleDto.apiVersion));
 
-        this.service.listRole( listOptions)
+        this.service.listRole(listOptions)
             .subscribe(
-                data => {   console.log(data);
-                    this.responseRole = data;
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
                     console.log(this.responseRole);
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
                     this.type = true;
                 },
                 error => this.errorMessage = error
@@ -59,7 +67,7 @@ export class ListClusterRoleComponent implements OnInit {
 
     public goBack() {
 
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {
@@ -73,8 +81,6 @@ export class ListClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
-
             apiVersion: ["",]
         });
     }

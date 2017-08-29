@@ -2,8 +2,11 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-import {RoleService} from "../../../logic-service/role.service";
-import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
+
+import {
+    DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, RoleResponse,
+    TypeMeta
+} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -16,6 +19,10 @@ export class GetClusterRoleComponent implements OnInit {
     getOptions: GetOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    responseRole: RoleResponse;
+    type: boolean = false;
+    responseValue: boolean =true;
+    saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -34,25 +41,34 @@ export class GetClusterRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.getOptions.namespace = productForm.value.namespace;
+        this.getOptions.name = productForm.value.name;
         this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
+
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
 
 
         let getOption = new GetOptions(
-            new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
+            new TypeMeta("ClusterRole", this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace ,getOption)
+        this.service.getRole(this.getOptions.name ,getOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/clusterrole"]);
     }
 
     private getProductFromRoute() {
@@ -66,8 +82,7 @@ export class GetClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
-            kind: ["", Validators.required],
+            name: ["", Validators.required],
             apiVersion: ["", ],
             resourceVersion: ["", ],
             includeUninitialized: ["",]

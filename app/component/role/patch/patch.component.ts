@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType, RoleResponse} from "../../../logic-service/roles";
 
 @Component({
     moduleId: module.id,
@@ -16,6 +16,10 @@ export class PatchRoleComponent implements OnInit {
     patchOptions: PatchTypeDto;
     errorMessage: string;
     productForm: FormGroup;
+    responseRole: RoleResponse;
+    type: boolean = false;
+    responseValue: boolean =true;
+    saveUsername: boolean = false;
 
     constructor(private service: RoleService,
                 private activatedRoute: ActivatedRoute,
@@ -45,8 +49,17 @@ export class PatchRoleComponent implements OnInit {
         this.service.patchRole( this.patchOptions.name,this.patchOptions.namespace,
         this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(
-                () => console.log("asdf"),
-                error => this.errorMessage = error
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
+                    error => this.errorMessage = error
             );
     }
 

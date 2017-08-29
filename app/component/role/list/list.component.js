@@ -20,7 +20,9 @@ var ListRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
+        this.saveUsername = false;
         this.type = false;
+        this.responseValue = true;
     }
     ListRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -32,22 +34,25 @@ var ListRoleComponent = (function () {
     };
     ListRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
         listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new roles_1.TypeMeta("Role", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRole = data;
+            if (data)
+                _this.responseRole = data;
+            _this.responseValue = true;
             console.log(_this.responseRole);
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+        this.router.navigate(["/role"]);
     };
     ListRoleComponent.prototype.getProductFromRoute = function () {
         var _this = this;
@@ -59,7 +64,6 @@ var ListRoleComponent = (function () {
     };
     ListRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
             apiVersion: ["",]
         });

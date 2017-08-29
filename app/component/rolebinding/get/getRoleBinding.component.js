@@ -36,9 +36,9 @@ var GetRoleBindingComponent = (function () {
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-        this.getOptions.namespace = productForm.value.namespace;
+        this.getOptions.name = productForm.value.name;
         var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.namespace, this.getOptions.nameUrl, getOption)
+        this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleBindingComponent.prototype.goBack = function () {
@@ -55,7 +55,7 @@ var GetRoleBindingComponent = (function () {
     GetRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             nameUrl: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required],
+            name: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             apiVersion: ["",],
             resourceVersion: ["",],

@@ -1,15 +1,12 @@
 <div class="container" *ngIf="productForm">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
         <div class="form-group">
-            <label for="kind">kind</label>
-            <input id="kind" type="text" class="form-control" formControlName="kind">
+            <label><b> Role</b></label>
         </div>
-
         <div class="form-group">
             <label for="namespace">namespace</label>
             <input id="namespace" type="text" class="form-control" formControlName="namespace">
         </div>
-
         <input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
         <div *ngIf="!saveUsername" class="form-group">
 
@@ -19,45 +16,41 @@
             </div>
 
         </div>
-        <input type="button" class="btn btn-default" (click)="goBack()" value="Cancel"/>
+        <input type="button" class="btn btn-default" (click)="goBack()" value="Back"/>
         <input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
     </form>
+
+    <h3 class="first">Information </h3>
     <div *ngIf="type">
-        <div *ngFor="let item of responseRole.items; let i = index; ">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>number</th>
-                    <th>name</th>
-                    <th>uid</th>
-                    <th>creationTimestamp</th>
-                    <th>  verbs</th>
-                    <th> apiGroups</th>
-                    <th> resources</th>
-                </tr>
-                </thead>
+        <div *ngFor="let responseRole of responseRole.items; let i=index">
 
-                <tbody>
-                <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-                    <th>{{i}}</th>
-                    <th> {{item.metadata.name}}</th>
-                    <th>{{item.metadata.uid}}</th>
-                    <th>{{item.metadata.creationTimestamp}}</th>
-                    <div *ngFor="let rule of item.rules; ">
-                        <div *ngFor="let verb of rule.verbs; ">
-                            <td>{{verb}}</td>
-                        </div>
-                        <div *ngFor="let api of rule.apiGroups; ">
-                            <td>{{api}}</td>
-                        </div>
-                        <div *ngFor="let resources of rule.resources; ">
-                            <td>{{resources}}</td>
-                        </div>
-                    </div>
-                </tr>
+            <div *ngIf="responseValue">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>creationTimestamp</th>
+                        <th>name</th>
+                        <th>uid</th>
+                    </tr>
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody>
+                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                        <th> {{responseRole.metadata.creationTimestamp}}</th>
+                        <th>{{responseRole.metadata.name}}</th>
+                        <th>{{responseRole.metadata.uid}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <p-dataTable [value]="responseRole.rules" >
+                    <p-column field="apiGroups" header="apiGroups"></p-column>
+                    <p-column field="resourceNames" header="resourceNames"></p-column>
+                    <p-column field="resources" header="resources"></p-column>
+                    <p-column field="verbs" header="verbs"></p-column>
+                </p-dataTable>
+            </div>
         </div>
+        <div *ngIf="!responseValue">
+            <p>{{responseRole}}</p></div>
     </div>
 </div>

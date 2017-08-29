@@ -16,6 +16,9 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
     deleteOptions: DeleteOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    response:string;
+    type: boolean = false;
+    saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleBindingService,
                 private activatedRoute: ActivatedRoute,
@@ -40,11 +43,10 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
 
         let deleteOption = new DeleteOptions(
             new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
-            this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
+            this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(
                 () => console.log("asdf"),
@@ -73,7 +75,6 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
             gracePeriodSeconds: ["",],
             preconditions: ["", ],
             orphanDependents: ["", ],
-            propagationPolicy: ["", ],
             deletionPropagation: ["",]
         });
     }

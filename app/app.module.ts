@@ -52,6 +52,7 @@ import {UpdateBindingComponent} from "./component/rolebinding/update/updateBindi
 import {WatchRoleBindingComponent} from "./component/rolebinding/watch/watchRoleBinding.component";
 import {GetRoleBindingComponent} from "./component/rolebinding/get/getRoleBinding.component";
 import {DeleteCollectionClusterRoleBindingComponent} from "./component/clusterrolebinding/deleteCollection/deleteClusterRoleBindingCollection.component";
+import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng/primeng';
 
 
 
@@ -63,6 +64,7 @@ import {DeleteCollectionClusterRoleBindingComponent} from "./component/clusterro
         SidebarModule,
         NavbarModule,
         FooterModule,
+        InputTextModule,DataTableModule,ButtonModule,DialogModule,
         RouterModule.forRoot(routes)
     ],
     declarations: [

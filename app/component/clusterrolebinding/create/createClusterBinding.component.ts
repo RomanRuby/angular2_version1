@@ -3,10 +3,9 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 
-import {RoleService} from "../../../logic-service/role.service";
 import {
     ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
-    RoleBindingDto, Subject, RoleBinding, RoleRef
+    RoleBindingDto, Subject, RoleBinding, RoleRef, ResponseRoleBinding
 } from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
@@ -20,6 +19,10 @@ export class CreateClusterBindingComponent implements OnInit {
     roleBindingDto: RoleBindingDto;
     errorMessage: string;
     productForm: FormGroup;
+    saveUsername: boolean = false;
+    responseRole: ResponseRoleBinding;
+    type: boolean = false;
+    responseValue: boolean =true;
 
     constructor(private service: ClusterRoleBindingService,
                 private activatedRoute: ActivatedRoute,
@@ -40,7 +43,6 @@ export class CreateClusterBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
-        this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
 
@@ -67,7 +69,16 @@ export class CreateClusterBindingComponent implements OnInit {
 
         this.service.createRole(rolebinding)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
@@ -87,7 +98,8 @@ export class CreateClusterBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["", Validators.required],
+            apiVersion: ["", ],
+            apiGroupRef: ["", Validators.required],
             generateName: ["", Validators.required],
             kindRef: ["", Validators.required],
             nameRef: ["", Validators.required],
@@ -99,10 +111,10 @@ export class CreateClusterBindingComponent implements OnInit {
 
     initSubject() {
         return this.fb.group({
-            apiGroup: ["", Validators.required],
+            apiGroup: ["", ],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            namespace: ["", Validators.required]
+            namespace: ["", ]
         });
     }
 

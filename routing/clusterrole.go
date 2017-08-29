@@ -11,6 +11,10 @@ import (
 	"fmt"
 )
 
+type Error struct {
+	error string
+}
+
 func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := v1beta1.ClusterRole{}
@@ -24,11 +28,13 @@ func CreateCluster(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -46,11 +52,13 @@ func UpdateCluster(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 func ListCluster(response http.ResponseWriter, request *http.Request) {
@@ -68,10 +76,13 @@ func ListCluster(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
+
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -84,17 +95,19 @@ func WatchCluster(response http.ResponseWriter, request *http.Request) {
 	listOptions := roleInterfaceParsing
 	roleInterface := inter.ClusterRoles()
 	roles, err := roleInterface.Watch(listOptions)
+	fmt.Println(roles)
 	if err == nil {
 		j, error := json.Marshal(roles)
 		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
-
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -109,12 +122,12 @@ func DeleteCluster(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.ClusterRoles()
 	error := roleInterface.Delete(category, &role)
-	j, err := json.Marshal(error)
-	if err == nil {
-		response.Header().Set("Content-Type", "application/json")
-		response.Write(j)
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 
 }
@@ -132,17 +145,12 @@ func DeleteCollectionCluster(response http.ResponseWriter, request *http.Request
 	roleInterface := inter.ClusterRoles()
 	error := roleInterface.DeleteCollection(&role, listOptions)
 	fmt.Println(error)
-	if error == nil {
-		j, error := json.Marshal(error)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			response.Write([]byte(error.Error()))
-		}
-
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(error.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 }
 
@@ -164,11 +172,13 @@ func GetCluster(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -194,10 +204,12 @@ func PatchCluster(response http.ResponseWriter, request *http.Request) {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }

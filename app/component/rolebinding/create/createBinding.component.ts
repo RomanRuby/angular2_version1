@@ -21,6 +21,10 @@ export class CreateBindingComponent implements OnInit {
     roleBindingDto: RoleBindingDto;
     errorMessage: string;
     productForm: FormGroup;
+    saveUsername: boolean = false;
+    responseRole: RoleBindingDto;
+    type: boolean = false;
+    responseValue: boolean =true;
 
     constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
@@ -70,7 +74,16 @@ export class CreateBindingComponent implements OnInit {
 
         this.service.createRole(rolebinding)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    if(data)
+                        this.responseRole = data;
+                    this.responseValue =true;
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }

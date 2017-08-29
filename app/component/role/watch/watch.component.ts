@@ -16,8 +16,9 @@ export class WatchRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    responseRole: ResponseRole;
+    response:string;
     type: boolean = false;
+    saveUsername: boolean = false;
 
 
     constructor(private service: RoleService,
@@ -37,27 +38,25 @@ export class WatchRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
         let listOptions;
         listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
 
         this.service.watchRole(this.roleDto.namespace, listOptions)
             .subscribe(
-                data => {   console.log(data);
-                    this.responseRole = data;
-                    console.log(this.responseRole);
+                data => {
+                    this.response = data;
                     this.type = true;
+                    console.log(this.response)
                 },
                 error => this.errorMessage = error
             );
     }
 
     public goBack() {
-
         this.router.navigate(["/products/create"]);
     }
 
@@ -72,7 +71,6 @@ export class WatchRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             namespace: ["", Validators.required],
             apiVersion: ["",]
         });

@@ -8,6 +8,7 @@ import {
 } from "../../../logic-service/roles";
 import {listeners} from "cluster";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +21,7 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: ClusterRoleBindingService,
+    constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -37,8 +38,9 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteCollection.namespace = productForm.value.namespace;
+
         this.deleteCollection.name = productForm.value.name;
+        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.kind = productForm.value.kind;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
@@ -47,16 +49,16 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
         this.deleteCollection.kindList = productForm.value.kindList;
-        this.deleteCollection.namespaceList = productForm.value.namespaceList;
+        this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
       let listOption = new ListOptions();
-      listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
+      listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
 
       let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
           this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
 
-        this.service.deleteCollectionRole(deleteOption,listOption)
+        this.service.deleteCollectionRole(this.deleteCollection.namespace,deleteOption,listOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -78,17 +80,17 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            gracePeriodSeconds: ["", Validators.required],
-            preconditions: ["", Validators.required],
-            orphanDependents: ["", Validators.required],
-            propagationPolicy: ["", Validators.required],
-            deletionPropagation: ["", Validators.required],
+            namespace: ["", Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["", ],
+            orphanDependents: ["", ],
+            propagationPolicy: ["",],
+            deletionPropagation: ["", ],
             kindList: ["", Validators.required],
-            namespaceList: ["", Validators.required],
+            apiVersionList: ["", ],
         });
     }
 }

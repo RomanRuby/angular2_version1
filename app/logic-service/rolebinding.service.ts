@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteOptions, GetOptions, ListOptions, RoleBinding,} from "./roles";
+import {DeleteOptions, GetOptions, ListOptions, PatchType, RoleBinding,} from "./roles";
 
 
 @Injectable()
@@ -41,10 +41,11 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    // public patchRole(id: string,namespace:string, patchType: string,data :string,subresources:string) {
-    //     return this.http.post(this.url +"/role/patch"+ "/"+ id+"/"+namespace, patchType,data,subresources)
-    //         .catch(RoleBinding.handleError);
-    // }
+    public patchRole(id: string,namespace:string, patchType: string,data :string,subresources:string) {
+        let  patchTypes = new PatchType(patchType,data,subresources);
+        return this.http.post(this.url +"/rolebinding/patch"+ "/"+ id+"/"+namespace, patchTypes)
+            .catch(RoleBindingService.handleError);
+    }
 
     public getRole(id: string,namespace:string, getOptions: GetOptions) {
         return this.http.post(this.url +"/rolebinding/get/"+ id+"/"+namespace, getOptions)

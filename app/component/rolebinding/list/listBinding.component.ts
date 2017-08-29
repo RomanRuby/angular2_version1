@@ -6,6 +6,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, ResponseRole, ResponseRoleBinding} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -22,7 +23,7 @@ export class ListBindingComponent implements OnInit {
     type: boolean = false;
 
 
-    constructor(private service: ClusterRoleBindingService,
+    constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -41,15 +42,15 @@ export class ListBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
-
+        this.roleDto.namespace = productForm.value.namespace;
         let listOptions;
         listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
-        this.service.listRole( listOptions)
+        this.service.listRole(  this.roleDto.namespace,listOptions)
             .subscribe(
                 data => {   console.log(data);
-                    this.responseRoleBinding = data;
+                   // this.responseRoleBinding = data;
                     console.log(this.responseRoleBinding);
                     this.type = true;
                 },
@@ -74,7 +75,8 @@ export class ListBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            namespace: ["", Validators.required],
+            apiVersion: ["", ]
         });
     }
 

@@ -9,6 +9,18 @@ var Role = (function () {
     return Role;
 }());
 exports.Role = Role;
+var RoleResponse = (function () {
+    function RoleResponse() {
+    }
+    return RoleResponse;
+}());
+exports.RoleResponse = RoleResponse;
+var MetaResponse = (function () {
+    function MetaResponse() {
+    }
+    return MetaResponse;
+}());
+exports.MetaResponse = MetaResponse;
 var RoleBindingDto = (function () {
     function RoleBindingDto() {
     }

@@ -31,7 +31,6 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
     };
     DeleteCollectionClusterRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
         this.deleteCollection.kind = productForm.value.kind;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
@@ -40,9 +39,9 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
         this.deleteCollection.kindList = productForm.value.kindList;
-        this.deleteCollection.namespaceList = productForm.value.namespaceList;
+        this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
+        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
         this.service.deleteCollectionRole(deleteOption, listOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
@@ -60,17 +59,16 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
     };
     DeleteCollectionClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            gracePeriodSeconds: ["", forms_1.Validators.required],
-            preconditions: ["", forms_1.Validators.required],
-            orphanDependents: ["", forms_1.Validators.required],
-            propagationPolicy: ["", forms_1.Validators.required],
-            deletionPropagation: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",],
+            deletionPropagation: ["",],
             kindList: ["", forms_1.Validators.required],
-            namespaceList: ["", forms_1.Validators.required],
+            apiVersionList: ["",],
         });
     };
     return DeleteCollectionClusterRoleBindingComponent;

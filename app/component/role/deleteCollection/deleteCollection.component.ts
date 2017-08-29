@@ -48,11 +48,11 @@ export class DeleteCollectionRoleComponent implements OnInit {
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
         this.deleteCollection.kindList = productForm.value.kindList;
-        this.deleteCollection.namespaceList = productForm.value.namespaceList;
+        this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
       let listOption = new ListOptions();
-      listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
+      listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
 
       let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
           this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);

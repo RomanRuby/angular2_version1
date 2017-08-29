@@ -42,7 +42,7 @@
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
 				<div class="panel-heading">
-					<span>PolicyRules {{i + 1}}</span>
+					<span>Subject Rules {{i + 1}}</span>
 					<span class="glyphicon glyphicon-remove pull-right" *ngIf="productForm.controls.subjectRules.controls.length > 1" (click)="removeSubjectRules(i)"></span>
 				</div>
 				<div class="panel-body" [formGroupName]="i">

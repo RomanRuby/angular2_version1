@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var GetRoleBindingComponent = (function () {
     function GetRoleBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -36,8 +36,9 @@ var GetRoleBindingComponent = (function () {
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
+        this.getOptions.namespace = productForm.value.namespace;
         var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.nameUrl, getOption)
+        this.service.getRole(this.getOptions.namespace, this.getOptions.nameUrl, getOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleBindingComponent.prototype.goBack = function () {
@@ -54,10 +55,11 @@ var GetRoleBindingComponent = (function () {
     GetRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             nameUrl: ["", forms_1.Validators.required],
+            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            resourceVersion: ["", forms_1.Validators.required],
-            includeUninitialized: ["", forms_1.Validators.required]
+            apiVersion: ["",],
+            resourceVersion: ["",],
+            includeUninitialized: ["",]
         });
     };
     return GetRoleBindingComponent;
@@ -68,7 +70,7 @@ GetRoleBindingComponent = __decorate([
         selector: "get",
         templateUrl: "getRoleBinding.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

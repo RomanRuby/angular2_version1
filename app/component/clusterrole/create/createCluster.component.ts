@@ -2,9 +2,12 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
-
+import {DataTableModule,SharedModule} from 'primeng/primeng';
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule} from "../../../logic-service/roles";
+import {
+    ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
+    RoleResponse
+} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -17,7 +20,10 @@ export class CreateClusterRoleComponent implements OnInit {
     roleDto: RoleDto;
     errorMessage: string;
     productForm: FormGroup;
-    private saveUsername: boolean = true;
+    saveUsername: boolean = false;
+    responseRole: RoleResponse;
+    type: boolean = false;
+    cols: any[];
 
     constructor(private service: ClusterRoleService,
                 private activatedRoute: ActivatedRoute,
@@ -28,6 +34,11 @@ export class CreateClusterRoleComponent implements OnInit {
     ngOnInit() {
         this.buildForm();
         this.getProductFromRoute();
+        this.cols = [
+            {field: 'creationTimestamp', header: 'creationTimestamp'},
+            {field: 'name', header: 'name'},
+            {field: 'uid', header: 'uid'}
+        ];
     }
 
     public checkError(element: string, errorType: string) {
@@ -37,7 +48,6 @@ export class CreateClusterRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.name = productForm.value.name;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.generateName = productForm.value.generateName;
         this.roleDto.selfLink = productForm.value.selfLink;
@@ -46,19 +56,22 @@ export class CreateClusterRoleComponent implements OnInit {
 
         let policyRulesArrsys: PolicyRule[] = [];
 
-
         for (let i = 0; i < this.roleDto.policyRules.length; i++) {
             policyRulesArrsys.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
                 this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
                 this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion), new ObjectMeta(
+        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMeta(
             this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
-                () => console.log("asdf"),
+                data => {   console.log(data);
+                    this.responseRole = data;
+                    console.log(this.responseRole);
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
@@ -78,7 +91,6 @@ export class CreateClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             name: ["",  Validators.required],
             apiVersion: ["", ],
             generateName: ["", ],

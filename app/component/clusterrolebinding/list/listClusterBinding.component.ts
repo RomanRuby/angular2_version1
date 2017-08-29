@@ -74,7 +74,7 @@ export class ListClusterBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            apiVersion: ["", ]
         });
     }
 

@@ -34,8 +34,7 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteOptions.namespace = productForm.value.namespace;
-
+        this.deleteOptions.name = productForm.value.name;
         this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
@@ -46,7 +45,7 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
         let deleteOption = new DeleteOptions(
             new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
-        this.service.deleteRole(this.deleteOptions.namespace, deleteOption)
+        this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -68,15 +67,14 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
-            kind: ["", Validators.required],
             name: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            gracePeriodSeconds: ["", Validators.required],
-            preconditions: ["", Validators.required],
-            orphanDependents: ["", Validators.required],
-            propagationPolicy: ["", Validators.required],
-            deletionPropagation: ["", Validators.required]
+            kind: ["", Validators.required],
+            apiVersion: ["", ],
+            gracePeriodSeconds: ["",],
+            preconditions: ["", ],
+            orphanDependents: ["", ],
+            propagationPolicy: ["", ],
+            deletionPropagation: ["",]
         });
     }
 }

@@ -67,9 +67,9 @@ export class GetClusterRoleBindingComponent implements OnInit {
         this.productForm = this.fb.group({
             nameUrl: ["", Validators.required],
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            resourceVersion: ["", Validators.required],
-            includeUninitialized: ["", Validators.required]
+            apiVersion: ["", ],
+            resourceVersion: ["", ],
+            includeUninitialized: ["", ]
         });
     }
 }

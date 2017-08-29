@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var DeleteCollectionRoleBindingComponent = (function () {
     function DeleteCollectionRoleBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,8 +31,8 @@ var DeleteCollectionRoleBindingComponent = (function () {
     };
     DeleteCollectionRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.name = productForm.value.name;
+        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.kind = productForm.value.kind;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
@@ -40,11 +40,11 @@ var DeleteCollectionRoleBindingComponent = (function () {
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
         this.deleteCollection.kindList = productForm.value.kindList;
-        this.deleteCollection.namespaceList = productForm.value.namespaceList;
+        this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
+        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
-        this.service.deleteCollectionRole(deleteOption, listOption)
+        this.service.deleteCollectionRole(this.deleteCollection.namespace, deleteOption, listOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     DeleteCollectionRoleBindingComponent.prototype.goBack = function () {
@@ -60,17 +60,17 @@ var DeleteCollectionRoleBindingComponent = (function () {
     };
     DeleteCollectionRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            gracePeriodSeconds: ["", forms_1.Validators.required],
-            preconditions: ["", forms_1.Validators.required],
-            orphanDependents: ["", forms_1.Validators.required],
-            propagationPolicy: ["", forms_1.Validators.required],
-            deletionPropagation: ["", forms_1.Validators.required],
+            namespace: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",],
+            deletionPropagation: ["",],
             kindList: ["", forms_1.Validators.required],
-            namespaceList: ["", forms_1.Validators.required],
+            apiVersionList: ["",],
         });
     };
     return DeleteCollectionRoleBindingComponent;
@@ -81,7 +81,7 @@ DeleteCollectionRoleBindingComponent = __decorate([
         selector: "deleteCollection",
         templateUrl: "deleteRoleBindingCollection.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

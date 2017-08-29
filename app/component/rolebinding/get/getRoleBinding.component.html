@@ -1,28 +1,35 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<label for="nameUrl">apiVersion</label>
+			<label for="nameUrl">name</label>
 			<input id="nameUrl" type="text" class="form-control" formControlName="nameUrl">
 
 		</div>
-
 		<div class="form-group">
-			<label for="kind">namespace</label>
+			<label for="namespace">namespace</label>
+			<input id="namespace" type="text" class="form-control" formControlName="namespace">
+		</div>
+		<div class="form-group">
+			<label for="kind">kind</label>
 			<input id="kind" type="text" class="form-control" formControlName="kind">
 		</div>
 
-		<div class="form-group">
-			<label for="apiVersion">namespace</label>
-			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
+		<div *ngIf="!saveUsername" class="form-group">
+			<div class="form-group">
+				<label for="apiVersion">apiVersion</label>
+				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			</div>
+			<div class="form-group">
+				<label for="resourceVersion">resourceVersion</label>
+				<input id="resourceVersion" type="text" class="form-control" formControlName="resourceVersion">
+			</div>
+			<div class="form-group">
+				<label for="includeUninitialized">includeUninitialized</label>
+				<input id="includeUninitialized" type="text" class="form-control" formControlName="includeUninitialized">
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="resourceVersion">namespace</label>
-			<input id="resourceVersion" type="text" class="form-control" formControlName="resourceVersion">
-		</div>
-		<div class="form-group">
-			<label for="includeUninitialized">namespace</label>
-			<input id="includeUninitialized" type="text" class="form-control" formControlName="includeUninitialized">
-		</div>
+
 		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>

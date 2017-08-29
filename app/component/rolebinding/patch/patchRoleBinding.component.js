@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var PatchRoleBindingComponent = (function () {
     function PatchRoleBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -67,7 +67,7 @@ PatchRoleBindingComponent = __decorate([
         selector: "patch",
         templateUrl: "patchRoleBinding.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

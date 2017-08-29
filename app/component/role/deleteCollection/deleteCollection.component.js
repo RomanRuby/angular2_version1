@@ -41,9 +41,9 @@ var DeleteCollectionRoleComponent = (function () {
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
         this.deleteCollection.kindList = productForm.value.kindList;
-        this.deleteCollection.namespaceList = productForm.value.namespaceList;
+        this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.namespaceList));
+        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions, this.deleteCollection.propagationPolicy);
         this.service.deleteCollectionRole(this.deleteCollection.nameUrl, deleteOption, listOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });

@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
+var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var WatchClusterRoleBindingComponent = (function () {
     function WatchClusterRoleBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -32,12 +32,11 @@ var WatchClusterRoleBindingComponent = (function () {
     WatchClusterRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleDto.kind = productForm.value.kind;
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.service.listRole(listOptions)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     WatchClusterRoleBindingComponent.prototype.goBack = function () {
@@ -54,8 +53,7 @@ var WatchClusterRoleBindingComponent = (function () {
     WatchClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required]
+            apiVersion: ["",]
         });
     };
     return WatchClusterRoleBindingComponent;
@@ -66,7 +64,7 @@ WatchClusterRoleBindingComponent = __decorate([
         selector: "watch",
         templateUrl: "watchClusterRoleBinding.component.html",
     }),
-    __metadata("design:paramtypes", [role_service_1.RoleService,
+    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

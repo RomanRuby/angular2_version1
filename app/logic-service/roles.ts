@@ -11,7 +11,21 @@ export class Role {
         this.rules = rules;
     }
 }
+export class RoleResponse {
+    metadata: MetaResponse;
+    rules: Array<PolicyRule>;
 
+}
+export class MetaResponse {
+    creationTimestamp: string;
+    name: string;
+    resourceVersion: string;
+    selfLink: string;
+    uid: UID;
+
+
+
+}
 export class RoleBindingDto {
     kind: string;
     kindMeta: string;
@@ -124,7 +138,7 @@ export class DeleteCollectionDto {
     preconditions?: string;
     propagationPolicy?: string;
     kindList: string;
-    namespaceList: string;
+    apiVersionList: string;
 
 }
 export class Subject {
@@ -183,6 +197,7 @@ export class TypeMeta {
 }
 
 export class ObjectMeta {
+
     name: string;
     generateName?: string;
     namespace: string;

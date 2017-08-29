@@ -59,7 +59,7 @@ var ListClusterBindingComponent = (function () {
     ListClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required]
+            apiVersion: ["",]
         });
     };
     return ListClusterBindingComponent;

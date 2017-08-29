@@ -55,9 +55,9 @@ var GetClusterRoleBindingComponent = (function () {
         this.productForm = this.fb.group({
             nameUrl: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            resourceVersion: ["", forms_1.Validators.required],
-            includeUninitialized: ["", forms_1.Validators.required]
+            apiVersion: ["",],
+            resourceVersion: ["",],
+            includeUninitialized: ["",]
         });
     };
     return GetClusterRoleBindingComponent;

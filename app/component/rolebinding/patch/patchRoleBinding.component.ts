@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType} from "../../../logic-service/roles";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,7 @@ export class PatchRoleBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {

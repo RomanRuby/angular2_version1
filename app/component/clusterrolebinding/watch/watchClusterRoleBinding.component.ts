@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta} from "../../../logic-service/roles";
+import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,7 @@ export class WatchClusterRoleBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: RoleService,
+    constructor(private service: ClusterRoleBindingService,
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
         private router: Router) { }
@@ -34,14 +35,13 @@ export class WatchClusterRoleBindingComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.kind = productForm.value.kind;
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
         let listOptions;
         listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind,this.roleDto.apiVersion));
 
-        this.service.listRole(this.roleDto.namespace,listOptions)
+        this.service.listRole(listOptions)
                 .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -64,8 +64,7 @@ export class WatchClusterRoleBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            namespace: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            apiVersion: ["",]
         });
     }
 }

@@ -16,7 +16,6 @@ var roles_1 = require("./roles");
 var ClusterRoleService = ClusterRoleService_1 = (function () {
     function ClusterRoleService(http) {
         this.http = http;
-        // адрес сервиса
         this.url = "http://localhost:8081";
     }
     ClusterRoleService.prototype.createRole = function (role) {

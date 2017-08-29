@@ -31,7 +31,7 @@ var DeleteClusterRoleBindingComponent = (function () {
     };
     DeleteClusterRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteOptions.namespace = productForm.value.namespace;
+        this.deleteOptions.name = productForm.value.name;
         this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
@@ -39,7 +39,7 @@ var DeleteClusterRoleBindingComponent = (function () {
         this.deleteOptions.preconditions = productForm.value.preconditions;
         this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
-        this.service.deleteRole(this.deleteOptions.namespace, deleteOption)
+        this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     DeleteClusterRoleBindingComponent.prototype.goBack = function () {
@@ -55,15 +55,14 @@ var DeleteClusterRoleBindingComponent = (function () {
     };
     DeleteClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            gracePeriodSeconds: ["", forms_1.Validators.required],
-            preconditions: ["", forms_1.Validators.required],
-            orphanDependents: ["", forms_1.Validators.required],
-            propagationPolicy: ["", forms_1.Validators.required],
-            deletionPropagation: ["", forms_1.Validators.required]
+            kind: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",],
+            deletionPropagation: ["",]
         });
     };
     return DeleteClusterRoleBindingComponent;

@@ -2,18 +2,18 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, Role} from "./roles";
+import {DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, Role, RoleResponse} from "./roles";
 import {RoleService} from "./role.service";
 
 
 @Injectable()
 export class ClusterRoleService {
-    // адрес сервиса
+
     private url = "http://localhost:8081";
 
     constructor(private http: Http) { }
 
-    public createRole(role: Role) {
+    public createRole(role: Role)  :Observable<RoleResponse>{
         return this.http.post(this.url +"/clusterrole/create", role)
             .catch(ClusterRoleService.handleError);
     }

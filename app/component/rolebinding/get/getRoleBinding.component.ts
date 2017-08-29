@@ -4,6 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -16,7 +17,7 @@ export class GetRoleBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
 
-    constructor(private service: ClusterRoleBindingService,
+    constructor(private service: RoleBindingService,
                 private activatedRoute: ActivatedRoute,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -38,12 +39,12 @@ export class GetRoleBindingComponent implements OnInit {
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-
+        this.getOptions.namespace = productForm.value.namespace;
 
         let getOption = new GetOptions(
             new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.nameUrl,getOption)
+        this.service.getRole(this.getOptions.namespace,this.getOptions.nameUrl,getOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -66,10 +67,11 @@ export class GetRoleBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             nameUrl: ["", Validators.required],
+            namespace: ["", Validators.required],
             kind: ["", Validators.required],
-            apiVersion: ["", Validators.required],
-            resourceVersion: ["", Validators.required],
-            includeUninitialized: ["", Validators.required]
+            apiVersion: ["",],
+            resourceVersion: ["", ],
+            includeUninitialized: ["", ]
         });
     }
 }

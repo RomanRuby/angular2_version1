@@ -20,7 +20,7 @@ var ListClusterRoleComponent = (function () {
         this.activatedRoute = activatedRoute;
         this.fb = fb;
         this.router = router;
-        this.type = false;
+        this.type = true;
     }
     ListClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();

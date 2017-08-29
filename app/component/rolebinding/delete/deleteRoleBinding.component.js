@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var DeleteRoleBindingComponent = (function () {
     function DeleteRoleBindingComponent(service, activatedRoute, fb, router) {
         this.service = service;
@@ -31,6 +31,7 @@ var DeleteRoleBindingComponent = (function () {
     };
     DeleteRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
+        this.deleteOptions.name = productForm.value.name;
         this.deleteOptions.namespace = productForm.value.namespace;
         this.deleteOptions.kind = productForm.value.kind;
         this.deleteOptions.apiVersion = productForm.value.apiVersion;
@@ -39,7 +40,7 @@ var DeleteRoleBindingComponent = (function () {
         this.deleteOptions.preconditions = productForm.value.preconditions;
         this.deleteOptions.propagationPolicy = productForm.value.propagationPolicy;
         var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions, this.deleteOptions.propagationPolicy);
-        this.service.deleteRole(this.deleteOptions.namespace, deleteOption)
+        this.service.deleteRole(this.deleteOptions.name, this.deleteOptions.namespace, deleteOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
     DeleteRoleBindingComponent.prototype.goBack = function () {
@@ -55,15 +56,15 @@ var DeleteRoleBindingComponent = (function () {
     };
     DeleteRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            apiVersion: ["", forms_1.Validators.required],
-            gracePeriodSeconds: ["", forms_1.Validators.required],
-            preconditions: ["", forms_1.Validators.required],
-            orphanDependents: ["", forms_1.Validators.required],
-            propagationPolicy: ["", forms_1.Validators.required],
-            deletionPropagation: ["", forms_1.Validators.required]
+            namespace: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",],
+            deletionPropagation: ["",]
         });
     };
     return DeleteRoleBindingComponent;
@@ -74,7 +75,7 @@ DeleteRoleBindingComponent = __decorate([
         selector: "delete",
         templateUrl: "deleteRoleBinding.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         router_1.ActivatedRoute,
         forms_1.FormBuilder,
         router_1.Router])

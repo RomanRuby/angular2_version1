@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
-var roles_1 = require("./roles");
 var app_service_1 = require("./app.service");
 var RoleBindingService = RoleBindingService_1 = (function () {
     function RoleBindingService(http) {
@@ -27,10 +26,6 @@ var RoleBindingService = RoleBindingService_1 = (function () {
         return this.http.post(this.url + "/rolebinding/update", role)
             .catch(RoleBindingService_1.handleError);
     };
-    RoleBindingService.prototype.watchRole = function (id, listOptions) {
-        return this.http.post(this.url + "/rolebinding/watch/" + id, listOptions)
-            .catch(RoleBindingService_1.handleError);
-    };
     RoleBindingService.prototype.listRole = function (id, listOptions) {
         return this.http.post(this.url + "/rolebinding/list/" + id, listOptions)
             .catch(RoleBindingService_1.handleError);
@@ -41,10 +36,6 @@ var RoleBindingService = RoleBindingService_1 = (function () {
     };
     RoleBindingService.prototype.deleteCollectionRole = function (id, deleteOptions, listOptions) {
         return this.http.post(this.url + "/rolebinding/deleteCollection/" + id, deleteOptions, listOptions)
-            .catch(RoleBindingService_1.handleError);
-    };
-    RoleBindingService.prototype.patchRole = function (id, namespace, patchType, data, subresources) {
-        return this.http.post(this.url + "/rolebinding/patch/" + id + "/" + namespace, new roles_1.PatchType(patchType, data, subresources))
             .catch(RoleBindingService_1.handleError);
     };
     RoleBindingService.prototype.getRole = function (id, namespace, getOptions) {

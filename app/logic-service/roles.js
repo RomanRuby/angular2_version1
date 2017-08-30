@@ -40,10 +40,10 @@ var RoleBindingDto = (function () {
 }());
 exports.RoleBindingDto = RoleBindingDto;
 var RoleBinding = (function () {
-    function RoleBinding(typeMeta, objectMeta, subjectRules, roleRef) {
+    function RoleBinding(typeMeta, metadata, subjects, roleRef) {
         this.typeMeta = typeMeta;
-        this.objectMeta = objectMeta;
-        this.subjectRules = subjectRules;
+        this.metadata = metadata;
+        this.subjects = subjects;
         this.roleRef = roleRef;
     }
     return RoleBinding;
@@ -61,6 +61,12 @@ var ResponseRoleBinding = (function () {
     return ResponseRoleBinding;
 }());
 exports.ResponseRoleBinding = ResponseRoleBinding;
+var ResponsesRoleBindingList = (function () {
+    function ResponsesRoleBindingList() {
+    }
+    return ResponsesRoleBindingList;
+}());
+exports.ResponsesRoleBindingList = ResponsesRoleBindingList;
 var MetaDataResponse = (function () {
     function MetaDataResponse() {
     }

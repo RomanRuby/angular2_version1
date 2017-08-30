@@ -12,12 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var ListClusterBindingComponent = (function () {
     function ListClusterBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
         this.type = false;
+        this.responseValue = true;
     }
     ListClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -29,15 +30,18 @@ var ListClusterBindingComponent = (function () {
     };
     ListClusterBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
+        this.roleDto.namespace = productForm.value.namespace;
         var listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(listOptions)
+        listOptions.setTypeMeta(new roles_1.TypeMeta("ClusterRoleBinding", this.roleDto.apiVersion));
+        this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRoleBinding = data;
-            console.log(_this.responseRoleBinding);
+            _this.responseRole = data;
+            _this.responseValue = true;
+            console.log(_this.responseRole);
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
@@ -50,7 +54,7 @@ var ListClusterBindingComponent = (function () {
     };
     ListClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
+            namespace: ["", forms_1.Validators.required],
             apiVersion: ["",]
         });
     };
@@ -62,7 +66,7 @@ ListClusterBindingComponent = __decorate([
         selector: "list",
         templateUrl: "listClusterBinding.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         forms_1.FormBuilder])
 ], ListClusterBindingComponent);
 exports.ListClusterBindingComponent = ListClusterBindingComponent;

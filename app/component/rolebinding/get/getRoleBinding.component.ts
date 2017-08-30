@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta,ResponseRoleBinding} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
@@ -16,6 +16,9 @@ export class GetRoleBindingComponent implements OnInit {
     getOptions: GetOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    type: boolean = false;
+    responseValue: boolean =true;
+    responseRole: ResponseRoleBinding;
 
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
@@ -34,17 +37,20 @@ export class GetRoleBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         this.getOptions.name = productForm.value.name;
 
         let getOption = new GetOptions(
-            new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
+            new TypeMeta("Role", this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
         this.service.getRole(this.getOptions.name,this.getOptions.nameUrl,getOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
@@ -62,7 +68,6 @@ export class GetRoleBindingComponent implements OnInit {
         this.productForm = this.fb.group({
             nameUrl: ["", Validators.required],
             name: ["", Validators.required],
-            kind: ["", Validators.required],
             apiVersion: ["",],
             resourceVersion: ["", ],
             includeUninitialized: ["", ]

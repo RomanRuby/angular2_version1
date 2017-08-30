@@ -27,11 +27,6 @@ export class ClusterRoleService {
             .catch(ClusterRoleService.handleError);
     }
 
-    public watchRole(listOptions: ListOptions): Observable<string> {
-        return this.http.post(this.url + "/clusterrole/watch", listOptions)
-            .catch(ClusterRoleService.handleError);
-    }
-
     public listRole(listOptions: ListOptions): Observable<RoleResponses> {
         return this.http.post(this.url + "/clusterrole/list", listOptions)
             .catch(ClusterRoleService.handleError);
@@ -44,11 +39,6 @@ export class ClusterRoleService {
 
     public deleteCollectionRole(deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
         return this.http.post(this.url + "/clusterrole/deleteCollection", new DeleteCol(deleteOptions, listOptions))
-            .catch(ClusterRoleService.handleError);
-    }
-
-    public patchRole(id: string, patchType: string, data: string, subresources: string): Observable<RoleResponse> {
-        return this.http.post(this.url + "/clusterrole/patch/" + id, new PatchType(patchType, data, subresources))
             .catch(ClusterRoleService.handleError);
     }
 

@@ -24,7 +24,7 @@ export class CreateBindingComponent implements OnInit {
     viewAdditionalField: boolean = false;
     responseRole: ResponseRoleBinding;
     type: boolean = false;
-    responseValue: boolean = true;
+    responseValue: boolean =true;
 
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
@@ -65,8 +65,8 @@ export class CreateBindingComponent implements OnInit {
             this.roleBindingDto.kindRef,
             this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
-            this.roleBindingDto.name), subjectRules, roleRef);
+        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(
+            this.roleBindingDto.name ,this.roleBindingDto.namespace), subjectRules, roleRef);
 
 
         this.service.createRole(rolebinding)
@@ -93,8 +93,8 @@ export class CreateBindingComponent implements OnInit {
         this.productForm = this.fb.group({
             apiVersion: ["",],
             generateName: ["",],
-            name: ["",],
-            namespace: ["",],
+            name: ["", Validators.required],
+            namespace: ["", Validators.required],
             kindRef: ["", Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", Validators.required],

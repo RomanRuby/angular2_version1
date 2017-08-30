@@ -47,7 +47,6 @@ export class ListRoleComponent implements OnInit {
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(
                 data => {
-                    if(data)
                         this.responseRole = data;
                     this.responseValue =true;
                     console.log(this.responseRole);

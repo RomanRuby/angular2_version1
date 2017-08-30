@@ -4,26 +4,26 @@
 			<a href="#" onClick="history.go(-1)"><b>Role Binding</b> </a>
 		</div>
 		<div class="form-group">
-			<label for="name">name</label>
+			<label for="name">Name</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 
 		</div>
 		<div class="form-group">
-			<label for="nameUrl">namespace</label>
+			<label for="nameUrl">Namespace</label>
 			<input id="nameUrl" type="text" class="form-control" formControlName="nameUrl">
 		</div>
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
 			<div class="form-group">
-				<label for="resourceVersion">resourceVersion</label>
+				<label for="resourceVersion">ResourceVersion</label>
 				<input id="resourceVersion" type="text" class="form-control" formControlName="resourceVersion">
 			</div>
 			<div class="form-group">
-				<label for="includeUninitialized">includeUninitialized</label>
+				<label for="includeUninitialized">IncludeUninitialized</label>
 				<input id="includeUninitialized" type="text" class="form-control" formControlName="includeUninitialized">
 			</div>
 		</div>
@@ -37,9 +37,10 @@
 			<table class="table">
 				<thead>
 				<tr>
-					<th>creationTimestamp</th>
-					<th>name</th>
-					<th>uid</th>
+					<th>CreationTimestamp</th>
+					<th>Name</th>
+					<th>Namespace</th>
+					<th>Uid</th>
 				</tr>
 				</thead>
 
@@ -47,15 +48,34 @@
 				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
 					<th> {{responseRole.metadata.creationTimestamp}}</th>
 					<th>{{responseRole.metadata.name}}</th>
+					<th>{{responseRole.metadata.namespace}}</th>
 					<th>{{responseRole.metadata.uid}}</th>
 				</tr>
 				</tbody>
 			</table>
-			<p-dataTable [value]="responseRole.rules" >
-				<p-column field="apiGroups" header="apiGroups"></p-column>
-				<p-column field="resourceNames" header="resourceNames"></p-column>
-				<p-column field="resources" header="resources"></p-column>
-				<p-column field="verbs" header="verbs"></p-column>
+			<table class="table">
+				<thead>
+				<tr>
+					<th>ApiGroup</th>
+					<th>Kind</th>
+					<th>Name</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.roleRef.apiGroup}}</th>
+					<th>{{responseRole.roleRef.kind}}</th>
+					<th>{{responseRole.roleRef.name}}</th>
+
+				</tr>
+				</tbody>
+			</table>
+			<p-dataTable [value]="responseRole.subjects" >
+				<p-column field="apiGroup" header="ApiGroups"></p-column>
+				<p-column field="kind" header="ResourceNames"></p-column>
+				<p-column field="name" header="Resources"></p-column>
+				<p-column field="namespace" header="Namespace"></p-column>
 			</p-dataTable>
 		</div>
 		<div *ngIf="!responseValue">

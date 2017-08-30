@@ -27,7 +27,6 @@ func main() {
 	router.HandleFunc("/role/deleteCollection/{namespace}", role.DeleteCollection).Methods("POST")
 	router.HandleFunc("/role/get/{name}/{namespace}", role.Get).Methods("POST")
 	router.HandleFunc("/role/list/{namespace}", role.List).Methods("POST")
-	router.HandleFunc("/role/watch/{namespace}", role.Watch).Methods("POST")
 	router.HandleFunc("/role/patch/{name}/{namespace}", role.Patch).Methods("POST")
 
 	router.HandleFunc("/clusterrole/create",role.CreateCluster).Methods("POST")
@@ -36,7 +35,6 @@ func main() {
 	router.HandleFunc("/clusterrole/deleteCollection", role.DeleteCollectionCluster).Methods("POST")
 	router.HandleFunc("/clusterrole/get/{name}", role.GetCluster).Methods("POST")
 	router.HandleFunc("/clusterrole/list", role.ListCluster).Methods("POST")
-	router.HandleFunc("/clusterrole/watch", role.WatchCluster).Methods("POST")
 	router.HandleFunc("/clusterrole/patch/{name}", role.PatchCluster).Methods("POST")
 
 	router.HandleFunc("/clusterrolebinding/create",role.CreateClusterRoleBinding).Methods("POST")
@@ -45,7 +43,6 @@ func main() {
 	router.HandleFunc("/clusterrolebinding/deleteCollection", role.DeleteCollectionClusterRoleBinding).Methods("POST")
 	router.HandleFunc("/clusterrolebinding/get/{name}", role.GetClusterRoleBinding).Methods("POST")
 	router.HandleFunc("/clusterrolebinding/list", role.ListClusterRoleBinding).Methods("POST")
-	router.HandleFunc("/clusterrolebinding/watch", role.WatchClusterRoleBinding).Methods("POST")
 	router.HandleFunc("/clusterrolebinding/patch/{name}", role.PatchClusterRoleBinding).Methods("POST")
 
 	router.HandleFunc("/rolebinding/create",role.CreateRoleBinding).Methods("POST")
@@ -54,7 +51,6 @@ func main() {
 	router.HandleFunc("/rolebinding/deleteCollection/{namespace}", role.DeleteCollectionRoleBinding).Methods("POST")
 	router.HandleFunc("/rolebinding/get/{name}/{namespace}", role.GetRoleBinding).Methods("POST")
 	router.HandleFunc("/rolebinding/list/{namespace}", role.ListRoleBinding).Methods("POST")
-	router.HandleFunc("/rolebinding/watch/{namespace}", role.WatchRoleBinding).Methods("POST")
 	router.HandleFunc("/rolebinding/patch/{name}/{namespace}", role.PatchRoleBinding).Methods("POST")
 
 

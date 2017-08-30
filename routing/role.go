@@ -9,10 +9,9 @@ import (
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types2 "k8s.io/apimachinery/pkg/types"
 	"fmt"
-	v1beta12 "k8s.io/client-go/kubernetes/typed/rbac/v1beta1"
 )
 
-var inter = v1beta12.RbacV1beta1Client{}
+var inter =clientSet()
 
 func Create(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("afd")
@@ -85,32 +84,6 @@ func List(response http.ResponseWriter, request *http.Request) {
 			response.Write(jer)
 		}
 
-	} else {
-		jer, _ := json.Marshal(err.Error())
-		response.Write(jer)
-	}
-}
-
-func Watch(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
-	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := types.ListOptions{}
-
-	json.Unmarshal(data, &roleInterfaceParsing)
-
-	listOptions := roleInterfaceParsing
-	roleInterface := inter.Roles(namespace)
-	roles, err := roleInterface.Watch(listOptions)
-	if err == nil {
-		j, error := json.Marshal(roles)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			jer, _ := json.Marshal(error.Error())
-			response.Write(jer)
-		}
 	} else {
 		jer, _ := json.Marshal(err.Error())
 		response.Write(jer)

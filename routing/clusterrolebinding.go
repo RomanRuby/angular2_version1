@@ -83,30 +83,6 @@ func ListClusterRoleBinding(response http.ResponseWriter, request *http.Request)
 	}
 }
 
-func WatchClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
-	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := types.ListOptions{}
-
-	json.Unmarshal(data, &roleInterfaceParsing)
-
-	listOptions := roleInterfaceParsing
-	roleInterface := inter.ClusterRoleBindings()
-	roles, err := roleInterface.Watch(listOptions)
-	if err == nil {
-		j, error := json.Marshal(roles)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			jer, _ := json.Marshal(error.Error())
-			response.Write(jer)
-		}
-	} else {
-		jer, _ := json.Marshal(err.Error())
-		response.Write(jer)
-	}
-}
-
 func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	category := vars["name"]
@@ -118,7 +94,7 @@ func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 	role := roleInterfaceParsing
 	roleInterface := inter.ClusterRoleBindings()
 	error := roleInterface.Delete(category, &role)
-	j, err := json.Marshal(error)
+	fmt.Println(error)
 	if error != nil {
 		jer, _ := json.Marshal(error.Error())
 		response.Write(jer)

@@ -86,31 +86,6 @@ func ListCluster(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func WatchCluster(response http.ResponseWriter, request *http.Request) {
-	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := types.ListOptions{}
-
-	json.Unmarshal(data, &roleInterfaceParsing)
-
-	listOptions := roleInterfaceParsing
-	roleInterface := inter.ClusterRoles()
-	roles, err := roleInterface.Watch(listOptions)
-	fmt.Println(roles)
-	if err == nil {
-		j, error := json.Marshal(roles)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			jer, _ := json.Marshal(error.Error())
-			response.Write(jer)
-		}
-	} else {
-		jer, _ := json.Marshal(err.Error())
-		response.Write(jer)
-	}
-}
-
 func DeleteCluster(response http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	category := vars["name"]

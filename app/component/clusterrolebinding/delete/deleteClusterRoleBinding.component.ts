@@ -43,7 +43,7 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
         this.deleteOptions.preconditions = productForm.value.preconditions;
 
         let deleteOption = new DeleteOptions(
-            new TypeMeta("RoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
+            new TypeMeta("ClusterRoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions);
         this.service.deleteRole( this.deleteOptions.name,deleteOption)
             .subscribe(

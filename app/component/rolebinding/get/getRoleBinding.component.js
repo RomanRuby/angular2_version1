@@ -17,6 +17,8 @@ var GetRoleBindingComponent = (function () {
     function GetRoleBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
+        this.type = false;
+        this.responseValue = true;
     }
     GetRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -30,13 +32,16 @@ var GetRoleBindingComponent = (function () {
         var _this = this;
         this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         this.getOptions.name = productForm.value.name;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
         this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     GetRoleBindingComponent.prototype.reset = function () {
         this.productForm.reset();
@@ -49,7 +54,6 @@ var GetRoleBindingComponent = (function () {
         this.productForm = this.fb.group({
             nameUrl: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
             apiVersion: ["",],
             resourceVersion: ["",],
             includeUninitialized: ["",]

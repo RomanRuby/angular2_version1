@@ -19,14 +19,15 @@
     <h3 class="first">Information </h3>
     <div *ngIf="type">
         <div *ngFor="let responseRole of responseRole.items; let i=index">
-
+            <br>
+            <hr class="style18">
         <div *ngIf="responseValue">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>creationTimestamp</th>
-                    <th>name</th>
-                    <th>uid</th>
+                    <th>CreationTimestamp</th>
+                    <th>Name</th>
+                    <th>Uid</th>
                 </tr>
                 </thead>
 
@@ -39,10 +40,10 @@
                 </tbody>
             </table>
             <p-dataTable [value]="responseRole.rules" >
-                <p-column field="apiGroups" header="apiGroups"></p-column>
-                <p-column field="resourceNames" header="resourceNames"></p-column>
-                <p-column field="resources" header="resources"></p-column>
-                <p-column field="verbs" header="verbs"></p-column>
+                <p-column field="apiGroups" header="ApiGroups"></p-column>
+                <p-column field="resourceNames" header="ResourceNames"></p-column>
+                <p-column field="resources" header="Resources"></p-column>
+                <p-column field="verbs" header="Verbs"></p-column>
             </p-dataTable>
         </div>
         </div>

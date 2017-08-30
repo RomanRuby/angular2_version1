@@ -38,8 +38,7 @@ var ListRoleComponent = (function () {
         listOptions.setTypeMeta(new roles_1.TypeMeta("Role", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
-            if (data)
-                _this.responseRole = data;
+            _this.responseRole = data;
             _this.responseValue = true;
             console.log(_this.responseRole);
             if (typeof _this.responseRole == "string") {

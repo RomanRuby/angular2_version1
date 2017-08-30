@@ -3,7 +3,7 @@ import {Http, Response} from "@angular/http";
 
 import {Observable} from "rxjs/Observable";
 import {
-    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRoleBinding, RoleBinding,
+    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRoleBinding, ResponsesRoleBindingList, RoleBinding,
     RoleResponse,
 } from "./roles";
 import {AppService} from "./app.service";
@@ -27,12 +27,7 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    public watchRole(id: string, listOptions: ListOptions): Observable<string> {
-        return this.http.post(this.url + "/rolebinding/watch/" + id, listOptions)
-            .catch(RoleBindingService.handleError);
-    }
-
-    public listRole(id: string, listOptions: ListOptions): Observable<ResponseRoleBinding> {
+    public listRole(id: string, listOptions: ListOptions): Observable<ResponsesRoleBindingList> {
         return this.http.post(this.url + "/rolebinding/list/" + id, listOptions)
             .catch(RoleBindingService.handleError);
     }
@@ -45,13 +40,6 @@ export class RoleBindingService {
     public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions):
     Observable<string> {
         return this.http.post(this.url + "/rolebinding/deleteCollection/" + id, deleteOptions, listOptions)
-            .catch(RoleBindingService.handleError);
-    }
-
-    public patchRole(id: string, namespace: string, patchType: string, data: string, subresources: string):
-    Observable<RoleResponse> {
-        return this.http.post(this.url + "/rolebinding/patch/"  + id + "/" + namespace, new PatchType(patchType,
-            data, subresources))
             .catch(RoleBindingService.handleError);
     }
 

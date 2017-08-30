@@ -5,28 +5,28 @@
         </div>
 
         <div class="form-group">
-            <label for="name">Name Role</label>
+            <label for="name">Name</label>
             <input id="name" type="text" class="form-control" formControlName="name">
         </div>
 
         <input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField"/>
         <div *ngIf="viewAdditionalField" class="form-group">
             <div class="form-group">
-                <label for="apiVersion">Application version </label>
+                <label for="apiVersion">Apiversion </label>
                 <input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
             </div>
             <div class="form-group">
-                <label for="generateName">generateName</label>
+                <label for="generateName">GenerateName</label>
                 <input id="generateName" type="text" class="form-control" formControlName="generateName">
             </div>
 
             <div class="form-group">
-                <label for="selfLink">selfLink</label>
+                <label for="selfLink">SelfLink</label>
                 <input id="selfLink" type="text" class="form-control" formControlName="selfLink">
             </div>
 
             <div class="form-group">
-                <label for="uid">uid</label>
+                <label for="uid">Uid</label>
                 <input id="uid" type="text" class="form-control" formControlName="uid">
             </div>
         </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="panel-body" [formGroupName]="i">
                     <div class="form-group col-xs-6">
-                        <label>verbs</label>
+                        <label>Verbs</label>
                         <input type="text" class="form-control" formControlName="verbs">
                         <small [hidden]="productForm.controls.policyRules.controls[i].controls.verbs.valid"
                                class="text-danger">
@@ -50,16 +50,16 @@
                         </small>
                     </div>
                     <div class="form-group col-xs-6">
-                        <label>apiGroups</label>
+                        <label>ApiGroups</label>
                         <input type="text" class="form-control" formControlName="apiGroups">
                     </div>
                     <div class="form-group col-xs-6">
-                        <label>resources</label>
+                        <label>Resources</label>
                         <input type="text" class="form-control" formControlName="resources">
 
                     </div>
                     <div class="form-group col-xs-6">
-                        <label>resourceNames</label>
+                        <label>ResourceNames</label>
                         <input type="text" class="form-control" formControlName="resourceNames">
 
                     </div>
@@ -84,9 +84,9 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>creationTimestamp</th>
-                    <th>name</th>
-                    <th>uid</th>
+                    <th>CreationTimestamp</th>
+                    <th>Name</th>
+                    <th>Uid</th>
                 </tr>
                 </thead>
 
@@ -99,10 +99,10 @@
                 </tbody>
             </table>
             <p-dataTable [value]="responseRole.rules">
-                <p-column field="apiGroups" header="apiGroups"></p-column>
-                <p-column field="resourceNames" header="resourceNames"></p-column>
-                <p-column field="resources" header="resources"></p-column>
-                <p-column field="verbs" header="verbs"></p-column>
+                <p-column field="apiGroups" header="ApiGroups"></p-column>
+                <p-column field="resourceNames" header="ResourceNames"></p-column>
+                <p-column field="resources" header="Resources"></p-column>
+                <p-column field="verbs" header="Verbs"></p-column>
             </p-dataTable>
         </div>
         <div *ngIf="!responseValue">

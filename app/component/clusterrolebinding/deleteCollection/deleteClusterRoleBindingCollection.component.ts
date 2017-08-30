@@ -13,7 +13,7 @@ import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebindi
 
 @Component({
     moduleId: module.id,
-    selector: "deleteClusterRoleBindingCollection",
+    selector: "deleteRoleBindingCollection",
     templateUrl: "deleteClusterRoleBindingCollection.component.html",
 })
 
@@ -40,21 +40,19 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
-        this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
         let listOption = new ListOptions();
-        listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
+        listOption.setTypeMeta(new TypeMeta("ClusterRoleBinding", this.deleteCollection.apiVersionList));
 
-        let deleteOption = new DeleteOptions( new TypeMeta("RoleBinding", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds,
+        let deleteOption = new DeleteOptions( new TypeMeta("ClusterRoleBinding", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds,
             this.deleteCollection.orphanDependents,
             this.deleteCollection.preconditions);
 
@@ -80,13 +78,11 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
             apiVersion: ["", ],
             gracePeriodSeconds: ["",],
             preconditions: ["", ],
             orphanDependents: ["", ],
             propagationPolicy: ["", ],
-            kindList: ["", Validators.required],
             namespaceList: [""],
         });
     }

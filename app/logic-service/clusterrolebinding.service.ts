@@ -3,7 +3,8 @@ import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 import {
-    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, ResponseRoleBinding, Role,
+    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, ResponseRoleBinding, ResponsesRoleBindingList,
+    Role,
     RoleBinding, RoleResponse
 } from "./roles";
 import {AppService} from "./app.service";
@@ -26,11 +27,7 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public watchRole( listOptions: ListOptions) :Observable<string>{
-        return this.http.post(this.url +"/clusterrolebinding/watch", listOptions)
-            .catch(ClusterRoleBindingService.handleError);
-    }
-    public listRole(listOptions: ListOptions) :Observable<ResponseRoleBinding>{
+    public listRole(listOptions: ListOptions) :Observable<ResponsesRoleBindingList>{
         return this.http.post(this.url +"/clusterrolebinding/list", listOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
@@ -45,11 +42,6 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public patchRole(id: string, patchType: string,data :string,subresources:string) :Observable<RoleResponse> {
-        let  patchTypes = new PatchType(patchType,data,subresources);
-        return this.http.post(this.url +"/clusterrolebinding/patch/"+ id, patchTypes)
-            .catch(ClusterRoleBindingService.handleError);
-    }
     public getRole(namespace:string, getOptions: GetOptions) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/get/"+namespace, getOptions)
             .catch(ClusterRoleBindingService.handleError);

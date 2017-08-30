@@ -18,6 +18,7 @@ var ListBindingComponent = (function () {
         this.service = service;
         this.fb = fb;
         this.type = false;
+        this.responseValue = true;
     }
     ListBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -29,16 +30,18 @@ var ListBindingComponent = (function () {
     };
     ListBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.namespace = productForm.value.namespace;
         var listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new roles_1.TypeMeta("RoleBinding", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
-            console.log(data);
-            _this.responseRoleBinding = data;
-            console.log(_this.responseRoleBinding);
+            _this.responseRole = data;
+            _this.responseValue = true;
+            console.log(_this.responseRole);
+            if (typeof _this.responseRole == "string") {
+                _this.responseValue = false;
+            }
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
@@ -51,7 +54,6 @@ var ListBindingComponent = (function () {
     };
     ListBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            kind: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
             apiVersion: ["",]
         });

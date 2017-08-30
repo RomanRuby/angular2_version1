@@ -65,8 +65,8 @@ export class UpdateBindingComponent implements OnInit {
             this.roleBindingDto.kindRef,
             this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
-            this.roleBindingDto.name), subjectRules, roleRef);
+        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(
+            this.roleBindingDto.name ,this.roleBindingDto.namespace), subjectRules, roleRef);
 
 
         this.service.updateRole(rolebinding)
@@ -93,8 +93,8 @@ export class UpdateBindingComponent implements OnInit {
         this.productForm = this.fb.group({
             apiVersion: ["",],
             generateName: ["",],
-            name: ["",],
-            namespace: ["",],
+            name: ["", Validators.required],
+            namespace: ["", Validators.required],
             kindRef: ["", Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", Validators.required],

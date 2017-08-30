@@ -46,7 +46,7 @@ var UpdateBindingComponent = (function () {
             subjectRules.push(new roles_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
+        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
         this.service.updateRole(rolebinding)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -65,8 +65,8 @@ var UpdateBindingComponent = (function () {
         this.productForm = this.fb.group({
             apiVersion: ["",],
             generateName: ["",],
-            name: ["",],
-            namespace: ["",],
+            name: ["", forms_1.Validators.required],
+            namespace: ["", forms_1.Validators.required],
             kindRef: ["", forms_1.Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],

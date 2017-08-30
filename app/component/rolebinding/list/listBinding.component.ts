@@ -4,7 +4,10 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, ResponseRole, ResponseRoleBinding} from "../../../logic-service/roles";
+import {
+    ListOptions, ListDto, TypeMeta, ResponseRole, ResponseRoleBinding,
+    ResponsesRoleBindingList
+} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
@@ -18,10 +21,9 @@ export class ListBindingComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    responseRole: ResponseRole;
-    responseRoleBinding: ResponseRoleBinding;
+    responseRole: ResponsesRoleBindingList;
     type: boolean = false;
-
+    responseValue: boolean =true;
 
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
@@ -38,18 +40,21 @@ export class ListBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.namespace = productForm.value.namespace;
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("RoleBinding", this.roleDto.apiVersion));
 
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(
                 data => {
-                    console.log(data);
-                     this.responseRoleBinding = data;
-                    console.log(this.responseRoleBinding);
+                    this.responseRole = data;
+                    this.responseValue =true;
+                    console.log(this.responseRole);
+                    if (typeof this.responseRole =="string"){
+                        this.responseValue =false;
+                    }
+
                     this.type = true;
                 },
                 error => this.errorMessage = error
@@ -67,7 +72,6 @@ export class ListBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             namespace: ["", Validators.required],
             apiVersion: ["",]
         });

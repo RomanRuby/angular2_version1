@@ -54,16 +54,16 @@ export class RoleBindingDto {
 export class RoleBinding {
     typeMeta: TypeMeta;
 
-    objectMeta: ObjectMeta;
-    subjectRules: Array<Subject>;
+    metadata: ObjectMeta;
+    subjects: Array<Subject>;
     roleRef: RoleRef;
 
     constructor(typeMeta: TypeMeta,
-                objectMeta: ObjectMeta,
-                subjectRules: Array<Subject>, roleRef: RoleRef) {
+                metadata: ObjectMeta,
+                subjects: Array<Subject>, roleRef: RoleRef) {
         this.typeMeta = typeMeta;
-        this.objectMeta = objectMeta;
-        this.subjectRules = subjectRules;
+        this.metadata = metadata;
+        this.subjects = subjects;
         this.roleRef = roleRef;
     }
 }
@@ -71,20 +71,22 @@ export class RoleBinding {
 
 export class ResponseRole {
     metaData: MetaDataMeta;
-
     items: Array<ItemsResponse>;
-
     constructor() {
     }
 }
 
 export class ResponseRoleBinding {
-    typeMeta: MetaDataResponse;
-    ListData: MetaDataMeta;
-    items: Array<RoleBinding>;
+    metadate: MetaData;
+    subjects: Array<Subject>;
+    roleRef: RoleRef;
 
     constructor() {
     }
+}
+export class ResponsesRoleBindingList {
+   items:ResponseRoleBinding;
+   metadata:MetaDataMeta;
 }
 export class MetaDataResponse {
     Kind: string;
@@ -218,7 +220,6 @@ export class ObjectMeta {
         this.name = name;
     }
 }
-
 class UID {
     uid?: string;
 }

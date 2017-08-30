@@ -1,8 +1,9 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<a href="#" onClick="history.go(-1)"><b>Cluster  Role Binding</b> </a>
+			<a href="#" onClick="history.go(-1)"><b> Cluster Role Binding</b> </a>
 		</div>
+
 		<div class="form-group">
 			<label for="nameRef">name Authorizer</label>
 			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
@@ -11,18 +12,17 @@
 			<label for="kindRef">kind Authorizer</label>
 			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
 		</div>
-		<div class="form-group">
-			<label for="apiGroupRef">apiGroup Authorizer</label>
-			<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
-		</div>
 
+		<div class="form-group">
+			<label for="name">name Meta</label>
+			<input id="name" type="text" class="form-control" formControlName="name">
+		</div>
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="name">name Meta</label>
-				<input id="name" type="text" class="form-control" formControlName="name">
+				<label for="apiGroupRef">apiGroup Authorizer</label>
+				<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
 			</div>
-
 			<div class="form-group">
 				<label for="generateName">generateName</label>
 				<input id="generateName" type="text" class="form-control" formControlName="generateName">
@@ -31,10 +31,7 @@
 				<label for="apiVersion">apiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
-			<div class="form-group">
-				<label for="namespace">kind namespace</label>
-				<input id="namespace" type="text" class="form-control" formControlName="namespace">
-			</div>
+
 		</div>
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
@@ -76,4 +73,54 @@
 		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
+	<div *ngIf="type">
+		<h3 class="first">Information </h3>
+		<div *ngIf="responseValue">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>creationTimestamp</th>
+					<th>name</th>
+					<th>namespace</th>
+					<th>uid</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.metadata.creationTimestamp}}</th>
+					<th>{{responseRole.metadata.name}}</th>
+					<th>{{responseRole.metadata.namespace}}</th>
+					<th>{{responseRole.metadata.uid}}</th>
+				</tr>
+				</tbody>
+			</table>
+			<table class="table">
+				<thead>
+				<tr>
+					<th>apiGroup</th>
+					<th>kind</th>
+					<th>name</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.roleRef.apiGroup}}</th>
+					<th>{{responseRole.roleRef.kind}}</th>
+					<th>{{responseRole.roleRef.name}}</th>
+
+				</tr>
+				</tbody>
+			</table>
+			<p-dataTable [value]="responseRole.subjects" >
+				<p-column field="apiGroup" header="apiGroups"></p-column>
+				<p-column field="kind" header="resourceNames"></p-column>
+				<p-column field="name" header="resources"></p-column>
+				<p-column field="namespace" header="namespace"></p-column>
+			</p-dataTable>
+		</div>
+		<div *ngIf="!responseValue">
+			<p>{{responseRole}}</p></div>
+	</div>
 </div>

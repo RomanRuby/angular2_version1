@@ -1,19 +1,17 @@
 <component name="libraryTable">
   <library name="GOPATH &lt;rbac project&gt;">
     <CLASSES>
-      <root url="file://C:/gopath/src/golang.org" />
-      <root url="file://C:/gopath/src/k8s.io" />
-      <root url="file://C:/gopath/src/google.golang.org" />
-      <root url="file://C:/gopath/src/gopkg.in" />
-      <root url="file://C:/gopath/src/github.com" />
+      <root url="file://$USER_HOME$/gocode/src/golang.org" />
+      <root url="file://$USER_HOME$/gocode/src/gopkg.in" />
+      <root url="file://$USER_HOME$/gocode/src/k8s.io" />
+      <root url="file://$USER_HOME$/gocode/src/github.com" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://C:/gopath/src/golang.org" />
-      <root url="file://C:/gopath/src/k8s.io" />
-      <root url="file://C:/gopath/src/google.golang.org" />
-      <root url="file://C:/gopath/src/gopkg.in" />
-      <root url="file://C:/gopath/src/github.com" />
+      <root url="file://$USER_HOME$/gocode/src/golang.org" />
+      <root url="file://$USER_HOME$/gocode/src/gopkg.in" />
+      <root url="file://$USER_HOME$/gocode/src/k8s.io" />
+      <root url="file://$USER_HOME$/gocode/src/github.com" />
     </SOURCES>
     <excluded>
       <root url="file://$PROJECT_DIR$" />

@@ -12,11 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
-var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var GetClusterRoleBindingComponent = (function () {
     function GetClusterRoleBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
+        this.type = false;
+        this.responseValue = true;
     }
     GetClusterRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -29,13 +31,16 @@ var GetClusterRoleBindingComponent = (function () {
     GetClusterRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.getOptions.apiVersion = productForm.value.apiVersion;
-        this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         this.getOptions.name = productForm.value.name;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta(this.getOptions.kind, this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.name, getOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     GetClusterRoleBindingComponent.prototype.reset = function () {
         this.productForm.reset();
@@ -47,7 +52,6 @@ var GetClusterRoleBindingComponent = (function () {
     GetClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             name: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
             apiVersion: ["",],
             resourceVersion: ["",],
             includeUninitialized: ["",]
@@ -61,7 +65,7 @@ GetClusterRoleBindingComponent = __decorate([
         selector: "get",
         templateUrl: "getClusterRoleBinding.component.html",
     }),
-    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
+    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
         forms_1.FormBuilder])
 ], GetClusterRoleBindingComponent);
 exports.GetClusterRoleBindingComponent = GetClusterRoleBindingComponent;

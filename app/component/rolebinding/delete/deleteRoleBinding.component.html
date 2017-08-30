@@ -5,36 +5,36 @@
 		</div>
 
 		<div class="form-group">
-			<label for="namespace">namespace</label>
+			<label for="namespace">Namespace</label>
 			<input id="namespace" type="text" class="form-control" formControlName="namespace">
 		</div>
 		<div class="form-group">
-			<label for="name">name</label>
+			<label for="name">Name</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
 
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="saveUsername = viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
 
 			<div class="form-group">
-				<label for="gracePeriodSeconds">gracePeriodSeconds</label>
+				<label for="gracePeriodSeconds">GracePeriodSeconds</label>
 				<input id="gracePeriodSeconds" type="text" class="form-control" formControlName="gracePeriodSeconds">
 			</div>
 			<div class="form-group">
-				<label for="orphanDependents">orphanDependents</label>
+				<label for="orphanDependents">OrphanDependents</label>
 				<input id="orphanDependents" type="text" class="form-control" formControlName="orphanDependents">
 			</div>
 			<div class="form-group">
-				<label for="preconditions">preconditions</label>
+				<label for="preconditions">Preconditions</label>
 				<input id="preconditions" type="text" class="form-control" formControlName="preconditions">
 			</div>
 
 			<div class="form-group">
-				<label for="deletionPropagation">deletionPropagation</label>
+				<label for="deletionPropagation">DeletionPropagation</label>
 				<input id="deletionPropagation" type="text" class="form-control" formControlName="deletionPropagation">
 			</div>
 		</div>

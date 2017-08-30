@@ -30,17 +30,15 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
     };
     DeleteCollectionClusterRoleBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
-        this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
         var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("RoleBinding", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
+        listOption.setTypeMeta(new roles_1.TypeMeta("ClusterRoleBinding", this.deleteCollection.apiVersionList));
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("ClusterRoleBinding", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
         this.service.deleteCollectionRole(deleteOption, listOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -57,13 +55,11 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
     };
     DeleteCollectionClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
             apiVersion: ["",],
             gracePeriodSeconds: ["",],
             preconditions: ["",],
             orphanDependents: ["",],
             propagationPolicy: ["",],
-            kindList: ["", forms_1.Validators.required],
             namespaceList: [""],
         });
     };
@@ -72,7 +68,7 @@ var DeleteCollectionClusterRoleBindingComponent = (function () {
 DeleteCollectionClusterRoleBindingComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: "deleteClusterRoleBindingCollection",
+        selector: "deleteRoleBindingCollection",
         templateUrl: "deleteClusterRoleBindingCollection.component.html",
     }),
     __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,

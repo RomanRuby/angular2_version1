@@ -27,10 +27,6 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
         return this.http.post(this.url + "/clusterrole/update", role)
             .catch(ClusterRoleService_1.handleError);
     };
-    ClusterRoleService.prototype.watchRole = function (listOptions) {
-        return this.http.post(this.url + "/clusterrole/watch", listOptions)
-            .catch(ClusterRoleService_1.handleError);
-    };
     ClusterRoleService.prototype.listRole = function (listOptions) {
         return this.http.post(this.url + "/clusterrole/list", listOptions)
             .catch(ClusterRoleService_1.handleError);
@@ -41,10 +37,6 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
     };
     ClusterRoleService.prototype.deleteCollectionRole = function (deleteOptions, listOptions) {
         return this.http.post(this.url + "/clusterrole/deleteCollection", new roles_1.DeleteCol(deleteOptions, listOptions))
-            .catch(ClusterRoleService_1.handleError);
-    };
-    ClusterRoleService.prototype.patchRole = function (id, patchType, data, subresources) {
-        return this.http.post(this.url + "/clusterrole/patch/" + id, new roles_1.PatchType(patchType, data, subresources))
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {

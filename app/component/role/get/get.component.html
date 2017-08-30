@@ -4,26 +4,26 @@
 			<a href="#" onClick="history.go(-1)"><b>Role</b> </a>
 		</div>
 		<div class="form-group">
-			<label for="name">name</label>
+			<label for="name">Name</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 
 		</div>
 		<div class="form-group">
-			<label for="nameUrl">namespace</label>
+			<label for="nameUrl">Namespace</label>
 			<input id="nameUrl" type="text" class="form-control" formControlName="nameUrl">
 		</div>
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
 			<div class="form-group">
-				<label for="resourceVersion">resourceVersion</label>
+				<label for="resourceVersion">ResourceVersion</label>
 				<input id="resourceVersion" type="text" class="form-control" formControlName="resourceVersion">
 			</div>
 			<div class="form-group">
-				<label for="includeUninitialized">includeUninitialized</label>
+				<label for="includeUninitialized">IncludeUninitialized</label>
 				<input id="includeUninitialized" type="text" class="form-control" formControlName="includeUninitialized">
 			</div>
 		</div>
@@ -37,9 +37,9 @@
 			<table class="table">
 				<thead>
 				<tr>
-					<th>creationTimestamp</th>
-					<th>name</th>
-					<th>uid</th>
+					<th>CreationTimestamp</th>
+					<th>Name</th>
+					<th>Uid</th>
 				</tr>
 				</thead>
 
@@ -52,10 +52,10 @@
 				</tbody>
 			</table>
 			<p-dataTable [value]="responseRole.rules" >
-				<p-column field="apiGroups" header="apiGroups"></p-column>
-				<p-column field="resourceNames" header="resourceNames"></p-column>
-				<p-column field="resources" header="resources"></p-column>
-				<p-column field="verbs" header="verbs"></p-column>
+				<p-column field="apiGroups" header="ApiGroups"></p-column>
+				<p-column field="resourceNames" header="ResourceNames"></p-column>
+				<p-column field="resources" header="Resources"></p-column>
+				<p-column field="verbs" header="Verbs"></p-column>
 			</p-dataTable>
 		</div>
 		<div *ngIf="!responseValue">

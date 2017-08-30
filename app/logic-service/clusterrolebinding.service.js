@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
-var roles_1 = require("./roles");
 var app_service_1 = require("./app.service");
 var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
     function ClusterRoleBindingService(http) {
@@ -27,10 +26,6 @@ var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
         return this.http.post(this.url + "/clusterrolebinding/update", role)
             .catch(ClusterRoleBindingService_1.handleError);
     };
-    ClusterRoleBindingService.prototype.watchRole = function (listOptions) {
-        return this.http.post(this.url + "/clusterrolebinding/watch", listOptions)
-            .catch(ClusterRoleBindingService_1.handleError);
-    };
     ClusterRoleBindingService.prototype.listRole = function (listOptions) {
         return this.http.post(this.url + "/clusterrolebinding/list", listOptions)
             .catch(ClusterRoleBindingService_1.handleError);
@@ -41,11 +36,6 @@ var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
     };
     ClusterRoleBindingService.prototype.deleteCollectionRole = function (deleteOptions, listOptions) {
         return this.http.post(this.url + "/clusterrolebinding/deleteCollection", deleteOptions, listOptions)
-            .catch(ClusterRoleBindingService_1.handleError);
-    };
-    ClusterRoleBindingService.prototype.patchRole = function (id, patchType, data, subresources) {
-        var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/clusterrolebinding/patch/" + id, patchTypes)
             .catch(ClusterRoleBindingService_1.handleError);
     };
     ClusterRoleBindingService.prototype.getRole = function (namespace, getOptions) {

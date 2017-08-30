@@ -47,12 +47,11 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
-        this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
         let listOption = new ListOptions();
-        listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
+        listOption.setTypeMeta(new TypeMeta("RoleBinding", this.deleteCollection.apiVersionList));
 
         let deleteOption = new DeleteOptions( new TypeMeta("RoleBinding", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds,
             this.deleteCollection.orphanDependents,
@@ -86,7 +85,6 @@ export class DeleteCollectionRoleBindingComponent implements OnInit {
             preconditions: ["", ],
             orphanDependents: ["", ],
             propagationPolicy: ["", ],
-            kindList: ["", Validators.required],
             namespaceList: [""],
         });
     }

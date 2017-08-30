@@ -3,31 +3,28 @@
 		<div class="form-group">
 			<a href="#" onClick="history.go(-1)"><b>Cluster Role Binding</b> </a>
 		</div>
-		<div class="form-group">
-			<label for="kindList">kindList</label>
-			<input id="kindList" type="text" class="form-control" formControlName="kindList">
-		</div>
+
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
 			<div class="form-group">
-				<label for="gracePeriodSeconds">gracePeriodSeconds</label>
+				<label for="gracePeriodSeconds">GracePeriodSeconds</label>
 				<input id="gracePeriodSeconds" type="text" class="form-control" formControlName="gracePeriodSeconds">
 			</div>
 			<div class="form-group">
-				<label for="orphanDependents">orphanDependents</label>
+				<label for="orphanDependents">OrphanDependents</label>
 				<input id="orphanDependents" type="text" class="form-control" formControlName="orphanDependents">
 			</div>
 			<div class="form-group">
-				<label for="preconditions">preconditions</label>
+				<label for="preconditions">Preconditions</label>
 				<input id="preconditions" type="text" class="form-control" formControlName="preconditions">
 			</div>
 
 			<div class="form-group">
-				<label for="propagationPolicy">propagationPolicy</label>
+				<label for="propagationPolicy">PropagationPolicy</label>
 				<input id="propagationPolicy" type="text" class="form-control" formControlName="propagationPolicy">
 			</div>
 

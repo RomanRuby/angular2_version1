@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
@@ -45,13 +44,11 @@ export class DeleteCollectionRoleComponent implements OnInit {
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
-
-        this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
 
 
       let listOption = new ListOptions();
-      listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
+      listOption.setTypeMeta(new TypeMeta("Role", this.deleteCollection.apiVersionList));
 
       let deleteOption = new DeleteOptions( new TypeMeta("Role", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds,
        this.deleteCollection.orphanDependents,
@@ -84,7 +81,6 @@ export class DeleteCollectionRoleComponent implements OnInit {
             preconditions: ["", ],
             orphanDependents: ["", ],
             propagationPolicy: ["", ],
-            kindList: ["", Validators.required],
             namespaceList: [""],
         });
     }

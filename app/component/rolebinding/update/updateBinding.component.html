@@ -3,38 +3,39 @@
 		<div class="form-group">
 			<a href="#" onClick="history.go(-1)"><b> Role Binding</b> </a>
 		</div>
+
 		<div class="form-group">
-			<label for="nameRef">name Authorizer</label>
+			<label for="nameRef">Name Authorizer</label>
 			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
 		</div>
 		<div class="form-group">
-			<label for="kindRef">kind Authorizer</label>
+			<label for="kindRef">Kind Authorizer</label>
 			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
 		</div>
-		<div class="form-group">
-			<label for="apiGroupRef">apiGroup Authorizer</label>
-			<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
-		</div>
 
+		<div class="form-group">
+			<label for="name">Name Meta</label>
+			<input id="name" type="text" class="form-control" formControlName="name">
+		</div>
+		<div class="form-group">
+			<label for="namespace"> Namespace Meta</label>
+			<input id="namespace" type="text" class="form-control" formControlName="namespace">
+		</div>
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="name">name Meta</label>
-				<input id="name" type="text" class="form-control" formControlName="name">
+				<label for="apiGroupRef">ApiGroup Authorizer</label>
+				<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
 			</div>
-
 			<div class="form-group">
-				<label for="generateName">generateName</label>
+				<label for="generateName">GenerateName</label>
 				<input id="generateName" type="text" class="form-control" formControlName="generateName">
 			</div>
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
-			<div class="form-group">
-				<label for="namespace">kind namespace</label>
-				<input id="namespace" type="text" class="form-control" formControlName="namespace">
-			</div>
+
 		</div>
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
@@ -44,25 +45,25 @@
 				</div>
 				<div class="panel-body" [formGroupName]="i">
 					<div class="form-group col-xs-6">
-						<label>apiGroup</label>
+						<label>ApiGroup</label>
 						<input type="text" class="form-control" formControlName="apiGroup">
 					</div>
 					<div class="form-group col-xs-6">
-						<label>kind</label>
+						<label>Kind</label>
 						<input type="text" class="form-control" formControlName="kind">
 						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid" class="text-danger">
 							kind is required
 						</small>
 					</div>
 					<div class="form-group col-xs-6">
-						<label>name</label>
+						<label>Name</label>
 						<input type="text" class="form-control" formControlName="name">
 						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.name.valid" class="text-danger">
 							name is required
 						</small>
 					</div>
 					<div class="form-group col-xs-6">
-						<label>namespace</label>
+						<label>Namespace</label>
 						<input type="text" class="form-control" formControlName="namespace">
 					</div>
 				</div>
@@ -76,4 +77,54 @@
 		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
+	<div *ngIf="type">
+		<h3 class="first">Information </h3>
+		<div *ngIf="responseValue">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>CreationTimestamp</th>
+					<th>Name</th>
+					<th>Namespace</th>
+					<th>Uid</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.metadata.creationTimestamp}}</th>
+					<th>{{responseRole.metadata.name}}</th>
+					<th>{{responseRole.metadata.namespace}}</th>
+					<th>{{responseRole.metadata.uid}}</th>
+				</tr>
+				</tbody>
+			</table>
+			<table class="table">
+				<thead>
+				<tr>
+					<th>ApiGroup</th>
+					<th>Kind</th>
+					<th>Name</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+					<th> {{responseRole.roleRef.apiGroup}}</th>
+					<th>{{responseRole.roleRef.kind}}</th>
+					<th>{{responseRole.roleRef.name}}</th>
+
+				</tr>
+				</tbody>
+			</table>
+			<p-dataTable [value]="responseRole.subjects" >
+				<p-column field="apiGroup" header="ApiGroups"></p-column>
+				<p-column field="kind" header="ResourceNames"></p-column>
+				<p-column field="name" header="Resources"></p-column>
+				<p-column field="namespace" header="Namespace"></p-column>
+			</p-dataTable>
+		</div>
+		<div *ngIf="!responseValue">
+			<p>{{responseRole}}</p></div>
+	</div>
 </div>

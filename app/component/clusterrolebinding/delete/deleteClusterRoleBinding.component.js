@@ -36,7 +36,7 @@ var DeleteClusterRoleBindingComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("RoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("ClusterRoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(function (data) {
             _this.response = data;

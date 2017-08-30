@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import {Routes} from "@angular/router";
 import {ListRoleComponent} from "./component/role/list/list.component";
 import {CreateRoleComponent} from "./component/role/create/create.component";
 import {UpdateRoleComponent} from "./component/role/update/update.component";
@@ -37,37 +37,48 @@ export const routes: Routes = [
         pathMatch: "full"
     },
 
-    { path: "dashboard", component: HomeComponent },
-    { path: "role/list", component: ListRoleComponent},
-    { path: "role/create", component: CreateRoleComponent},
-    { path: "role/update", component: UpdateRoleComponent},
-    { path: "role/get", component: GetRoleComponent},
-    { path: "role/delete", component: DeleteRoleComponent},
-    { path: "role/deleteCollection", component: DeleteCollectionRoleComponent},
+    {path: "dashboard", component: HomeComponent},
+    {path: "role/list", component: ListRoleComponent},
+    {path: "role/create", component: CreateRoleComponent},
+    {path: "role/update", component: UpdateRoleComponent},
+    {path: "role/get", component: GetRoleComponent},
+    {path: "role/delete", component: DeleteRoleComponent},
+    {path: "role/deleteCollection", component: DeleteCollectionRoleComponent},
 
-    { path: "clusterrole/list", component: ListClusterRoleComponent},
-    { path: "clusterrole/create", component: CreateClusterRoleComponent},
-    { path: "clusterrole/update", component: UpdateClusterRoleComponent},
-    { path: "clusterrole/get", component: GetClusterRoleComponent},
-    { path: "clusterrole/delete", component: DeleteClusterRoleComponent},
-    { path: "clusterrole/deleteCollection", component: DeleteCollectionClusterRoleComponent},
+    {path: "clusterrole/list", component: ListClusterRoleComponent},
+    {path: "clusterrole/create", component: CreateClusterRoleComponent},
+    {path: "clusterrole/update", component: UpdateClusterRoleComponent},
+    {path: "clusterrole/get", component: GetClusterRoleComponent},
+    {path: "clusterrole/delete", component: DeleteClusterRoleComponent},
+    {path: "clusterrole/deleteCollection", component: DeleteCollectionClusterRoleComponent},
 
-    { path: "role", component: MainRoleComponent },
-    { path: "clusterrolebinding", component: MainClusterRoleBindingComponent },
-    { path: "clusterrole", component: MainClusterRoleComponent },
-    { path: "rolebinding", component: MainClusterRoleBindingComponent },
+    {path: "role", component: MainRoleComponent},
+    {path: "clusterrolebinding", component: MainClusterRoleBindingComponent},
+    {path: "clusterrole", component: MainClusterRoleComponent},
+    {path: "rolebinding", component: MainClusterRoleBindingComponent},
 
-    { path: "clusterrolebinding/create", component: CreateClusterBindingComponent},
-    { path: "clusterrolebinding/list", component: ListClusterBindingComponent},
-    { path: "clusterrolebinding/delete", component: DeleteClusterRoleBindingComponent},
-    { path: "clusterrolebinding/deleteCollection", component: DeleteCollectionClusterRoleBindingComponent},
-    { path: "clusterrolebinding/get", component: GetClusterRoleBindingComponent},
-    { path: "clusterrolebinding/update", component: UpdateClusterBindingComponent},
+    {path: "clusterrolebinding/create", component: CreateClusterBindingComponent},
+    {path: "clusterrolebinding/list", component: ListClusterBindingComponent},
+    {path: "clusterrolebinding/delete", component: DeleteClusterRoleBindingComponent},
+    {path: "clusterrolebinding/deleteCollection", component: DeleteCollectionClusterRoleBindingComponent},
+    {path: "clusterrolebinding/get", component: GetClusterRoleBindingComponent},
+    {path: "clusterrolebinding/update", component: UpdateClusterBindingComponent},
 
-    { path: "rolebinding/create", component: CreateBindingComponent},
-    { path: "rolebinding/list", component: ListBindingComponent},
-    { path: "rolebinding/delete", component: DeleteRoleBindingComponent},
-    { path: "rolebinding/deleteCollection", component: DeleteCollectionRoleBindingComponent},
-    { path: "rolebinding/get", component: GetRoleBindingComponent},
-    { path: "rolebinding/update", component: UpdateBindingComponent}
+    {path: "rolebinding/create", component: CreateBindingComponent},
+    {path: "rolebinding/list", component: ListBindingComponent},
+    {path: "rolebinding/delete", component: DeleteRoleBindingComponent},
+    {path: "rolebinding/deleteCollection", component: DeleteCollectionRoleBindingComponent},
+    {path: "rolebinding/get", component: GetRoleBindingComponent},
+    {path: "rolebinding/update", component: UpdateBindingComponent}
 ];
+
+export const routeRoleComponent = [ListRoleComponent, DeleteRoleComponent, DeleteCollectionRoleComponent,
+    GetRoleComponent, CreateRoleComponent, UpdateRoleComponent, HomeComponent,
+    ListClusterRoleComponent, DeleteClusterRoleComponent, DeleteCollectionClusterRoleComponent,
+    GetClusterRoleComponent, CreateClusterRoleComponent, UpdateClusterRoleComponent,
+    CreateClusterBindingComponent, ListClusterBindingComponent, DeleteClusterRoleBindingComponent,
+    DeleteCollectionClusterRoleBindingComponent, UpdateClusterBindingComponent,
+    GetClusterRoleBindingComponent,
+    CreateBindingComponent, ListBindingComponent, DeleteRoleBindingComponent, DeleteCollectionRoleBindingComponent,
+    UpdateBindingComponent, GetRoleBindingComponent];
+

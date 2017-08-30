@@ -3,7 +3,6 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta,ResponseRoleBinding} from "../../../logic-service/roles";
-import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({

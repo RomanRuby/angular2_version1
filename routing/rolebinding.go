@@ -121,7 +121,6 @@ func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Req
 
 	roleInterface := inter.RoleBindings(namespace)
 	error := roleInterface.DeleteCollection(&role, listOptions)
-	fmt.Println(error)
 	if error != nil {
 		jer, _ := json.Marshal(error.Error())
 		response.Write(jer)
@@ -145,41 +144,6 @@ func GetRoleBinding(response http.ResponseWriter, request *http.Request) {
 	role := roleInterfaceParsing
 	roleInterface := inter.RoleBindings(namespace)
 	roles, err := roleInterface.Get(category, role)
-	if err == nil {
-		j, error := json.Marshal(roles)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			jer, _ := json.Marshal(error.Error())
-			response.Write(jer)
-		}
-
-	} else {
-		jer, _ := json.Marshal(err.Error())
-		response.Write(jer)
-	}
-}
-
-func PatchRoleBinding(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
-	category := vars["name"]
-	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := patchInt{}
-
-	json.Unmarshal(data, &roleInterfaceParsing)
-	role := roleInterfaceParsing.pt
-	typesRole :=typesConst(role)
-
-
-	role1 := roleInterfaceParsing.data
-	role2 := roleInterfaceParsing.subresources
-	roleInterface := inter.RoleBindings(namespace)
-	byt := []byte(role1)
-	fmt.Println(byt)
-	roles, err := roleInterface.Patch(category, typesRole, byt, role2)
-	fmt.Println(err)
 	if err == nil {
 		j, error := json.Marshal(roles)
 		if error == nil {

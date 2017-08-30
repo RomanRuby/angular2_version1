@@ -21,31 +21,6 @@ var clusterrolebinding_service_1 = require("./logic-service/clusterrolebinding.s
 var clusterrole_service_1 = require("./logic-service/clusterrole.service");
 var rolebinding_service_1 = require("./logic-service/rolebinding.service");
 var app_service_1 = require("./logic-service/app.service");
-var list_component_1 = require("./component/role/list/list.component");
-var delete_component_1 = require("./component/role/delete/delete.component");
-var get_component_1 = require("./component/role/get/get.component");
-var create_component_1 = require("./component/role/create/create.component");
-var update_component_1 = require("./component/role/update/update.component");
-var home_component_1 = require("./component/home/home.component");
-var listCluster_component_1 = require("./component/clusterrole/list/listCluster.component");
-var deleteCluster_component_1 = require("./component/clusterrole/delete/deleteCluster.component");
-var getCluster_component_1 = require("./component/clusterrole/get/getCluster.component");
-var createCluster_component_1 = require("./component/clusterrole/create/createCluster.component");
-var updateCluster_component_1 = require("./component/clusterrole/update/updateCluster.component");
-var deleteCollectionCluster_component_1 = require("./component/clusterrole/deleteCollection/deleteCollectionCluster.component");
-var deleteCollection_component_1 = require("./component/role/deleteCollection/deleteCollection.component");
-var createClusterBinding_component_1 = require("./component/clusterrolebinding/create/createClusterBinding.component");
-var listClusterBinding_component_1 = require("./component/clusterrolebinding/list/listClusterBinding.component");
-var deleteClusterRoleBinding_component_1 = require("./component/clusterrolebinding/delete/deleteClusterRoleBinding.component");
-var updateClusterBinding_component_1 = require("./component/clusterrolebinding/update/updateClusterBinding.component");
-var getClusterRoleBinding_component_1 = require("./component/clusterrolebinding/get/getClusterRoleBinding.component");
-var createBinding_component_1 = require("./component/rolebinding/create/createBinding.component");
-var listBinding_component_1 = require("./component/rolebinding/list/listBinding.component");
-var deleteRoleBinding_component_1 = require("./component/rolebinding/delete/deleteRoleBinding.component");
-var deleteRoleBindingCollection_component_1 = require("./component/rolebinding/deleteCollection/deleteRoleBindingCollection.component");
-var updateBinding_component_1 = require("./component/rolebinding/update/updateBinding.component");
-var getRoleBinding_component_1 = require("./component/rolebinding/get/getRoleBinding.component");
-var deleteClusterRoleBindingCollection_component_1 = require("./component/clusterrolebinding/deleteCollection/deleteClusterRoleBindingCollection.component");
 var primeng_1 = require("primeng/primeng");
 var AppModule = (function () {
     function AppModule() {
@@ -66,15 +41,7 @@ AppModule = __decorate([
         ],
         declarations: [
             app_component_1.AppComponent,
-            list_component_1.ListRoleComponent, delete_component_1.DeleteRoleComponent, deleteCollection_component_1.DeleteCollectionRoleComponent, get_component_1.GetRoleComponent,
-            create_component_1.CreateRoleComponent, update_component_1.UpdateRoleComponent,
-            home_component_1.HomeComponent,
-            listCluster_component_1.ListClusterRoleComponent, deleteCluster_component_1.DeleteClusterRoleComponent, deleteCollectionCluster_component_1.DeleteCollectionClusterRoleComponent,
-            getCluster_component_1.GetClusterRoleComponent, createCluster_component_1.CreateClusterRoleComponent, updateCluster_component_1.UpdateClusterRoleComponent,
-            createClusterBinding_component_1.CreateClusterBindingComponent, listClusterBinding_component_1.ListClusterBindingComponent, deleteClusterRoleBinding_component_1.DeleteClusterRoleBindingComponent, deleteClusterRoleBindingCollection_component_1.DeleteCollectionClusterRoleBindingComponent, updateClusterBinding_component_1.UpdateClusterBindingComponent,
-            getClusterRoleBinding_component_1.GetClusterRoleBindingComponent,
-            createBinding_component_1.CreateBindingComponent, listBinding_component_1.ListBindingComponent, deleteRoleBinding_component_1.DeleteRoleBindingComponent, deleteRoleBindingCollection_component_1.DeleteCollectionRoleBindingComponent, updateBinding_component_1.UpdateBindingComponent,
-            getRoleBinding_component_1.GetRoleBindingComponent
+            app_routes_1.routeRoleComponent
         ],
         bootstrap: [app_component_1.AppComponent],
         providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService, app_service_1.AppService]

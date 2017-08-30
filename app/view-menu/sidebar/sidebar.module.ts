@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar.component';
 import {MainRoleComponent} from "../../component/role/main/mainRole.component";
-import {ClusterRoleService} from "../../logic-service/clusterrole.service";
 import {MainClusterRoleComponent} from "../../component/clusterrole/main/mainClusterRole.component";
 import {MainClusterRoleBindingComponent} from "../../component/clusterrolebinding/main/mainClusterRoleBinding.component";
 import {MainRoleBindingComponent} from "../../component/rolebinding/main/mainRoleBinding.component";

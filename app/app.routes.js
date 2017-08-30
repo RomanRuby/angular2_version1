@@ -64,4 +64,13 @@ exports.routes = [
     { path: "rolebinding/get", component: getRoleBinding_component_1.GetRoleBindingComponent },
     { path: "rolebinding/update", component: updateBinding_component_1.UpdateBindingComponent }
 ];
+exports.routeRoleComponent = [list_component_1.ListRoleComponent, delete_component_1.DeleteRoleComponent, deleteCollection_component_1.DeleteCollectionRoleComponent,
+    get_component_1.GetRoleComponent, create_component_1.CreateRoleComponent, update_component_1.UpdateRoleComponent, home_component_1.HomeComponent,
+    listCluster_component_1.ListClusterRoleComponent, deleteCluster_component_1.DeleteClusterRoleComponent, deleteCollectionCluster_component_1.DeleteCollectionClusterRoleComponent,
+    getCluster_component_1.GetClusterRoleComponent, createCluster_component_1.CreateClusterRoleComponent, updateCluster_component_1.UpdateClusterRoleComponent,
+    createClusterBinding_component_1.CreateClusterBindingComponent, listClusterBinding_component_1.ListClusterBindingComponent, deleteClusterRoleBinding_component_1.DeleteClusterRoleBindingComponent,
+    deleteClusterRoleBindingCollection_component_1.DeleteCollectionClusterRoleBindingComponent, updateClusterBinding_component_1.UpdateClusterBindingComponent,
+    getClusterRoleBinding_component_1.GetClusterRoleBindingComponent,
+    createBinding_component_1.CreateBindingComponent, listBinding_component_1.ListBindingComponent, deleteRoleBinding_component_1.DeleteRoleBindingComponent, deleteRoleBindingCollection_component_1.DeleteCollectionRoleBindingComponent,
+    updateBinding_component_1.UpdateBindingComponent, getRoleBinding_component_1.GetRoleBindingComponent];
 //# sourceMappingURL=app.routes.js.map

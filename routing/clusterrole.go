@@ -11,9 +11,7 @@ import (
 	"fmt"
 )
 
-type Error struct {
-	error string
-}
+
 
 func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
@@ -21,7 +19,6 @@ func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 	roleInterface := inter.ClusterRoles()
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	fmt.Println(err)
 	if err == nil {
 		j, error := json.Marshal(roles)
 		if error == nil {
@@ -134,7 +131,6 @@ func GetCluster(response http.ResponseWriter, request *http.Request) {
 	category := vars["name"]
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.GetOptions{}
-
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	role := roleInterfaceParsing
@@ -142,39 +138,7 @@ func GetCluster(response http.ResponseWriter, request *http.Request) {
 	roles, err := roleInterface.Get(category, role)
 	fmt.Println(err)
 	if err == nil {
-		j, error := json.Marshal(roles)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			jer, _ := json.Marshal(error.Error())
-			response.Write(jer)
-		}
-
-	} else {
-		jer, _ := json.Marshal(err.Error())
-		response.Write(jer)
-	}
-}
-
-func PatchCluster(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	category := vars["name"]
-	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := patchInt{}
-
-	json.Unmarshal(data, &roleInterfaceParsing)
-	role := roleInterfaceParsing.pt
-	typesRole := typesConst(role)
-
-	role1 := roleInterfaceParsing.data
-	role2 := roleInterfaceParsing.subresources
-	roleInterface := inter.ClusterRoles()
-	byt := []byte(role1)
-	fmt.Println(byt)
-	roles, err := roleInterface.Patch(category, typesRole, byt, role2)
-	if err == nil {
-		j, error := json.Marshal(roles)
+		j, error:= json.Marshal(roles)
 		if error == nil {
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)

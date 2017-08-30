@@ -10,22 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
 var WatchRoleComponent = (function () {
-    function WatchRoleComponent(service, activatedRoute, fb, router) {
+    function WatchRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
     }
     WatchRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     WatchRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -45,16 +42,12 @@ var WatchRoleComponent = (function () {
             console.log(_this.response);
         }, function (error) { return _this.errorMessage = error; });
     };
-    WatchRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    WatchRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    WatchRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.ListDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    WatchRoleComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.ListDto();
+        this.productForm.patchValue(this.roleDto);
     };
     WatchRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -71,9 +64,7 @@ WatchRoleComponent = __decorate([
         templateUrl: "watch.component.html",
     }),
     __metadata("design:paramtypes", [role_service_1.RoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], WatchRoleComponent);
 exports.WatchRoleComponent = WatchRoleComponent;
 //# sourceMappingURL=watch.component.js.map

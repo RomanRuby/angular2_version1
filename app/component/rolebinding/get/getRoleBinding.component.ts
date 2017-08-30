@@ -18,14 +18,12 @@ export class GetRoleBindingComponent implements OnInit {
     productForm: FormGroup;
 
     constructor(private service: RoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -51,17 +49,13 @@ export class GetRoleBindingComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.getOptions = new GetOptionsDto();
             this.productForm.patchValue(this.getOptions);
-        });
     }
 
     private buildForm() {

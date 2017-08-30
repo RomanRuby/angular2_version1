@@ -10,23 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
 var PatchRoleComponent = (function () {
-    function PatchRoleComponent(service, activatedRoute, fb, router) {
+    function PatchRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
         this.responseValue = true;
         this.saveUsername = false;
     }
     PatchRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     PatchRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -50,16 +47,12 @@ var PatchRoleComponent = (function () {
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    PatchRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    PatchRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    PatchRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.patchOptions = new roles_1.PatchTypeDto();
-            _this.productForm.patchValue(_this.patchOptions);
-        });
+    PatchRoleComponent.prototype.initForm = function () {
+        this.patchOptions = new roles_1.PatchTypeDto();
+        this.productForm.patchValue(this.patchOptions);
     };
     PatchRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -79,9 +72,7 @@ PatchRoleComponent = __decorate([
         templateUrl: "patch.component.html",
     }),
     __metadata("design:paramtypes", [role_service_1.RoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], PatchRoleComponent);
 exports.PatchRoleComponent = PatchRoleComponent;
 //# sourceMappingURL=patch.component.js.map

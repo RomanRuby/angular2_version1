@@ -10,22 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
 var DeleteRoleComponent = (function () {
-    function DeleteRoleComponent(service, activatedRoute, fb, router) {
+    function DeleteRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
     }
     DeleteRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     DeleteRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -47,16 +44,12 @@ var DeleteRoleComponent = (function () {
             console.log(_this.response);
         }, function (error) { return _this.errorMessage = error; });
     };
-    DeleteRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/role"]);
+    DeleteRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    DeleteRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.deleteOptions = new roles_1.DeleteOptionsDto();
-            _this.productForm.patchValue(_this.deleteOptions);
-        });
+    DeleteRoleComponent.prototype.initForm = function () {
+        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.productForm.patchValue(this.deleteOptions);
     };
     DeleteRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -78,9 +71,7 @@ DeleteRoleComponent = __decorate([
         templateUrl: "delete.component.html",
     }),
     __metadata("design:paramtypes", [role_service_1.RoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], DeleteRoleComponent);
 exports.DeleteRoleComponent = DeleteRoleComponent;
 //# sourceMappingURL=delete.component.js.map

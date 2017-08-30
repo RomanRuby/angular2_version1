@@ -10,20 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var PatchRoleBindingComponent = (function () {
-    function PatchRoleBindingComponent(service, activatedRoute, fb, router) {
+    function PatchRoleBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
     }
     PatchRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     PatchRoleBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -39,16 +36,12 @@ var PatchRoleBindingComponent = (function () {
         this.service.patchRole(this.patchOptions.name, this.patchOptions.namespace, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
-    PatchRoleBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    PatchRoleBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    PatchRoleBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.patchOptions = new roles_1.PatchTypeDto();
-            _this.productForm.patchValue(_this.patchOptions);
-        });
+    PatchRoleBindingComponent.prototype.initForm = function () {
+        this.patchOptions = new roles_1.PatchTypeDto();
+        this.productForm.patchValue(this.patchOptions);
     };
     PatchRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -68,9 +61,7 @@ PatchRoleBindingComponent = __decorate([
         templateUrl: "patchRoleBinding.component.html",
     }),
     __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], PatchRoleBindingComponent);
 exports.PatchRoleBindingComponent = PatchRoleBindingComponent;
 //# sourceMappingURL=patchRoleBinding.component.js.map

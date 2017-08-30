@@ -1,12 +1,15 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
+			<a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
+		</div>
+		<div class="form-group">
 			<label for="name">name</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
 
-		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
-		<div *ngIf="!saveUsername" class="form-group">
+		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
+		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
 				<label for="gracePeriodSeconds">gracePeriodSeconds</label>
 				<input id="gracePeriodSeconds" type="text" class="form-control" formControlName="gracePeriodSeconds">
@@ -29,7 +32,7 @@
 			</div>
 		</div>
 
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Back" />
+		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
 	<div *ngIf="type">

@@ -24,14 +24,12 @@ export class ListBindingComponent implements OnInit {
 
 
     constructor(private service: RoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -43,14 +41,14 @@ export class ListBindingComponent implements OnInit {
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.namespace = productForm.value.namespace;
-        let listOptions;
-        listOptions = new ListOptions();
+        let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
-        this.service.listRole(  this.roleDto.namespace,listOptions)
+        this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(
-                data => {   console.log(data);
-                   // this.responseRoleBinding = data;
+                data => {
+                    console.log(data);
+                     this.responseRoleBinding = data;
                     console.log(this.responseRoleBinding);
                     this.type = true;
                 },
@@ -58,25 +56,20 @@ export class ListBindingComponent implements OnInit {
             );
     }
 
-    public goBack() {
-
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleDto = new ListDto();
-            this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new ListDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
             namespace: ["", Validators.required],
-            apiVersion: ["", ]
+            apiVersion: ["",]
         });
     }
 

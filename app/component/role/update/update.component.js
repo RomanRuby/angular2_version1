@@ -10,23 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
 var roles_1 = require("../../../logic-service/roles");
 var UpdateRoleComponent = (function () {
-    function UpdateRoleComponent(service, activatedRoute, fb, router) {
+    function UpdateRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
         this.type = false;
         this.responseValue = true;
     }
     UpdateRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     UpdateRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -48,25 +45,17 @@ var UpdateRoleComponent = (function () {
         var role = new roles_1.Role(new roles_1.TypeMeta("Role", this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.updateRole(role)
             .subscribe(function (data) {
-            if (data)
-                _this.responseRole = data;
-            _this.responseValue = true;
-            if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
-            }
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/role"]);
+    UpdateRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    UpdateRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.RoleDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    UpdateRoleComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.RoleDto();
+        this.productForm.patchValue(this.roleDto);
     };
     UpdateRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -106,9 +95,7 @@ UpdateRoleComponent = __decorate([
         templateUrl: "update.component.html",
     }),
     __metadata("design:paramtypes", [role_service_1.RoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], UpdateRoleComponent);
 exports.UpdateRoleComponent = UpdateRoleComponent;
 //# sourceMappingURL=update.component.js.map

@@ -23,7 +23,7 @@ var WatchRoleBindingComponent = (function () {
     }
     WatchRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     WatchRoleBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -37,19 +37,15 @@ var WatchRoleBindingComponent = (function () {
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.service.watchRole(this.roleDto.namespace, listOptions)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
-    WatchRoleBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    WatchRoleBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    WatchRoleBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.ListDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    WatchRoleBindingComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.ListDto();
+        this.productForm.patchValue(this.roleDto);
     };
     WatchRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({

@@ -15,19 +15,17 @@ export class DeleteRoleComponent implements OnInit {
     deleteOptions: DeleteOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
-    response:string;
+    response: string;
     type: boolean = false;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -58,28 +56,24 @@ export class DeleteRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/role"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.deleteOptions = new DeleteOptionsDto();
-            this.productForm.patchValue(this.deleteOptions);
-        });
+    private initForm() {
+        this.deleteOptions = new DeleteOptionsDto();
+        this.productForm.patchValue(this.deleteOptions);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             namespace: ["", Validators.required],
             name: ["", Validators.required],
-            apiVersion: ["", ],
-            gracePeriodSeconds: ["", ],
-            preconditions: ["", ],
-            orphanDependents: ["", ],
-            propagationPolicy: ["", ]
+            apiVersion: ["",],
+            gracePeriodSeconds: ["",],
+            preconditions: ["",],
+            orphanDependents: ["",],
+            propagationPolicy: ["",]
         });
     }
 }

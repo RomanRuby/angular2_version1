@@ -1,38 +1,51 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<label for="apiVersion">apiVersion</label>
-			<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			<a href="#" onClick="history.go(-1)"><b>Cluster  Role Binding</b> </a>
 		</div>
-
 		<div class="form-group">
-			<label for="generateName">generateName</label>
-			<input id="generateName" type="text" class="form-control" formControlName="generateName">
-		</div>
-
-		<div class="form-group">
-			<label for="kindRef">kindRef</label>
-			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
-		</div>
-
-		<div class="form-group">
-			<label for="nameRef">nameRef</label>
+			<label for="nameRef">name Authorizer</label>
 			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
 		</div>
+		<div class="form-group">
+			<label for="kindRef">kind Authorizer</label>
+			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
+		</div>
+		<div class="form-group">
+			<label for="apiGroupRef">apiGroup Authorizer</label>
+			<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
+		</div>
 
+		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
+		<div *ngIf="viewAdditionalField" class="form-group">
+			<div class="form-group">
+				<label for="name">name Meta</label>
+				<input id="name" type="text" class="form-control" formControlName="name">
+			</div>
+
+			<div class="form-group">
+				<label for="generateName">generateName</label>
+				<input id="generateName" type="text" class="form-control" formControlName="generateName">
+			</div>
+			<div class="form-group">
+				<label for="apiVersion">apiVersion</label>
+				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+			</div>
+			<div class="form-group">
+				<label for="namespace">kind namespace</label>
+				<input id="namespace" type="text" class="form-control" formControlName="namespace">
+			</div>
+		</div>
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
 				<div class="panel-heading">
-					<span>PolicyRules {{i + 1}}</span>
+					<span>Subject Rules {{i + 1}}</span>
 					<span class="glyphicon glyphicon-remove pull-right" *ngIf="productForm.controls.subjectRules.controls.length > 1" (click)="removeSubjectRules(i)"></span>
 				</div>
 				<div class="panel-body" [formGroupName]="i">
 					<div class="form-group col-xs-6">
 						<label>apiGroup</label>
 						<input type="text" class="form-control" formControlName="apiGroup">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.apiGroup.valid" class="text-danger">
-							apiGroup is required
-						</small>
 					</div>
 					<div class="form-group col-xs-6">
 						<label>kind</label>
@@ -51,9 +64,6 @@
 					<div class="form-group col-xs-6">
 						<label>namespace</label>
 						<input type="text" class="form-control" formControlName="namespace">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.namespace.valid" class="text-danger">
-							namespace is required
-						</small>
 					</div>
 				</div>
 			</div>
@@ -63,9 +73,7 @@
 				Add another +
 			</a>
 		</div>
-
-
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
+		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
 </div>

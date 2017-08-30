@@ -47,10 +47,10 @@ export class ClusterRoleBindingService {
 
     public patchRole(id: string, patchType: string,data :string,subresources:string) :Observable<RoleResponse> {
         let  patchTypes = new PatchType(patchType,data,subresources);
-        return this.http.post(this.url +"/clusterrolebinding/patch"+ "/"+ id, patchTypes)
+        return this.http.post(this.url +"/clusterrolebinding/patch/"+ id, patchTypes)
             .catch(ClusterRoleBindingService.handleError);
     }
-    public getRole(namespace:string, getOptions: GetOptions) :Observable<RoleResponse>{
+    public getRole(namespace:string, getOptions: GetOptions) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/get/"+namespace, getOptions)
             .catch(ClusterRoleBindingService.handleError);
     }

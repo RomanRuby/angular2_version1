@@ -10,22 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var DeleteClusterRoleComponent = (function () {
-    function DeleteClusterRoleComponent(service, activatedRoute, fb, router) {
+    function DeleteClusterRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
     }
     DeleteClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     DeleteClusterRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -46,16 +43,12 @@ var DeleteClusterRoleComponent = (function () {
             console.log(_this.response);
         }, function (error) { return _this.errorMessage = error; });
     };
-    DeleteClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/clusterrole"]);
+    DeleteClusterRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    DeleteClusterRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.deleteOptions = new roles_1.DeleteOptionsDto();
-            _this.productForm.patchValue(_this.deleteOptions);
-        });
+    DeleteClusterRoleComponent.prototype.initForm = function () {
+        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.productForm.patchValue(this.deleteOptions);
     };
     DeleteClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -75,9 +68,7 @@ DeleteClusterRoleComponent = __decorate([
         templateUrl: "deleteCluster.component.html",
     }),
     __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], DeleteClusterRoleComponent);
 exports.DeleteClusterRoleComponent = DeleteClusterRoleComponent;
 //# sourceMappingURL=deleteCluster.component.js.map

@@ -10,20 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var WatchClusterRoleBindingComponent = (function () {
-    function WatchClusterRoleBindingComponent(service, activatedRoute, fb, router) {
+    function WatchClusterRoleBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
     }
     WatchClusterRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     WatchClusterRoleBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -36,24 +33,21 @@ var WatchClusterRoleBindingComponent = (function () {
         var listOptions;
         listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
-        this.service.listRole(listOptions)
+        this.service.watchRole(listOptions)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
-    WatchClusterRoleBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    WatchClusterRoleBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    WatchClusterRoleBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.ListDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    WatchClusterRoleBindingComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.ListDto();
+        this.productForm.patchValue(this.roleDto);
     };
     WatchClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             kind: ["", forms_1.Validators.required],
-            apiVersion: ["",]
+            namespace: ["", forms_1.Validators.required],
+            apiVersion: ["", forms_1.Validators.required]
         });
     };
     return WatchClusterRoleBindingComponent;
@@ -65,9 +59,7 @@ WatchClusterRoleBindingComponent = __decorate([
         templateUrl: "watchClusterRoleBinding.component.html",
     }),
     __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], WatchClusterRoleBindingComponent);
 exports.WatchClusterRoleBindingComponent = WatchClusterRoleBindingComponent;
 //# sourceMappingURL=watchClusterRoleBinding.component.js.map

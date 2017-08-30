@@ -18,17 +18,16 @@ export class GetRoleComponent implements OnInit {
     responseRole: RoleResponse;
     type: boolean = false;
     responseValue: boolean =true;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
+
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -48,30 +47,21 @@ export class GetRoleComponent implements OnInit {
         this.service.getRole(this.getOptions.name  ,this.getOptions.nameUrl,getOption)
             .subscribe(
                 data => {
-                    if(data)
                         this.responseRole = data;
-                    this.responseValue =true;
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
-
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/role"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.getOptions = new GetOptionsDto();
             this.productForm.patchValue(this.getOptions);
-        });
     }
 
     private buildForm() {

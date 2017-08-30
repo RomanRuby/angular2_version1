@@ -1,9 +1,8 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<label><b> Role</b></label>
+			<a href="#" onClick="history.go(-1)"><b> Role</b> </a>
 		</div>
-
 		<div class="form-group">
 			<label for="name">Name Role</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
@@ -12,16 +11,12 @@
 			<label for="namespace">namespace</label>
 			<input id="namespace" type="text" class="form-control" formControlName="namespace">
 		</div>
-		<input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" />
-		<div *ngIf="!saveUsername" class="form-group">
+		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
+		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
 				<label for="apiVersion">Application version </label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-				<!--<div *ngIf="-->
-				<!--productForm.get('apiVersion').touched"-->
-				<!--class="text-primary">-->
-				<!--example:v1beta1-->
-				<!--</div>-->
+
 			</div>
 			<div class="form-group">
 				<label for="generateName">generateName</label>
@@ -79,7 +74,7 @@
 		</div>
 
 
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Back" />
+		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
 

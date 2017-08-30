@@ -10,23 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var PatchClusterRoleComponent = (function () {
-    function PatchClusterRoleComponent(service, activatedRoute, fb, router) {
+    function PatchClusterRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
         this.responseValue = true;
         this.saveUsername = false;
     }
     PatchClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     PatchClusterRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -40,25 +37,17 @@ var PatchClusterRoleComponent = (function () {
         this.patchOptions.subresources = productForm.value.subresources;
         this.service.patchRole(this.patchOptions.name, this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(function (data) {
-            if (data)
-                _this.responseRole = data;
-            _this.responseValue = true;
-            if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
-            }
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    PatchClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    PatchClusterRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    PatchClusterRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.patchOptions = new roles_1.PatchTypeDto();
-            _this.productForm.patchValue(_this.patchOptions);
-        });
+    PatchClusterRoleComponent.prototype.initForm = function () {
+        this.patchOptions = new roles_1.PatchTypeDto();
+        this.productForm.patchValue(this.patchOptions);
     };
     PatchClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -77,9 +66,7 @@ PatchClusterRoleComponent = __decorate([
         templateUrl: "patchCluster.component.html",
     }),
     __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], PatchClusterRoleComponent);
 exports.PatchClusterRoleComponent = PatchClusterRoleComponent;
 //# sourceMappingURL=patchCluster.component.js.map

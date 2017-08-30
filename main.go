@@ -39,7 +39,6 @@ func main() {
 	router.HandleFunc("/clusterrole/watch", role.WatchCluster).Methods("POST")
 	router.HandleFunc("/clusterrole/patch/{name}", role.PatchCluster).Methods("POST")
 
-
 	router.HandleFunc("/clusterrolebinding/create",role.CreateClusterRoleBinding).Methods("POST")
 	router.HandleFunc("/clusterrolebinding/update", role.UpdateClusterRoleBinding).Methods("POST")
 	router.HandleFunc("/clusterrolebinding/delete/{name}", role.DeleteClusterRoleBinding).Methods("POST")

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType, RoleResponse} from "../../../logic-service/roles";
+import { PatchTypeDto, RoleResponse} from "../../../logic-service/roles";
 
 @Component({
     moduleId: module.id,
@@ -22,14 +22,12 @@ export class PatchRoleComponent implements OnInit {
     saveUsername: boolean = false;
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -43,8 +41,6 @@ export class PatchRoleComponent implements OnInit {
         this.patchOptions.data = productForm.value.data;
         this.patchOptions.subresources = productForm.value.subresources;
         this.patchOptions.namespace = productForm.value.namespace;
-
-
 
         this.service.patchRole( this.patchOptions.name,this.patchOptions.namespace,
         this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
@@ -63,17 +59,12 @@ export class PatchRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
-
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.patchOptions = new PatchTypeDto();
             this.productForm.patchValue(this.patchOptions);
-        });
     }
 
     private buildForm() {

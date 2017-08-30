@@ -10,20 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var UpdateBindingComponent = (function () {
-    function UpdateBindingComponent(service, activatedRoute, fb, router) {
+    function UpdateBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
+        this.viewAdditionalField = false;
+        this.type = false;
+        this.responseValue = true;
     }
     UpdateBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     UpdateBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -34,7 +34,6 @@ var UpdateBindingComponent = (function () {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
-        this.roleBindingDto.kindMeta = productForm.value.kindMeta;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
         this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
@@ -47,20 +46,20 @@ var UpdateBindingComponent = (function () {
             subjectRules.push(new roles_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kindMeta, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
+        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
         this.service.updateRole(rolebinding)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    UpdateBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    UpdateBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleBindingDto = new roles_1.RoleBindingDto();
-            _this.productForm.patchValue(_this.roleBindingDto);
-        });
+    UpdateBindingComponent.prototype.initForm = function () {
+        this.roleBindingDto = new roles_1.RoleBindingDto();
+        this.productForm.patchValue(this.roleBindingDto);
     };
     UpdateBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -69,7 +68,6 @@ var UpdateBindingComponent = (function () {
             name: ["",],
             namespace: ["",],
             kindRef: ["", forms_1.Validators.required],
-            kindMeta: ["", forms_1.Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
@@ -102,9 +100,7 @@ UpdateBindingComponent = __decorate([
         templateUrl: "updateBinding.component.html",
     }),
     __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], UpdateBindingComponent);
 exports.UpdateBindingComponent = UpdateBindingComponent;
 //# sourceMappingURL=updateBinding.component.js.map

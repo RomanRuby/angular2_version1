@@ -44,8 +44,7 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.patchRole = function (id, patchType, data, subresources) {
-        var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/clusterrole/patch" + "/" + id, patchTypes)
+        return this.http.post(this.url + "/clusterrole/patch/" + id, new roles_1.PatchType(patchType, data, subresources))
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {

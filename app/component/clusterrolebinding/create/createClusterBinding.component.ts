@@ -3,11 +3,13 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 
+import {RoleService} from "../../../logic-service/role.service";
 import {
     ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
     RoleBindingDto, Subject, RoleBinding, RoleRef, ResponseRoleBinding
 } from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -19,20 +21,18 @@ export class CreateClusterBindingComponent implements OnInit {
     roleBindingDto: RoleBindingDto;
     errorMessage: string;
     productForm: FormGroup;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
     responseRole: ResponseRoleBinding;
     type: boolean = false;
-    responseValue: boolean =true;
+    responseValue: boolean = true;
 
-    constructor(private service: ClusterRoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+    constructor(private service:ClusterRoleBindingService,
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -43,8 +43,10 @@ export class CreateClusterBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
+        this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
+        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
 
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
@@ -63,45 +65,38 @@ export class CreateClusterBindingComponent implements OnInit {
             this.roleBindingDto.kindRef,
             this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta(this.roleBindingDto.kind, this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
+        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
             this.roleBindingDto.name), subjectRules, roleRef);
 
 
         this.service.createRole(rolebinding)
             .subscribe(
                 data => {
-                    if(data)
-                        this.responseRole = data;
-                    this.responseValue =true;
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
-
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleBindingDto = new RoleBindingDto();
-            this.productForm.patchValue(this.roleBindingDto);
-        });
+    private initForm() {
+        this.roleBindingDto = new RoleBindingDto();
+        this.productForm.patchValue(this.roleBindingDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["", ],
-            apiGroupRef: ["", Validators.required],
-            generateName: ["", Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            name: ["",],
+            namespace: ["",],
             kindRef: ["", Validators.required],
+            apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
@@ -111,10 +106,10 @@ export class CreateClusterBindingComponent implements OnInit {
 
     initSubject() {
         return this.fb.group({
-            apiGroup: ["", ],
+            apiGroup: ["",],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            namespace: ["", ]
+            namespace: ["",]
         });
     }
 

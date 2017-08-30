@@ -1,7 +1,7 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
-			<label><b> Role</b></label>
+			<a href="#" onClick="history.go(-1)"><b> Role</b> </a>
 		</div>
 		<div class="form-group">
 			<label for="patchType">patchType</label>
@@ -27,7 +27,7 @@
 			<input id="subresources" type="text" class="form-control" formControlName="subresources">
 		</div>
 
-		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />
+		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
 	</form>
 	<div *ngIf="type">

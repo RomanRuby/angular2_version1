@@ -24,11 +24,13 @@ func CreateClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -46,11 +48,13 @@ func UpdateClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 
 }
@@ -69,10 +73,13 @@ func ListClusterRoleBinding(response http.ResponseWriter, request *http.Request)
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
+
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -91,11 +98,12 @@ func WatchClusterRoleBinding(response http.ResponseWriter, request *http.Request
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
-
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -111,11 +119,12 @@ func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 	roleInterface := inter.ClusterRoleBindings()
 	error := roleInterface.Delete(category, &role)
 	j, err := json.Marshal(error)
-	if err == nil {
-		response.Header().Set("Content-Type", "application/json")
-		response.Write(j)
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 
 }
@@ -133,17 +142,12 @@ func DeleteCollectionClusterRoleBinding(response http.ResponseWriter, request *h
 	roleInterface := inter.ClusterRoleBindings()
 	error := roleInterface.DeleteCollection(&role, listOptions)
 	fmt.Println(error)
-	if error == nil {
-		j, error := json.Marshal(error)
-		if error == nil {
-			response.Header().Set("Content-Type", "application/json")
-			response.Write(j)
-		} else {
-			response.Write([]byte(error.Error()))
-		}
-
+	if error != nil {
+		jer, _ := json.Marshal(error.Error())
+		response.Write(jer)
 	} else {
-		response.Write([]byte(error.Error()))
+		jer, _ := json.Marshal("Success")
+		response.Write(jer)
 	}
 }
 
@@ -165,11 +169,13 @@ func GetClusterRoleBinding(response http.ResponseWriter, request *http.Request) 
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }
 
@@ -195,10 +201,12 @@ func PatchClusterRoleBinding(response http.ResponseWriter, request *http.Request
 			response.Header().Set("Content-Type", "application/json")
 			response.Write(j)
 		} else {
-			response.Write([]byte(err.Error()))
+			jer, _ := json.Marshal(error.Error())
+			response.Write(jer)
 		}
 
 	} else {
-		response.Write([]byte(err.Error()))
+		jer, _ := json.Marshal(err.Error())
+		response.Write(jer)
 	}
 }

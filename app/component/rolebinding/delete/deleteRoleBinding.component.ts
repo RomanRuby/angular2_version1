@@ -16,16 +16,17 @@ export class DeleteRoleBindingComponent implements OnInit {
     deleteOptions: DeleteOptionsDto;
     errorMessage: string;
     productForm: FormGroup;
+    response:string;
+    type: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: RoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -43,31 +44,30 @@ export class DeleteRoleBindingComponent implements OnInit {
         this.deleteOptions.preconditions = productForm.value.preconditions;
 
         let deleteOption = new DeleteOptions(
-            new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
+            new TypeMeta("RoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions);
-        this.service.deleteRole(    this.deleteOptions.name,   this.deleteOptions.namespace,deleteOption)
+        this.service.deleteRole( this.deleteOptions.name,this.deleteOptions.namespace,deleteOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.response = data;
+                    this.type = true;
+                    console.log(this.response)
+                },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.deleteOptions = new DeleteOptionsDto();
             this.productForm.patchValue(this.deleteOptions);
-        });
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
             name: ["", Validators.required],
             namespace: ["", Validators.required],
             apiVersion: ["",],

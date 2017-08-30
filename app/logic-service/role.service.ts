@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import {Injectable} from "@angular/core";
+import {Http, Response} from "@angular/http";
 
-import { Observable } from "rxjs/Observable";
+import {Observable} from "rxjs/Observable";
 import {
     DeleteCol, DeleteOptions, GetOptions, ListOptions, PatchType, Role, RoleResponse,
     RoleResponses
@@ -14,45 +14,48 @@ export class RoleService {
 
     private url = "http://localhost:8081";
 
-    constructor(private http: AppService) { }
+    constructor(private http: AppService) {
+    }
 
-    public createRole(role: Role) {
-        return this.http.post(this.url +"/role/create", role)
+    public createRole(role: Role): Observable<RoleResponse> {
+        return this.http.post(this.url + "/role/create", role)
             .catch(RoleService.handleError);
     }
 
-    public updateRole(role: Role) {
-        return this.http.post(this.url +"/role/update", role)
+    public updateRole(role: Role): Observable<RoleResponse> {
+        return this.http.post(this.url + "/role/update", role)
             .catch(RoleService.handleError);
     }
 
-    public watchRole(id: string, listOptions: ListOptions) :Observable<string> {
-        return this.http.post(this.url +"/role/watch"+ "/"+ id, listOptions)
-            .catch(RoleService.handleError);
-    }
-    public listRole(id: string, listOptions: ListOptions) :Observable<RoleResponses> {
-        return this.http.post(this.url +"/role/list/"+id, listOptions)
+    public watchRole(id: string, listOptions: ListOptions): Observable<string> {
+        return this.http.post(this.url + "/role/watch/" + id, listOptions)
             .catch(RoleService.handleError);
     }
 
-    public deleteRole(id: string,namespace:string, deleteOptions: DeleteOptions):Observable<string> {
-        return this.http.post(this.url + "/role/delete/"+ id+"/"+namespace, deleteOptions)
+    public listRole(id: string, listOptions: ListOptions): Observable<RoleResponses> {
+        return this.http.post(this.url + "/role/list/" + id, listOptions)
             .catch(RoleService.handleError);
     }
 
-    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions,listOptions: ListOptions):Observable<string>  {
-        return this.http.post(this.url +"/role/deleteCollection/"+ id, new DeleteCol( deleteOptions,listOptions))
+    public deleteRole(id: string, namespace: string, deleteOptions: DeleteOptions): Observable<string> {
+        return this.http.post(this.url + "/role/delete/" + id + "/" + namespace, deleteOptions)
             .catch(RoleService.handleError);
     }
 
-    public patchRole(id: string,namespace:string, patchType: string,data :string,subresources:string) :Observable<RoleResponse>{
-      let  patchTypes = new PatchType(patchType,data,subresources);
-        return this.http.post(this.url +"/role/patch"+ "/"+ id+"/"+namespace, patchTypes)
+    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
+        return this.http.post(this.url + "/role/deleteCollection/" + id, new DeleteCol(deleteOptions, listOptions))
             .catch(RoleService.handleError);
     }
 
-    public getRole(id: string,namespace:string, getOptions: GetOptions):Observable<RoleResponse> {
-        return this.http.post(this.url +"/role/get"+ "/"+ id+"/"+namespace, getOptions)
+    public patchRole(id: string, namespace: string, patchType: string, data: string, subresources: string):
+    Observable<RoleResponse> {
+        let patchTypes = new PatchType(patchType, data, subresources);
+        return this.http.post(this.url + "/role/patch" + "/" + id + "/" + namespace, patchTypes)
+            .catch(RoleService.handleError);
+    }
+
+    public getRole(id: string, namespace: string, getOptions: GetOptions): Observable<RoleResponse> {
+        return this.http.post(this.url + "/role/get" + "/" + id + "/" + namespace, getOptions)
             .catch(RoleService.handleError);
     }
 
@@ -67,7 +70,6 @@ export class RoleService {
         }
 
         console.error(message);
-
         return Observable.throw(message);
     }
 }

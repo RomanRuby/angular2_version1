@@ -10,23 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var UpdateClusterRoleComponent = (function () {
-    function UpdateClusterRoleComponent(service, activatedRoute, fb, router) {
+    function UpdateClusterRoleComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
         this.type = false;
         this.responseValue = true;
     }
     UpdateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     UpdateClusterRoleComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -47,25 +44,17 @@ var UpdateClusterRoleComponent = (function () {
         var role = new roles_1.Role(new roles_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.updateRole(role)
             .subscribe(function (data) {
-            if (data)
-                _this.responseRole = data;
-            _this.responseValue = true;
-            if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
-            }
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateClusterRoleComponent.prototype.goBack = function () {
-        this.router.navigate(["/clusterrole"]);
+    UpdateClusterRoleComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    UpdateClusterRoleComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.RoleDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    UpdateClusterRoleComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.RoleDto();
+        this.productForm.patchValue(this.roleDto);
     };
     UpdateClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -104,9 +93,7 @@ UpdateClusterRoleComponent = __decorate([
         templateUrl: "updateCluster.component.html",
     }),
     __metadata("design:paramtypes", [clusterrole_service_1.ClusterRoleService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], UpdateClusterRoleComponent);
 exports.UpdateClusterRoleComponent = UpdateClusterRoleComponent;
 //# sourceMappingURL=updateCluster.component.js.map

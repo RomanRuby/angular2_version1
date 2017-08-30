@@ -1,6 +1,9 @@
 <div class="container" *ngIf="productForm">
 	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
 		<div class="form-group">
+			<a href="#" onClick="history.go(-1)"><b>Role Binding</b> </a>
+		</div>
+		<div class="form-group">
 			<label for="patchType">patchType</label>
 			<input id="patchType" type="text" class="form-control" formControlName="patchType">
 
@@ -20,11 +23,6 @@
 		<div class="form-group">
 			<label for="subresources">subresources</label>
 			<input id="subresources" type="text" class="form-control" formControlName="subresources">
-		</div>
-
-		<div class="form-group">
-			<label for="namespace">namespace</label>
-			<input id="namespace" type="text" class="form-control" formControlName="namespace">
 		</div>
 
 		<input type="button" class="btn btn-default" (click)="goBack()" value="Cancel" />

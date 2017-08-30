@@ -28,7 +28,7 @@ var RoleService = RoleService_1 = (function () {
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.watchRole = function (id, listOptions) {
-        return this.http.post(this.url + "/role/watch" + "/" + id, listOptions)
+        return this.http.post(this.url + "/role/watch/" + id, listOptions)
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.listRole = function (id, listOptions) {

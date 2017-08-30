@@ -10,21 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var ListClusterBindingComponent = (function () {
-    function ListClusterBindingComponent(service, activatedRoute, fb, router) {
+    function ListClusterBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
     }
     ListClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     ListClusterBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -34,8 +31,7 @@ var ListClusterBindingComponent = (function () {
         var _this = this;
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
-        var listOptions;
-        listOptions = new roles_1.ListOptions();
+        var listOptions = new roles_1.ListOptions();
         listOptions.setTypeMeta(new roles_1.TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
         this.service.listRole(listOptions)
             .subscribe(function (data) {
@@ -45,16 +41,12 @@ var ListClusterBindingComponent = (function () {
             _this.type = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    ListClusterBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    ListClusterBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    ListClusterBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleDto = new roles_1.ListDto();
-            _this.productForm.patchValue(_this.roleDto);
-        });
+    ListClusterBindingComponent.prototype.initForm = function () {
+        this.roleDto = new roles_1.ListDto();
+        this.productForm.patchValue(this.roleDto);
     };
     ListClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -71,9 +63,7 @@ ListClusterBindingComponent = __decorate([
         templateUrl: "listClusterBinding.component.html",
     }),
     __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], ListClusterBindingComponent);
 exports.ListClusterBindingComponent = ListClusterBindingComponent;
 //# sourceMappingURL=listClusterBinding.component.js.map

@@ -10,22 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var DeleteClusterRoleBindingComponent = (function () {
-    function DeleteClusterRoleBindingComponent(service, activatedRoute, fb, router) {
+    function DeleteClusterRoleBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
         this.type = false;
-        this.saveUsername = false;
+        this.viewAdditionalField = false;
     }
     DeleteClusterRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     DeleteClusterRoleBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -39,25 +36,24 @@ var DeleteClusterRoleBindingComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
+        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("RoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            _this.response = data;
+            _this.type = true;
+            console.log(_this.response);
+        }, function (error) { return _this.errorMessage = error; });
     };
-    DeleteClusterRoleBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    DeleteClusterRoleBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    DeleteClusterRoleBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.deleteOptions = new roles_1.DeleteOptionsDto();
-            _this.productForm.patchValue(_this.deleteOptions);
-        });
+    DeleteClusterRoleBindingComponent.prototype.initForm = function () {
+        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.productForm.patchValue(this.deleteOptions);
     };
     DeleteClusterRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             name: ["", forms_1.Validators.required],
-            kind: ["", forms_1.Validators.required],
             apiVersion: ["",],
             gracePeriodSeconds: ["",],
             preconditions: ["",],
@@ -74,9 +70,7 @@ DeleteClusterRoleBindingComponent = __decorate([
         templateUrl: "deleteClusterRoleBinding.component.html",
     }),
     __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], DeleteClusterRoleBindingComponent);
 exports.DeleteClusterRoleBindingComponent = DeleteClusterRoleBindingComponent;
 //# sourceMappingURL=deleteClusterRoleBinding.component.js.map

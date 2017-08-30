@@ -1,10 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {
-    DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, RoleResponse,
+    GetOptions, GetOptionsDto, RoleResponse,
     TypeMeta
 } from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
@@ -21,18 +20,16 @@ export class GetClusterRoleComponent implements OnInit {
     productForm: FormGroup;
     responseRole: RoleResponse;
     type: boolean = false;
-    responseValue: boolean =true;
-    saveUsername: boolean = false;
+    responseValue: boolean = true;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -51,40 +48,31 @@ export class GetClusterRoleComponent implements OnInit {
         let getOption = new GetOptions(
             new TypeMeta("ClusterRole", this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.name ,getOption)
+        this.service.getRole(this.getOptions.name, getOption)
             .subscribe(
                 data => {
-                    if(data)
-                        this.responseRole = data;
-                    this.responseValue =true;
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
-
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/clusterrole"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.getOptions = new GetOptionsDto();
-            this.productForm.patchValue(this.getOptions);
-        });
+    private initForm() {
+        this.getOptions = new GetOptionsDto();
+        this.productForm.patchValue(this.getOptions);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             name: ["", Validators.required],
-            apiVersion: ["", ],
-            resourceVersion: ["", ],
+            apiVersion: ["",],
+            resourceVersion: ["",],
             includeUninitialized: ["",]
         });
     }

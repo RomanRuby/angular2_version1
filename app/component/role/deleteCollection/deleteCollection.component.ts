@@ -21,17 +21,15 @@ export class DeleteCollectionRoleComponent implements OnInit {
     productForm: FormGroup;
     response:string;
     type: boolean = false;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -70,17 +68,12 @@ export class DeleteCollectionRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/role"]);
+    public reset() {
+        this.productForm.reset();
     }
-
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.deleteCollection = new DeleteCollectionDto();
             this.productForm.patchValue(this.deleteCollection);
-        });
     }
 
     private buildForm() {

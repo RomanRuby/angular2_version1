@@ -1,10 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder} from "@angular/forms";
 
-import {RoleService} from "../../../logic-service/role.service";
+
 import {
-     DeleteCollectionDto, DeleteOptions, DeleteOptionsDto, DeleteResult, ListOptions,
+    DeleteCollectionDto, DeleteOptions, ListOptions,
     TypeMeta
 } from "../../../logic-service/roles";
 import {listeners} from "cluster";
@@ -20,19 +19,17 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
     deleteCollection: DeleteCollectionDto;
     errorMessage: string;
     productForm: FormGroup;
-    response:string;
+    response: string;
     type: boolean = false;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -52,10 +49,10 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
         let listOption = new ListOptions();
         listOption.setTypeMeta(new TypeMeta("ClusterRole", this.deleteCollection.apiVersionList));
 
-        let deleteOption = new DeleteOptions( new TypeMeta("ClusterRole", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
+        let deleteOption = new DeleteOptions(new TypeMeta("ClusterRole", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
             this.deleteCollection.preconditions);
 
-        this.service.deleteCollectionRole(deleteOption,listOption)
+        this.service.deleteCollectionRole(deleteOption, listOption)
             .subscribe(
                 data => {
                     this.response = data;
@@ -66,25 +63,22 @@ export class DeleteCollectionClusterRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/clusterrole"]);
+
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.deleteCollection = new DeleteCollectionDto();
-            this.productForm.patchValue(this.deleteCollection);
-        });
+    private initForm() {
+        this.deleteCollection = new DeleteCollectionDto();
+        this.productForm.patchValue(this.deleteCollection);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["", ],
+            apiVersion: ["",],
             gracePeriodSeconds: ["",],
-            preconditions: ["", ],
-            orphanDependents: ["", ]
+            preconditions: ["",],
+            orphanDependents: ["",]
         });
     }
 }

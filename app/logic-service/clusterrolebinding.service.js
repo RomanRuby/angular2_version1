@@ -45,7 +45,7 @@ var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
     };
     ClusterRoleBindingService.prototype.patchRole = function (id, patchType, data, subresources) {
         var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/clusterrolebinding/patch" + "/" + id, patchTypes)
+        return this.http.post(this.url + "/clusterrolebinding/patch/" + id, patchTypes)
             .catch(ClusterRoleBindingService_1.handleError);
     };
     ClusterRoleBindingService.prototype.getRole = function (namespace, getOptions) {

@@ -10,20 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var GetRoleBindingComponent = (function () {
-    function GetRoleBindingComponent(service, activatedRoute, fb, router) {
+    function GetRoleBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
     }
     GetRoleBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     GetRoleBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -41,16 +38,12 @@ var GetRoleBindingComponent = (function () {
         this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
             .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
     };
-    GetRoleBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    GetRoleBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    GetRoleBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.getOptions = new roles_1.GetOptionsDto();
-            _this.productForm.patchValue(_this.getOptions);
-        });
+    GetRoleBindingComponent.prototype.initForm = function () {
+        this.getOptions = new roles_1.GetOptionsDto();
+        this.productForm.patchValue(this.getOptions);
     };
     GetRoleBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
@@ -71,9 +64,7 @@ GetRoleBindingComponent = __decorate([
         templateUrl: "getRoleBinding.component.html",
     }),
     __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], GetRoleBindingComponent);
 exports.GetRoleBindingComponent = GetRoleBindingComponent;
 //# sourceMappingURL=getRoleBinding.component.js.map

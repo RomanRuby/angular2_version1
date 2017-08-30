@@ -1,10 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-
-
 import {
-    ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
+    TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
     RoleResponse
 } from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
@@ -19,22 +16,19 @@ export class CreateClusterRoleComponent implements OnInit {
     roleDto: RoleDto;
     errorMessage: string;
     productForm: FormGroup;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
     responseRole: RoleResponse;
     type: boolean = false;
-    responseValue: boolean =true;
+    responseValue: boolean = true;
 
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
-
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -59,44 +53,35 @@ export class CreateClusterRoleComponent implements OnInit {
         }
 
         let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMeta(
-            this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
+            this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
                 data => {
-                if(data)
                     this.responseRole = data;
-                    this.responseValue =true;
-                  if (typeof this.responseRole =="string"){
-                      this.responseValue =false;
-                  }
-
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/clusterrole"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleDto = new RoleDto();
-            this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new RoleDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            name: ["",  Validators.required],
-            apiVersion: ["", ],
-            generateName: ["", ],
-            selfLink: ["", ],
-            uid: ["", ],
+            name: ["", Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            selfLink: ["",],
+            uid: ["",],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])
@@ -106,8 +91,8 @@ export class CreateClusterRoleComponent implements OnInit {
     initPolicyRules() {
         return this.fb.group({
             verbs: ["", Validators.required],
-            apiGroups: ["", ],
-            resources: ["", ],
+            apiGroups: ["",],
+            resources: ["",],
             resourceNames: ["",],
         });
     }

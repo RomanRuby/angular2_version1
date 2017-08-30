@@ -1,10 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {Component, OnInit} from "@angular/core";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-
-import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType, RoleResponse} from "../../../logic-service/roles";
+import {PatchTypeDto, RoleResponse} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -19,18 +16,16 @@ export class PatchClusterRoleComponent implements OnInit {
     productForm: FormGroup;
     responseRole: RoleResponse;
     type: boolean = false;
-    responseValue: boolean =true;
+    responseValue: boolean = true;
     saveUsername: boolean = false;
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -45,35 +40,26 @@ export class PatchClusterRoleComponent implements OnInit {
         this.patchOptions.subresources = productForm.value.subresources;
 
 
-
-        this.service.patchRole( this.patchOptions.name,
-            this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
+        this.service.patchRole(this.patchOptions.name,
+            this.patchOptions.patchType, this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(
                 data => {
-                    if(data)
-                        this.responseRole = data;
-                    this.responseValue =true;
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
-
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
+    private initForm() {
+        this.patchOptions = new PatchTypeDto();
+        this.productForm.patchValue(this.patchOptions);
 
-            this.patchOptions = new PatchTypeDto();
-            this.productForm.patchValue(this.patchOptions);
-        });
     }
 
     private buildForm() {

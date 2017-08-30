@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
-import {RoleService} from "../../../logic-service/role.service";
 import {DeleteOptions, DeleteOptionsDto, TypeMeta} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -18,17 +18,15 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
     productForm: FormGroup;
     response:string;
     type: boolean = false;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: ClusterRoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -45,36 +43,35 @@ export class DeleteClusterRoleBindingComponent implements OnInit {
         this.deleteOptions.preconditions = productForm.value.preconditions;
 
         let deleteOption = new DeleteOptions(
-            new TypeMeta(this.deleteOptions.kind, this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
+            new TypeMeta("RoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents,
             this.deleteOptions.preconditions);
-        this.service.deleteRole(this.deleteOptions.name, deleteOption)
+        this.service.deleteRole( this.deleteOptions.name,deleteOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.response = data;
+                    this.type = true;
+                    console.log(this.response)
+                },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.deleteOptions = new DeleteOptionsDto();
-            this.productForm.patchValue(this.deleteOptions);
-        });
+    private initForm() {
+        this.deleteOptions = new DeleteOptionsDto();
+        this.productForm.patchValue(this.deleteOptions);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             name: ["", Validators.required],
-            kind: ["", Validators.required],
-            apiVersion: ["", ],
+            apiVersion: ["",],
             gracePeriodSeconds: ["",],
-            preconditions: ["", ],
-            orphanDependents: ["", ],
+            preconditions: ["",],
+            orphanDependents: ["",],
             deletionPropagation: ["",]
         });
     }

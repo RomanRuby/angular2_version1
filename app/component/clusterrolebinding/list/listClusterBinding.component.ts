@@ -6,6 +6,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {RoleService} from "../../../logic-service/role.service";
 import {ListOptions, ListDto, TypeMeta, ResponseRole, ResponseRoleBinding} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -23,14 +24,12 @@ export class ListClusterBindingComponent implements OnInit {
 
 
     constructor(private service: ClusterRoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -41,14 +40,13 @@ export class ListClusterBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
-
-        let listOptions;
-        listOptions = new ListOptions();
+        let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind, this.roleDto.apiVersion));
 
         this.service.listRole( listOptions)
             .subscribe(
-                data => {   console.log(data);
+                data => {
+                    console.log(data);
                     this.responseRoleBinding = data;
                     console.log(this.responseRoleBinding);
                     this.type = true;
@@ -57,24 +55,19 @@ export class ListClusterBindingComponent implements OnInit {
             );
     }
 
-    public goBack() {
-
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleDto = new ListDto();
-            this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new ListDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
             kind: ["", Validators.required],
-            apiVersion: ["", ]
+            apiVersion: ["",]
         });
     }
 

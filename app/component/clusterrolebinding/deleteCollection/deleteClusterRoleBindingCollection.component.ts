@@ -4,15 +4,16 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
 import {
-     DeleteCollectionDto, DeleteOptions, DeleteOptionsDto, DeleteResult, ListOptions,
+    DeleteCollectionDto, DeleteOptions, DeleteOptionsDto, DeleteResult, ListOptions,
     TypeMeta
 } from "../../../logic-service/roles";
 import {listeners} from "cluster";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
 @Component({
     moduleId: module.id,
-    selector: "deleteCollection",
+    selector: "deleteClusterRoleBindingCollection",
     templateUrl: "deleteClusterRoleBindingCollection.component.html",
 })
 
@@ -20,16 +21,17 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
     deleteCollection: DeleteCollectionDto;
     errorMessage: string;
     productForm: FormGroup;
+    response:string;
+    type: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: ClusterRoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -38,13 +40,12 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-
-        this.deleteCollection.name = productForm.value.name;
-        this.deleteCollection.kind = productForm.value.kind;
+        this.deleteCollection.namespace = productForm.value.namespace;
         this.deleteCollection.apiVersion = productForm.value.apiVersion;
         this.deleteCollection.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
+        this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
 
         this.deleteCollection.kindList = productForm.value.kindList;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
@@ -53,40 +54,40 @@ export class DeleteCollectionClusterRoleBindingComponent implements OnInit {
         let listOption = new ListOptions();
         listOption.setTypeMeta(new TypeMeta(this.deleteCollection.kindList, this.deleteCollection.apiVersionList));
 
-        let deleteOption = new DeleteOptions( new TypeMeta(this.deleteCollection.kind, this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents,
+        let deleteOption = new DeleteOptions( new TypeMeta("RoleBinding", this.deleteCollection.apiVersion),this.deleteCollection.gracePeriodSeconds,
+            this.deleteCollection.orphanDependents,
             this.deleteCollection.preconditions);
 
         this.service.deleteCollectionRole(deleteOption,listOption)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.response = data;
+                    this.type = true;
+                    console.log(this.response)
+                },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.deleteCollection = new DeleteCollectionDto();
-            this.productForm.patchValue(this.deleteCollection);
-        });
+    private initForm() {
+        this.deleteCollection = new DeleteCollectionDto();
+        this.productForm.patchValue(this.deleteCollection);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
-            name: ["", Validators.required],
-            apiVersion: ["",],
+            namespace: ["", Validators.required],
+            apiVersion: ["", ],
             gracePeriodSeconds: ["",],
             preconditions: ["", ],
             orphanDependents: ["", ],
-            deletionPropagation: ["", ],
+            propagationPolicy: ["", ],
             kindList: ["", Validators.required],
-            apiVersionList: ["", ],
+            namespaceList: [""],
         });
     }
 }

@@ -19,21 +19,19 @@ export class UpdateRoleComponent implements OnInit {
     roleDto: RoleDto;
     errorMessage: string;
     productForm: FormGroup;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
     responseRole: RoleResponse;
     type: boolean = false;
-    responseValue: boolean =true;
+    responseValue: boolean = true;
 
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -60,45 +58,37 @@ export class UpdateRoleComponent implements OnInit {
         }
 
         let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMeta(
-            this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
+            this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
 
         this.service.updateRole(role)
             .subscribe(
                 data => {
-                    if(data)
-                        this.responseRole = data;
-                    this.responseValue =true;
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
-
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
                     this.type = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/role"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
 
-            this.roleDto = new RoleDto();
-            this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new RoleDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["",Validators.required ],
-            name: ["",  Validators.required],
-            apiVersion: ["", ],
-            generateName: ["", ],
-            selfLink: ["", ],
-            uid: ["", ],
+            namespace: ["", Validators.required],
+            name: ["", Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            selfLink: ["",],
+            uid: ["",],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])
@@ -108,8 +98,8 @@ export class UpdateRoleComponent implements OnInit {
     initPolicyRules() {
         return this.fb.group({
             verbs: ["", Validators.required],
-            apiGroups: ["", ],
-            resources: ["", ],
+            apiGroups: ["",],
+            resources: ["",],
             resourceNames: ["",],
         });
     }

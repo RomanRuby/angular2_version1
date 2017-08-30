@@ -16,21 +16,19 @@ export class ListRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
     responseRole: RoleResponses;
     type: boolean = false;
     responseValue: boolean =true;
 
 
     constructor(private service: RoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -63,18 +61,13 @@ export class ListRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-
-        this.router.navigate(["/role"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.roleDto = new ListDto();
             this.productForm.patchValue(this.roleDto);
-        });
     }
 
     private buildForm() {

@@ -6,7 +6,7 @@ import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 import {RoleService} from "../../../logic-service/role.service";
 import {
     ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
-    RoleBindingDto, Subject, RoleBinding, RoleRef
+    RoleBindingDto, Subject, RoleBinding, RoleRef, ResponseRoleBinding
 } from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
@@ -21,16 +21,18 @@ export class UpdateBindingComponent implements OnInit {
     roleBindingDto: RoleBindingDto;
     errorMessage: string;
     productForm: FormGroup;
+    viewAdditionalField: boolean = false;
+    responseRole: ResponseRoleBinding;
+    type: boolean = false;
+    responseValue: boolean = true;
 
     constructor(private service: RoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -42,7 +44,6 @@ export class UpdateBindingComponent implements OnInit {
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
-        this.roleBindingDto.kindMeta = productForm.value.kindMeta;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
         this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
@@ -64,38 +65,37 @@ export class UpdateBindingComponent implements OnInit {
             this.roleBindingDto.kindRef,
             this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta(this.roleBindingDto.kindMeta, this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
+        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(this.roleBindingDto.namespace,
             this.roleBindingDto.name), subjectRules, roleRef);
 
 
         this.service.updateRole(rolebinding)
             .subscribe(
-                () => console.log("asdf"),
+                data => {
+                    this.responseRole = data;
+                    this.responseValue = typeof this.responseRole != "string";
+                    this.type = true;
+                },
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleBindingDto = new RoleBindingDto();
-            this.productForm.patchValue(this.roleBindingDto);
-        });
+    private initForm() {
+        this.roleBindingDto = new RoleBindingDto();
+        this.productForm.patchValue(this.roleBindingDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["", ],
-            generateName: ["", ],
-            name: ["", ],
-            namespace: ["", ],
+            apiVersion: ["",],
+            generateName: ["",],
+            name: ["",],
+            namespace: ["",],
             kindRef: ["", Validators.required],
-            kindMeta: ["", Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([
@@ -106,10 +106,10 @@ export class UpdateBindingComponent implements OnInit {
 
     initSubject() {
         return this.fb.group({
-            apiGroup: ["", ],
+            apiGroup: ["",],
             kind: ["", Validators.required],
             name: ["", Validators.required],
-            namespace: ["", ]
+            namespace: ["",]
         });
     }
 

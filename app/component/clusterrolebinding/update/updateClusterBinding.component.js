@@ -10,20 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var roles_1 = require("../../../logic-service/roles");
 var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var UpdateClusterBindingComponent = (function () {
-    function UpdateClusterBindingComponent(service, activatedRoute, fb, router) {
+    function UpdateClusterBindingComponent(service, fb) {
         this.service = service;
-        this.activatedRoute = activatedRoute;
         this.fb = fb;
-        this.router = router;
+        this.viewAdditionalField = false;
+        this.type = false;
+        this.responseValue = true;
     }
     UpdateClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     };
     UpdateClusterBindingComponent.prototype.checkError = function (element, errorType) {
         return this.productForm.get(element).hasError(errorType) &&
@@ -36,6 +36,7 @@ var UpdateClusterBindingComponent = (function () {
         this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         this.roleBindingDto.apiGroup = productForm.value.apiGroup;
+        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
         this.roleBindingDto.kindRef = productForm.value.kindRef;
@@ -45,26 +46,29 @@ var UpdateClusterBindingComponent = (function () {
             subjectRules.push(new roles_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
         var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta(this.roleBindingDto.kind, this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
+        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.namespace, this.roleBindingDto.name), subjectRules, roleRef);
         this.service.updateRole(rolebinding)
-            .subscribe(function () { return console.log("asdf"); }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            _this.responseValue = typeof _this.responseRole != "string";
+            _this.type = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateClusterBindingComponent.prototype.goBack = function () {
-        this.router.navigate(["/products/create"]);
+    UpdateClusterBindingComponent.prototype.reset = function () {
+        this.productForm.reset();
     };
-    UpdateClusterBindingComponent.prototype.getProductFromRoute = function () {
-        var _this = this;
-        this.activatedRoute.params.forEach(function (params) {
-            var id = params["id"];
-            _this.roleBindingDto = new roles_1.RoleBindingDto();
-            _this.productForm.patchValue(_this.roleBindingDto);
-        });
+    UpdateClusterBindingComponent.prototype.initForm = function () {
+        this.roleBindingDto = new roles_1.RoleBindingDto();
+        this.productForm.patchValue(this.roleBindingDto);
     };
     UpdateClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["", forms_1.Validators.required],
-            generateName: ["", forms_1.Validators.required],
+            apiVersion: ["",],
+            generateName: ["",],
+            name: ["",],
+            namespace: ["",],
             kindRef: ["", forms_1.Validators.required],
+            apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
@@ -73,10 +77,10 @@ var UpdateClusterBindingComponent = (function () {
     };
     UpdateClusterBindingComponent.prototype.initSubject = function () {
         return this.fb.group({
-            apiGroup: ["", forms_1.Validators.required],
+            apiGroup: ["",],
             kind: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
-            namespace: ["", forms_1.Validators.required]
+            namespace: ["",]
         });
     };
     UpdateClusterBindingComponent.prototype.addSubjectRules = function () {
@@ -96,9 +100,7 @@ UpdateClusterBindingComponent = __decorate([
         templateUrl: "updateClusterBinding.component.html",
     }),
     __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
-        router_1.ActivatedRoute,
-        forms_1.FormBuilder,
-        router_1.Router])
+        forms_1.FormBuilder])
 ], UpdateClusterBindingComponent);
 exports.UpdateClusterBindingComponent = UpdateClusterBindingComponent;
 //# sourceMappingURL=updateClusterBinding.component.js.map

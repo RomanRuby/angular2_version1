@@ -17,17 +17,15 @@ export class WatchClusterRoleComponent implements OnInit {
     productForm: FormGroup;
     response:string;
     type: boolean = false;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -37,9 +35,7 @@ export class WatchClusterRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.apiVersion = productForm.value.apiVersion;
-
-        let listOptions;
-        listOptions = new ListOptions();
+        let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta("ClusterRole", this.roleDto.apiVersion));
 
         this.service.watchRole( listOptions)
@@ -53,18 +49,13 @@ export class WatchClusterRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-
-        this.router.navigate(["/clusterrole"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.roleDto = new ListDto();
             this.productForm.patchValue(this.roleDto);
-        });
     }
 
     private buildForm() {

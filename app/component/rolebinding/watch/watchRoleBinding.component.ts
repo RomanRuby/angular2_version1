@@ -25,7 +25,7 @@ export class WatchRoleBindingComponent implements OnInit {
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -42,24 +42,20 @@ export class WatchRoleBindingComponent implements OnInit {
         listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind,this.roleDto.apiVersion));
 
-        this.service.listRole(this.roleDto.namespace,listOptions)
+        this.service.watchRole(this.roleDto.namespace,listOptions)
                 .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
                 );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-                this.roleDto = new ListDto();
-                this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new ListDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {

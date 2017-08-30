@@ -19,14 +19,12 @@ export class PatchRoleBindingComponent implements OnInit {
     productForm: FormGroup;
 
     constructor(private service: RoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -51,17 +49,13 @@ export class PatchRoleBindingComponent implements OnInit {
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
+    private initForm() {
             this.patchOptions = new PatchTypeDto();
             this.productForm.patchValue(this.patchOptions);
-        });
     }
 
     private buildForm() {

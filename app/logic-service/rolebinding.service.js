@@ -44,8 +44,7 @@ var RoleBindingService = RoleBindingService_1 = (function () {
             .catch(RoleBindingService_1.handleError);
     };
     RoleBindingService.prototype.patchRole = function (id, namespace, patchType, data, subresources) {
-        var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/rolebinding/patch" + "/" + id + "/" + namespace, patchTypes)
+        return this.http.post(this.url + "/rolebinding/patch/" + id + "/" + namespace, new roles_1.PatchType(patchType, data, subresources))
             .catch(RoleBindingService_1.handleError);
     };
     RoleBindingService.prototype.getRole = function (id, namespace, getOptions) {

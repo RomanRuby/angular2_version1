@@ -4,23 +4,24 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, PatchTypeDto, PatchType} from "../../../logic-service/roles";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
 @Component({
     moduleId: module.id,
-    selector: "watch",
-    templateUrl: "watchClusterRoleBinding.component.html",
+    selector: "patch",
+    templateUrl: "patchClusterRoleBinding.component.html",
 })
 
-export class WatchClusterRoleBindingComponent implements OnInit {
-    roleDto: ListDto ;
+export class PatchClusterRoleBindingComponent implements OnInit {
+    patchOptions: PatchTypeDto;
     errorMessage: string;
     productForm: FormGroup;
 
     constructor(private service: ClusterRoleBindingService,
-                private fb: FormBuilder) { }
+                private fb: FormBuilder) {
+    }
 
     ngOnInit() {
         this.buildForm();
@@ -33,14 +34,15 @@ export class WatchClusterRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
+        this.patchOptions.patchType = productForm.value.patchType;
+        this.patchOptions.name = productForm.value.name;
+        this.patchOptions.data = productForm.value.data;
+        this.patchOptions.subresources = productForm.value.subresources;
 
-        let listOptions;
-        listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta(this.roleDto.kind,this.roleDto.apiVersion));
 
-        this.service.watchRole(listOptions)
+
+        this.service.patchRole( this.patchOptions.name,
+            this.patchOptions.patchType,this.patchOptions.data, this.patchOptions.subresources)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
@@ -52,15 +54,16 @@ export class WatchClusterRoleBindingComponent implements OnInit {
     }
 
     private initForm() {
-        this.roleDto = new ListDto();
-        this.productForm.patchValue(this.roleDto);
+        this.patchOptions = new PatchTypeDto();
+        this.productForm.patchValue(this.patchOptions);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            kind: ["", Validators.required],
-            namespace: ["", Validators.required],
-            apiVersion: ["", Validators.required]
+            patchType: ["", Validators.required],
+            name: ["", Validators.required],
+            data: ["", Validators.required],
+            subresources: ["", Validators.required],
         });
     }
 }

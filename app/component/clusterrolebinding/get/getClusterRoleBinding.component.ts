@@ -4,6 +4,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -17,14 +18,12 @@ export class GetClusterRoleBindingComponent implements OnInit {
     productForm: FormGroup;
 
     constructor(private service: ClusterRoleBindingService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -33,41 +32,36 @@ export class GetClusterRoleBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.apiVersion = productForm.value.apiVersion;
         this.getOptions.kind = productForm.value.kind;
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
-
+        this.getOptions.name = productForm.value.name;
 
         let getOption = new GetOptions(
             new TypeMeta(this.getOptions.kind, this.getOptions.apiVersion),
             this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
-        this.service.getRole(this.getOptions.nameUrl,getOption)
+        this.service.getRole(this.getOptions.name,getOption)
             .subscribe(
                 () => console.log("asdf"),
                 error => this.errorMessage = error
             );
     }
 
-    public goBack() {
-        this.router.navigate(["/products/create"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.getOptions = new GetOptionsDto();
-            this.productForm.patchValue(this.getOptions);
-        });
+    private initForm() {
+        this.getOptions = new GetOptionsDto();
+        this.productForm.patchValue(this.getOptions);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            nameUrl: ["", Validators.required],
+            name: ["", Validators.required],
             kind: ["", Validators.required],
-            apiVersion: ["", ],
+            apiVersion: ["",],
             resourceVersion: ["", ],
             includeUninitialized: ["", ]
         });

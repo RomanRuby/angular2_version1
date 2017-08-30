@@ -1,10 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder} from "@angular/forms";
 
 
-import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, ResponseRole, RoleResponse, RoleResponses} from "../../../logic-service/roles";
+import {ListOptions, ListDto, TypeMeta, RoleResponses} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 
 @Component({
@@ -17,21 +15,19 @@ export class ListClusterRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    saveUsername: boolean = false;
+    viewAdditionalField: boolean = false;
     responseRole: RoleResponses;
     type: boolean = false;
-    responseValue: boolean =true;
+    responseValue: boolean = true;
 
 
     constructor(private service: ClusterRoleService,
-                private activatedRoute: ActivatedRoute,
-                private fb: FormBuilder,
-                private router: Router) {
+                private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.buildForm();
-        this.getProductFromRoute();
+        this.initForm();
     }
 
     public checkError(element: string, errorType: string) {
@@ -51,12 +47,11 @@ export class ListClusterRoleComponent implements OnInit {
         this.service.listRole(listOptions)
             .subscribe(
                 data => {
-                    if(data)
-                        this.responseRole = data;
-                    this.responseValue =true;
+                    this.responseRole = data;
+                    this.responseValue = true;
                     console.log(this.responseRole);
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
+                    if (typeof this.responseRole == "string") {
+                        this.responseValue = false;
                     }
 
                     this.type = true;
@@ -65,18 +60,13 @@ export class ListClusterRoleComponent implements OnInit {
             );
     }
 
-    public goBack() {
-
-        this.router.navigate(["/clusterrole"]);
+    public reset() {
+        this.productForm.reset();
     }
 
-    private getProductFromRoute() {
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = params["id"];
-
-            this.roleDto = new ListDto();
-            this.productForm.patchValue(this.roleDto);
-        });
+    private initForm() {
+        this.roleDto = new ListDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {

@@ -1,10 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ListOptions, ListDto, TypeMeta, ResponseRole, RoleResponses} from "../../../logic-service/roles";
+import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
+import {RoleResponses} from "../../../logic-service/models/role";
 
 @Component({
     moduleId: module.id,
@@ -40,8 +41,8 @@ export class ListRoleComponent implements OnInit {
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
 
-        let listOptions;
-        listOptions = new ListOptions();
+
+       let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
 
         this.service.listRole(this.roleDto.namespace, listOptions)

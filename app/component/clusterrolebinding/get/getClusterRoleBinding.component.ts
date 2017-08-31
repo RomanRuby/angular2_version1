@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-import {DeleteOptions, DeleteOptionsDto, GetOptions, GetOptionsDto, TypeMeta,ResponseRoleBinding} from "../../../logic-service/roles";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
+import {GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/models/common";
+import {ResponseRoleBinding} from "../../../logic-service/models/rolebinding";
 
 @Component({
     moduleId: module.id,

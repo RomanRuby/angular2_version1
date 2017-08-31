@@ -1,13 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {
-    ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
-    RoleResponse
-} from "../../../logic-service/roles";
+import {ObjectMeta, PolicyRule, Role, RoleDto, RoleResponse} from "../../../logic-service/models/role";
+import {TypeMeta} from "../../../logic-service/models/common";
+
 
 @Component({
     moduleId: module.id,

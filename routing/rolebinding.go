@@ -6,7 +6,6 @@ import (
 	"net/http"
 	v1beta1 "k8s.io/api/rbac/v1beta1"
 	"github.com/gorilla/mux"
-	"fmt"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

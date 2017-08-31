@@ -9,26 +9,21 @@
 			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
 		</div>
 		<div class="form-group">
-			<label for="kindRef">kind Authorizer</label>
-			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
-		</div>
-
-		<div class="form-group">
 			<label for="name">name Meta</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
 		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
 		<div *ngIf="viewAdditionalField" class="form-group">
 			<div class="form-group">
-				<label for="apiGroupRef">apiGroup Authorizer</label>
+				<label for="apiGroupRef">ApiGroup Authorizer</label>
 				<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
 			</div>
 			<div class="form-group">
-				<label for="generateName">generateName</label>
+				<label for="generateName">GenerateName</label>
 				<input id="generateName" type="text" class="form-control" formControlName="generateName">
 			</div>
 			<div class="form-group">
-				<label for="apiVersion">apiVersion</label>
+				<label for="apiVersion">ApiVersion</label>
 				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
 			</div>
 
@@ -41,11 +36,11 @@
 				</div>
 				<div class="panel-body" [formGroupName]="i">
 					<div class="form-group col-xs-6">
-						<label>apiGroup</label>
+						<label>ApiGroup</label>
 						<input type="text" class="form-control" formControlName="apiGroup">
 					</div>
 					<div class="form-group col-xs-6">
-						<label>kind</label>
+						<label>Kind</label>
 						<input type="text" class="form-control" formControlName="kind">
 						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid" class="text-danger">
 							kind is required
@@ -59,7 +54,7 @@
 						</small>
 					</div>
 					<div class="form-group col-xs-6">
-						<label>namespace</label>
+						<label>Namespace</label>
 						<input type="text" class="form-control" formControlName="namespace">
 					</div>
 				</div>
@@ -79,10 +74,10 @@
 			<table class="table">
 				<thead>
 				<tr>
-					<th>creationTimestamp</th>
-					<th>name</th>
-					<th>namespace</th>
-					<th>uid</th>
+					<th>CreationTimestamp</th>
+					<th>Name</th>
+					<th>Namespace</th>
+					<th>Uid</th>
 				</tr>
 				</thead>
 
@@ -98,9 +93,9 @@
 			<table class="table">
 				<thead>
 				<tr>
-					<th>apiGroup</th>
-					<th>kind</th>
-					<th>name</th>
+					<th>ApiGroup</th>
+					<th>Kind</th>
+					<th>Name</th>
 				</tr>
 				</thead>
 
@@ -114,10 +109,10 @@
 				</tbody>
 			</table>
 			<p-dataTable [value]="responseRole.subjects" >
-				<p-column field="apiGroup" header="apiGroups"></p-column>
-				<p-column field="kind" header="resourceNames"></p-column>
-				<p-column field="name" header="resources"></p-column>
-				<p-column field="namespace" header="namespace"></p-column>
+				<p-column field="apiGroup" header="ApiGroups"></p-column>
+				<p-column field="kind" header="ResourceNames"></p-column>
+				<p-column field="name" header="Resources"></p-column>
+				<p-column field="namespace" header="Namespace"></p-column>
 			</p-dataTable>
 		</div>
 		<div *ngIf="!responseValue">

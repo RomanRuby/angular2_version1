@@ -2,11 +2,9 @@ import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
-import {
-     DeleteCollectionDto, DeleteOptions, DeleteOptionsDto, DeleteResult, ListOptions,
-    TypeMeta
-} from "../../../logic-service/roles";
+
 import {listeners} from "cluster";
+import {DeleteCollectionDto, DeleteOptions, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 
 @Component({
     moduleId: module.id,

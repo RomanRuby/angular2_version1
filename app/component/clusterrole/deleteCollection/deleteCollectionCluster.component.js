@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
+var common_1 = require("../../../logic-service/models/common");
 var DeleteCollectionClusterRoleComponent = (function () {
     function DeleteCollectionClusterRoleComponent(service, fb) {
         this.service = service;
@@ -35,9 +35,9 @@ var DeleteCollectionClusterRoleComponent = (function () {
         this.deleteCollection.orphanDependents = productForm.value.orphanDependents;
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
-        var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta("ClusterRole", this.deleteCollection.apiVersionList));
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("ClusterRole", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
+        var listOption = new common_1.ListOptions();
+        listOption.setTypeMeta(new common_1.TypeMeta("ClusterRole", this.deleteCollection.apiVersionList));
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("ClusterRole", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
         this.service.deleteCollectionRole(deleteOption, listOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -49,7 +49,7 @@ var DeleteCollectionClusterRoleComponent = (function () {
         this.productForm.reset();
     };
     DeleteCollectionClusterRoleComponent.prototype.initForm = function () {
-        this.deleteCollection = new roles_1.DeleteCollectionDto();
+        this.deleteCollection = new common_1.DeleteCollectionDto();
         this.productForm.patchValue(this.deleteCollection);
     };
     DeleteCollectionClusterRoleComponent.prototype.buildForm = function () {

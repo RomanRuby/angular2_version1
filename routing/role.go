@@ -7,7 +7,6 @@ import (
 	mux "github.com/gorilla/mux"
 	v1beta1 "k8s.io/api/rbac/v1beta1"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"fmt"
 )
 
 

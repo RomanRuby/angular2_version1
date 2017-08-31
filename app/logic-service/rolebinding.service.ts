@@ -2,17 +2,16 @@ import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 
 import {Observable} from "rxjs/Observable";
-import {
-    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRoleBinding, ResponsesRoleBindingList, RoleBinding,
-    RoleResponse,
-} from "./roles";
+
 import {AppService} from "./app.service";
+import {ResponseRoleBinding, ResponsesRoleBindingList, RoleBinding} from "./models/rolebinding";
+import {DeleteOptions, GetOptions, ListOptions} from "./models/common";
 
 
 @Injectable()
 export class RoleBindingService {
 
-    private url = "http://localhost:8081";
+    private url = location.protocol + '//' + location.host;
 
     constructor(private http: AppService) {
     }
@@ -37,8 +36,7 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions):
-    Observable<string> {
+    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
         return this.http.post(this.url + "/rolebinding/deleteCollection/" + id, deleteOptions, listOptions)
             .catch(RoleBindingService.handleError);
     }

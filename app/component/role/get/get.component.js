@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
-var roles_1 = require("../../../logic-service/roles");
+var common_1 = require("../../../logic-service/models/common");
 var GetRoleComponent = (function () {
     function GetRoleComponent(service, fb) {
         this.service = service;
@@ -33,7 +33,7 @@ var GetRoleComponent = (function () {
         var _this = this;
         this.getOptions.nameUrl = productForm.value.nameUrl;
         this.getOptions.name = productForm.value.name;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        var getOption = new common_1.GetOptions(new common_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
         this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -45,7 +45,7 @@ var GetRoleComponent = (function () {
         this.productForm.reset();
     };
     GetRoleComponent.prototype.initForm = function () {
-        this.getOptions = new roles_1.GetOptionsDto();
+        this.getOptions = new common_1.GetOptionsDto();
         this.productForm.patchValue(this.getOptions);
     };
     GetRoleComponent.prototype.buildForm = function () {

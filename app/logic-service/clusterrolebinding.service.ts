@@ -2,18 +2,16 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
-import {
-    DeleteOptions, GetOptions, ListOptions, PatchType, ResponseRole, ResponseRoleBinding, ResponsesRoleBindingList,
-    Role,
-    RoleBinding, RoleResponse
-} from "./roles";
+
 import {AppService} from "./app.service";
+import {ResponseRoleBinding, ResponsesRoleBindingList, RoleBinding} from "./models/rolebinding";
+import {DeleteOptions, GetOptions, ListOptions} from "./models/common";
 
 
 @Injectable()
 export class ClusterRoleBindingService {
 
-    private url = "http://localhost:8081";
+    private url = location.protocol + '//' + location.host;
 
     constructor(private http: AppService) { }
 

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
-var roles_1 = require("../../../logic-service/roles");
+var common_1 = require("../../../logic-service/models/common");
 var DeleteRoleComponent = (function () {
     function DeleteRoleComponent(service, fb) {
         this.service = service;
@@ -36,7 +36,7 @@ var DeleteRoleComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("Role", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("Role", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, this.deleteOptions.namespace, deleteOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -48,7 +48,7 @@ var DeleteRoleComponent = (function () {
         this.productForm.reset();
     };
     DeleteRoleComponent.prototype.initForm = function () {
-        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.deleteOptions = new common_1.DeleteOptionsDto();
         this.productForm.patchValue(this.deleteOptions);
     };
     DeleteRoleComponent.prototype.buildForm = function () {

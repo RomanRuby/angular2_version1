@@ -16,7 +16,7 @@ var app_service_1 = require("./app.service");
 var RoleBindingService = RoleBindingService_1 = (function () {
     function RoleBindingService(http) {
         this.http = http;
-        this.url = "http://localhost:8081";
+        this.url = location.protocol + '//' + location.host;
     }
     RoleBindingService.prototype.createRole = function (role) {
         return this.http.post(this.url + "/rolebinding/create", role)

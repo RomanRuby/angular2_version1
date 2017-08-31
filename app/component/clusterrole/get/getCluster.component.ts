@@ -1,12 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-
-
-import {
-    GetOptions, GetOptionsDto, RoleResponse,
-    TypeMeta
-} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
+import {GetOptions, GetOptionsDto, TypeMeta} from "../../../logic-service/models/common";
+import {RoleResponse} from "../../../logic-service/models/role";
 
 @Component({
     moduleId: module.id,

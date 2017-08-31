@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
+var common_1 = require("../../../logic-service/models/common");
 var ListClusterRoleComponent = (function () {
     function ListClusterRoleComponent(service, fb) {
         this.service = service;
@@ -34,8 +34,8 @@ var ListClusterRoleComponent = (function () {
         this.roleDto.kind = productForm.value.kind;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions;
-        listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta("ClusterRole", this.roleDto.apiVersion));
+        listOptions = new common_1.ListOptions();
+        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRole", this.roleDto.apiVersion));
         this.service.listRole(listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -51,7 +51,7 @@ var ListClusterRoleComponent = (function () {
         this.productForm.reset();
     };
     ListClusterRoleComponent.prototype.initForm = function () {
-        this.roleDto = new roles_1.ListDto();
+        this.roleDto = new common_1.ListDto();
         this.productForm.patchValue(this.roleDto);
     };
     ListClusterRoleComponent.prototype.buildForm = function () {

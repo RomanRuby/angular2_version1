@@ -1,15 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-
-
-import {RoleService} from "../../../logic-service/role.service";
-import {
-    ListOptions, ListDto, TypeMeta, RoleDto, Role, ObjectMeta, PolicyRule,
-    RoleBindingDto, Subject, RoleBinding, RoleRef, ResponseRoleBinding
-} from "../../../logic-service/roles";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
-import {RoleBindingService} from "../../../logic-service/rolebinding.service";
+import {ResponseRoleBinding, RoleBinding, RoleBindingDto, Subject} from "../../../logic-service/models/rolebinding";
+import {ObjectMeta, RoleRef} from "../../../logic-service/models/role";
+import {TypeMeta} from "../../../logic-service/models/common";
+
 
 @Component({
     moduleId: module.id,
@@ -50,7 +46,6 @@ export class CreateClusterBindingComponent implements OnInit {
 
         this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
-        this.roleBindingDto.kindRef = productForm.value.kindRef;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
 
         let subjectRules: Subject[] = [];
@@ -62,7 +57,7 @@ export class CreateClusterBindingComponent implements OnInit {
                 this.roleBindingDto.subjectRules[i].namespace));
         }
         let roleRef = new RoleRef(this.roleBindingDto.apiGroup,
-            this.roleBindingDto.kindRef,
+           "ClusterRole",
             this.roleBindingDto.nameRef);
 
         let rolebinding = new RoleBinding(new TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(
@@ -94,7 +89,6 @@ export class CreateClusterBindingComponent implements OnInit {
             apiVersion: ["",],
             generateName: ["",],
             name: ["", Validators.required],
-            kindRef: ["", Validators.required],
             apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([

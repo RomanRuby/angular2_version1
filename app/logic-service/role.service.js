@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
-var roles_1 = require("./roles");
 var app_service_1 = require("./app.service");
+var common_1 = require("./models/common");
 var RoleService = RoleService_1 = (function () {
     function RoleService(http) {
         this.http = http;
-        this.url = "http://localhost:8081";
+        this.url = location.protocol + '//' + location.host;
     }
     RoleService.prototype.createRole = function (role) {
         return this.http.post(this.url + "/role/create", role)
@@ -25,10 +25,6 @@ var RoleService = RoleService_1 = (function () {
     };
     RoleService.prototype.updateRole = function (role) {
         return this.http.post(this.url + "/role/update", role)
-            .catch(RoleService_1.handleError);
-    };
-    RoleService.prototype.watchRole = function (id, listOptions) {
-        return this.http.post(this.url + "/role/watch/" + id, listOptions)
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.listRole = function (id, listOptions) {
@@ -40,12 +36,7 @@ var RoleService = RoleService_1 = (function () {
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.deleteCollectionRole = function (id, deleteOptions, listOptions) {
-        return this.http.post(this.url + "/role/deleteCollection/" + id, new roles_1.DeleteCol(deleteOptions, listOptions))
-            .catch(RoleService_1.handleError);
-    };
-    RoleService.prototype.patchRole = function (id, namespace, patchType, data, subresources) {
-        var patchTypes = new roles_1.PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/role/patch" + "/" + id + "/" + namespace, patchTypes)
+        return this.http.post(this.url + "/role/deleteCollection/" + id, new common_1.DeleteCol(deleteOptions, listOptions))
             .catch(RoleService_1.handleError);
     };
     RoleService.prototype.getRole = function (id, namespace, getOptions) {

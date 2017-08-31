@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
-var roles_1 = require("../../../logic-service/roles");
+var role_1 = require("../../../logic-service/models/role");
+var common_1 = require("../../../logic-service/models/common");
 var CreateRoleComponent = (function () {
     function CreateRoleComponent(service, fb) {
         this.service = service;
@@ -41,9 +42,9 @@ var CreateRoleComponent = (function () {
         this.roleDto.policyRules = productForm.value.policyRules;
         var policyRulesArrsys = [];
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new roles_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
+            policyRulesArrsys.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new roles_1.Role(new roles_1.TypeMeta("Role", this.roleDto.apiVersion), new roles_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
+        var role = new role_1.Role(new common_1.TypeMeta("Role", this.roleDto.apiVersion), new role_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
         this.service.createRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -55,7 +56,7 @@ var CreateRoleComponent = (function () {
         this.productForm.reset();
     };
     CreateRoleComponent.prototype.initForm = function () {
-        this.roleDto = new roles_1.RoleDto();
+        this.roleDto = new role_1.RoleDto();
         this.productForm.patchValue(this.roleDto);
     };
     CreateRoleComponent.prototype.buildForm = function () {

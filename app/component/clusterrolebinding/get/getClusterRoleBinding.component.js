@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
+var common_1 = require("../../../logic-service/models/common");
 var GetClusterRoleBindingComponent = (function () {
     function GetClusterRoleBindingComponent(service, fb) {
         this.service = service;
@@ -34,7 +34,7 @@ var GetClusterRoleBindingComponent = (function () {
         this.getOptions.resourceVersion = productForm.value.resourceVersion;
         this.getOptions.includeUninitialized = productForm.value.includeUninitialized;
         this.getOptions.name = productForm.value.name;
-        var getOption = new roles_1.GetOptions(new roles_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
+        var getOption = new common_1.GetOptions(new common_1.TypeMeta("Role", this.getOptions.apiVersion), this.getOptions.resourceVersion, this.getOptions.includeUninitialized);
         this.service.getRole(this.getOptions.name, this.getOptions.nameUrl, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -46,7 +46,7 @@ var GetClusterRoleBindingComponent = (function () {
         this.productForm.reset();
     };
     GetClusterRoleBindingComponent.prototype.initForm = function () {
-        this.getOptions = new roles_1.GetOptionsDto();
+        this.getOptions = new common_1.GetOptionsDto();
         this.productForm.patchValue(this.getOptions);
     };
     GetClusterRoleBindingComponent.prototype.buildForm = function () {

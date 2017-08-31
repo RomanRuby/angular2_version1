@@ -16,7 +16,7 @@ var app_service_1 = require("./app.service");
 var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
     function ClusterRoleBindingService(http) {
         this.http = http;
-        this.url = "http://localhost:8081";
+        this.url = location.protocol + '//' + location.host;
     }
     ClusterRoleBindingService.prototype.createRole = function (role) {
         return this.http.post(this.url + "/clusterrolebinding/create", role)

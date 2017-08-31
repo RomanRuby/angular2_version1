@@ -11,8 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
+var index_1 = require("../../../logic-service/index");
+var common_1 = require("../../../logic-service/models/common");
 var DeleteClusterRoleBindingComponent = (function () {
     function DeleteClusterRoleBindingComponent(service, fb) {
         this.service = service;
@@ -36,7 +37,7 @@ var DeleteClusterRoleBindingComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("ClusterRoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
+        var deleteOption = new index_1.DeleteOptions(new common_1.TypeMeta("ClusterRoleBinding", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -48,7 +49,7 @@ var DeleteClusterRoleBindingComponent = (function () {
         this.productForm.reset();
     };
     DeleteClusterRoleBindingComponent.prototype.initForm = function () {
-        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.deleteOptions = new index_1.DeleteOptionsDto();
         this.productForm.patchValue(this.deleteOptions);
     };
     DeleteClusterRoleBindingComponent.prototype.buildForm = function () {

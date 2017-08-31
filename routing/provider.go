@@ -8,7 +8,7 @@ import (
 	mux "github.com/gorilla/mux"
 )
 
-func Provider(){
+func Provide(){
 	port := flag.Int("port", 8081, "port to serve on")
 	dir := flag.String("directory","" , "directory of web files")
 	flag.Parse()

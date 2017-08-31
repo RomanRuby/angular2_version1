@@ -1,15 +1,12 @@
+///<reference path="../../../logic-service/models/common.ts"/>
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-import {RoleService} from "../../../logic-service/role.service";
-import {
-    DeleteCollectionDto, DeleteOptions, DeleteOptionsDto, DeleteResult, ListOptions,
-    TypeMeta
-} from "../../../logic-service/roles";
 import {listeners} from "cluster";
-import {RoleBindingService} from "../../../logic-service/rolebinding.service";
+
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
+import {DeleteCollectionDto, DeleteOptions, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 
 @Component({
     moduleId: module.id,

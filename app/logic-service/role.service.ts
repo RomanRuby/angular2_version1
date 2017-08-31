@@ -2,19 +2,19 @@ import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 
 import {Observable} from "rxjs/Observable";
-import {
-    DeleteCol, DeleteOptions, GetOptions, ListOptions, PatchType, Role, RoleResponse,
-    RoleResponses
-} from "./roles";
+
 import {AppService} from "./app.service";
+import {Role, RoleResponse, RoleResponses} from "./models/role";
+import {DeleteCol, DeleteOptions, GetOptions, ListOptions} from "./models/common";
 
 
 @Injectable()
 export class RoleService {
 
-    private url = "http://localhost:8081";
+    private url = location.protocol + '//' + location.host;
 
     constructor(private http: AppService) {
+
     }
 
     public createRole(role: Role): Observable<RoleResponse> {
@@ -24,11 +24,6 @@ export class RoleService {
 
     public updateRole(role: Role): Observable<RoleResponse> {
         return this.http.post(this.url + "/role/update", role)
-            .catch(RoleService.handleError);
-    }
-
-    public watchRole(id: string, listOptions: ListOptions): Observable<string> {
-        return this.http.post(this.url + "/role/watch/" + id, listOptions)
             .catch(RoleService.handleError);
     }
 
@@ -44,13 +39,6 @@ export class RoleService {
 
     public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
         return this.http.post(this.url + "/role/deleteCollection/" + id, new DeleteCol(deleteOptions, listOptions))
-            .catch(RoleService.handleError);
-    }
-
-    public patchRole(id: string, namespace: string, patchType: string, data: string, subresources: string):
-    Observable<RoleResponse> {
-        let patchTypes = new PatchType(patchType, data, subresources);
-        return this.http.post(this.url + "/role/patch" + "/" + id + "/" + namespace, patchTypes)
             .catch(RoleService.handleError);
     }
 

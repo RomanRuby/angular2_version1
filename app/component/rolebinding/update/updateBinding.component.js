@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
+var rolebinding_1 = require("../../../logic-service/models/rolebinding");
+var role_1 = require("../../../logic-service/models/role");
+var common_1 = require("../../../logic-service/models/common");
 var UpdateBindingComponent = (function () {
     function UpdateBindingComponent(service, fb) {
         this.service = service;
@@ -43,10 +45,10 @@ var UpdateBindingComponent = (function () {
         this.roleBindingDto.nameRef = productForm.value.nameRef;
         var subjectRules = [];
         for (var i = 0; i < this.roleBindingDto.subjectRules.length; i++) {
-            subjectRules.push(new roles_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
+            subjectRules.push(new rolebinding_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
-        var roleRef = new roles_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new roles_1.RoleBinding(new roles_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new roles_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
+        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
+        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
         this.service.updateRole(rolebinding)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -58,7 +60,7 @@ var UpdateBindingComponent = (function () {
         this.productForm.reset();
     };
     UpdateBindingComponent.prototype.initForm = function () {
-        this.roleBindingDto = new roles_1.RoleBindingDto();
+        this.roleBindingDto = new rolebinding_1.RoleBindingDto();
         this.productForm.patchValue(this.roleBindingDto);
     };
     UpdateBindingComponent.prototype.buildForm = function () {

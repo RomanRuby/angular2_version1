@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
+var common_1 = require("../../../logic-service/models/common");
 var DeleteClusterRoleComponent = (function () {
     function DeleteClusterRoleComponent(service, fb) {
         this.service = service;
@@ -35,7 +35,7 @@ var DeleteClusterRoleComponent = (function () {
         this.deleteOptions.gracePeriodSeconds = productForm.value.gracePeriodSeconds;
         this.deleteOptions.orphanDependents = productForm.value.orphanDependents;
         this.deleteOptions.preconditions = productForm.value.preconditions;
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("ClusterRole", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("ClusterRole", this.deleteOptions.apiVersion), this.deleteOptions.gracePeriodSeconds, this.deleteOptions.orphanDependents, this.deleteOptions.preconditions);
         this.service.deleteRole(this.deleteOptions.name, deleteOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -47,7 +47,7 @@ var DeleteClusterRoleComponent = (function () {
         this.productForm.reset();
     };
     DeleteClusterRoleComponent.prototype.initForm = function () {
-        this.deleteOptions = new roles_1.DeleteOptionsDto();
+        this.deleteOptions = new common_1.DeleteOptionsDto();
         this.productForm.patchValue(this.deleteOptions);
     };
     DeleteClusterRoleComponent.prototype.buildForm = function () {

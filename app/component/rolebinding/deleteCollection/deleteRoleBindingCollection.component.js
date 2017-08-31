@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
+var common_1 = require("../../../logic-service/models/common");
 var DeleteCollectionRoleBindingComponent = (function () {
     function DeleteCollectionRoleBindingComponent(service, fb) {
         this.service = service;
@@ -38,9 +38,9 @@ var DeleteCollectionRoleBindingComponent = (function () {
         this.deleteCollection.preconditions = productForm.value.preconditions;
         this.deleteCollection.propagationPolicy = productForm.value.propagationPolicy;
         this.deleteCollection.apiVersionList = productForm.value.apiVersionList;
-        var listOption = new roles_1.ListOptions();
-        listOption.setTypeMeta(new roles_1.TypeMeta("RoleBinding", this.deleteCollection.apiVersionList));
-        var deleteOption = new roles_1.DeleteOptions(new roles_1.TypeMeta("RoleBinding", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
+        var listOption = new common_1.ListOptions();
+        listOption.setTypeMeta(new common_1.TypeMeta("RoleBinding", this.deleteCollection.apiVersionList));
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("RoleBinding", this.deleteCollection.apiVersion), this.deleteCollection.gracePeriodSeconds, this.deleteCollection.orphanDependents, this.deleteCollection.preconditions);
         this.service.deleteCollectionRole(this.deleteCollection.nameUrl, deleteOption, listOption)
             .subscribe(function (data) {
             _this.response = data;
@@ -52,7 +52,7 @@ var DeleteCollectionRoleBindingComponent = (function () {
         this.productForm.reset();
     };
     DeleteCollectionRoleBindingComponent.prototype.initForm = function () {
-        this.deleteCollection = new roles_1.DeleteCollectionDto();
+        this.deleteCollection = new common_1.DeleteCollectionDto();
         this.productForm.patchValue(this.deleteCollection);
     };
     DeleteCollectionRoleBindingComponent.prototype.buildForm = function () {

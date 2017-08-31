@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var roles_1 = require("../../../logic-service/roles");
 var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
+var common_1 = require("../../../logic-service/models/common");
 var ListBindingComponent = (function () {
     function ListBindingComponent(service, fb) {
         this.service = service;
@@ -32,8 +32,8 @@ var ListBindingComponent = (function () {
         var _this = this;
         this.roleDto.apiVersion = productForm.value.apiVersion;
         this.roleDto.namespace = productForm.value.namespace;
-        var listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta("RoleBinding", this.roleDto.apiVersion));
+        var listOptions = new common_1.ListOptions();
+        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -49,7 +49,7 @@ var ListBindingComponent = (function () {
         this.productForm.reset();
     };
     ListBindingComponent.prototype.initForm = function () {
-        this.roleDto = new roles_1.ListDto();
+        this.roleDto = new common_1.ListDto();
         this.productForm.patchValue(this.roleDto);
     };
     ListBindingComponent.prototype.buildForm = function () {

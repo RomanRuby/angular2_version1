@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var role_service_1 = require("../../../logic-service/role.service");
-var roles_1 = require("../../../logic-service/roles");
+var common_1 = require("../../../logic-service/models/common");
 var ListRoleComponent = (function () {
     function ListRoleComponent(service, fb) {
         this.service = service;
@@ -33,9 +33,8 @@ var ListRoleComponent = (function () {
         var _this = this;
         this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.apiVersion = productForm.value.apiVersion;
-        var listOptions;
-        listOptions = new roles_1.ListOptions();
-        listOptions.setTypeMeta(new roles_1.TypeMeta("Role", this.roleDto.apiVersion));
+        var listOptions = new common_1.ListOptions();
+        listOptions.setTypeMeta(new common_1.TypeMeta("Role", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -51,7 +50,7 @@ var ListRoleComponent = (function () {
         this.productForm.reset();
     };
     ListRoleComponent.prototype.initForm = function () {
-        this.roleDto = new roles_1.ListDto();
+        this.roleDto = new common_1.ListDto();
         this.productForm.patchValue(this.roleDto);
     };
     ListRoleComponent.prototype.buildForm = function () {

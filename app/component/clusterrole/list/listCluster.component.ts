@@ -1,9 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder} from "@angular/forms";
-
-
-import {ListOptions, ListDto, TypeMeta, RoleResponses} from "../../../logic-service/roles";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
+import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
+import {RoleResponses} from "../../../logic-service/index";
 
 @Component({
     moduleId: module.id,

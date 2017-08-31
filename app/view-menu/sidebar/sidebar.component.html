@@ -15,14 +15,14 @@
                     <p>{{menuDashboard.title}}</p>
                 </a>
             </li>
-            <li class="separator">Cluster</li>
+            <li class="separator"><b>Cluster</b></li>
             <li *ngFor="let menuCluster of menuClusters" routerLinkActive="active" class="{{menuCluster.class}}">
                 <a  [routerLink]="[menuCluster.path]">
                     <i class="material-icons">{{menuCluster.icon}}</i>
                     <p>{{menuCluster.title}}</p>
                 </a>
             </li>
-            <li class="separator">Single-value</li>
+            <li class="separator"><b>Single-value</b></li>
             <li *ngFor="let menuSingle of menuSingles" routerLinkActive="active" class="{{menuSingle.class}}">
                 <a  [routerLink]="[menuSingle.path]">
                     <i class="material-icons">{{menuSingle.icon}}</i>

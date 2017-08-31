@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {RoleService} from "../../../logic-service/role.service";
-import {DeleteOptions, DeleteOptionsDto, TypeMeta} from "../../../logic-service/roles";
+import {DeleteOptions, DeleteOptionsDto, TypeMeta} from "../../../logic-service/models/common";
+
 
 @Component({
     moduleId: module.id,

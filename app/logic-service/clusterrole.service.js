@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
-var roles_1 = require("./roles");
 var app_service_1 = require("./app.service");
+var common_1 = require("./models/common");
 var ClusterRoleService = ClusterRoleService_1 = (function () {
     function ClusterRoleService(http) {
         this.http = http;
-        this.url = "http://localhost:8081";
+        this.url = location.protocol + '//' + location.host;
     }
     ClusterRoleService.prototype.createRole = function (role) {
         return this.http.post(this.url + "/clusterrole/create", role)
@@ -36,7 +36,7 @@ var ClusterRoleService = ClusterRoleService_1 = (function () {
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.deleteCollectionRole = function (deleteOptions, listOptions) {
-        return this.http.post(this.url + "/clusterrole/deleteCollection", new roles_1.DeleteCol(deleteOptions, listOptions))
+        return this.http.post(this.url + "/clusterrole/deleteCollection", new common_1.DeleteCol(deleteOptions, listOptions))
             .catch(ClusterRoleService_1.handleError);
     };
     ClusterRoleService.prototype.getRole = function (namespace, getOptions) {

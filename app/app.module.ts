@@ -17,7 +17,6 @@ import {ClusterRoleBindingService} from "./logic-service/clusterrolebinding.serv
 import {ClusterRoleService} from "./logic-service/clusterrole.service";
 import {RoleBindingService} from "./logic-service/rolebinding.service";
 import {AppService} from "./logic-service/app.service";
-
 import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng/primeng';
 
 
@@ -38,7 +37,7 @@ import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng
         routeRoleComponent
     ],
     bootstrap: [AppComponent],
-    providers: [RoleService, ClusterRoleBindingService, ClusterRoleService, RoleBindingService, AppService]
+    providers: [RoleService, ClusterRoleBindingService, ClusterRoleService, RoleBindingService, AppService],
 })
 export class AppModule {
 }

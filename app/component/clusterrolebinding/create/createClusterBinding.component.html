@@ -12,22 +12,6 @@
 			<label for="name">Name Meta</label>
 			<input id="name" type="text" class="form-control" formControlName="name">
 		</div>
-		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
-		<div *ngIf="viewAdditionalField" class="form-group">
-			<div class="form-group">
-				<label for="apiGroupRef">ApiGroup Authorizer</label>
-				<input id="apiGroupRef" type="text" class="form-control" formControlName="apiGroupRef">
-			</div>
-			<div class="form-group">
-				<label for="generateName">GenerateName</label>
-				<input id="generateName" type="text" class="form-control" formControlName="generateName">
-			</div>
-			<div class="form-group">
-				<label for="apiVersion">ApiVersion</label>
-				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-			</div>
-
-		</div>
 		<div formArrayName="subjectRules">
 			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
 				<div class="panel-heading">

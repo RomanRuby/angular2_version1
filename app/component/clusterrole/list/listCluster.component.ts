@@ -14,10 +14,12 @@ export class ListClusterRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    viewAdditionalField: boolean = false;
     responseRole: RoleResponses;
-    type: boolean = false;
-    responseValue: boolean = true;
+    response: string;
+    deleterole: string;
+    isInformationOutput: boolean = false;
+    isInformationTable: boolean = false;
+    isInformationError: boolean = false;
 
 
     constructor(private service: ClusterRoleService,
@@ -34,33 +36,48 @@ export class ListClusterRoleComponent implements OnInit {
             this.productForm.get(element).touched
     }
 
-    public onSubmit(productForm: FormGroup) {
-        this.roleDto.kind = productForm.value.kind;
-
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-
-        let listOptions;
-        listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("ClusterRole", this.roleDto.apiVersion));
+    public onSubmit() {
+       let listOptions = new ListOptions();
+        listOptions.setTypeMeta(new TypeMeta("ClusterRole",null));
 
         this.service.listRole(listOptions)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue = true;
-                    console.log(this.responseRole);
-                    if (typeof this.responseRole == "string") {
-                        this.responseValue = false;
-                    }
 
-                    this.type = true;
+                    if (typeof this.responseRole != "string") {
+                        this.isInformationTable = true;
+                    }
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public reset() {
-        this.productForm.reset();
+    public deleteList() {
+        this.service.deleteCollectionRole(null, null)
+            .subscribe(
+                data => {
+                    this.response = data;
+                    this.isInformationTable = false;
+                    this.isInformationError = true;
+                },
+                error => this.errorMessage = error
+            );
+    }
+
+    public delete(name:string) {
+        this.service.deleteRole(name, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.service.deleteRole(name, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.onSubmit();
     }
 
     private initForm() {
@@ -69,9 +86,7 @@ export class ListClusterRoleComponent implements OnInit {
     }
 
     private buildForm() {
-        this.productForm = this.fb.group({
-            apiVersion: ["",]
-        });
+        this.productForm = this.fb.group({});
     }
 
 }

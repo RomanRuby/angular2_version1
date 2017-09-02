@@ -1,26 +1,32 @@
 import {Component, OnInit} from "@angular/core";
-
-import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
-import {ObjectMeta, PolicyRule, Role, RoleDto, RoleResponse} from "../../../logic-service/models/role";
-import {TypeMeta} from "../../../logic-service/models/common";
+import {GetOptions, GetOptionsDto, Options, TypeMeta} from "../../../logic-service/models/common";
+import {
+    ObjectMeta, ObjectMetaView, PolicyRuleDto,
+    Role, RoleResponse, RoleWithAllOptionsView, RoleWithAllOptionsViewDto,
+} from "../../../logic-service/models/role";
+import {FormArray} from "@angular/forms";
+import {PolicyRule} from "../../../logic-service/index";
+import { Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
     moduleId: module.id,
     selector: "update",
-    templateUrl: "updateCluster.component.html",
+    templateUrl: "updateCluster.component.html"
 })
 
 export class UpdateClusterRoleComponent implements OnInit {
-    roleDto: RoleDto;
-    errorMessage: string;
     productForm: FormGroup;
-    viewAdditionalField: boolean = false;
-    responseRole: RoleResponse;
-    type: boolean = false;
-    responseValue: boolean = true;
+    responseRole: RoleWithAllOptionsView;
+    responseRoleDto: RoleWithAllOptionsViewDto;
+    errorMessage: string;
+    response: string;
 
+    isInformationOutput: boolean = false;
+    isInformationTable: boolean = false;
+    isInformationError: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private fb: FormBuilder) {
@@ -37,74 +43,82 @@ export class UpdateClusterRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.name = productForm.value.name;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.generateName = productForm.value.generateName;
-        this.roleDto.selfLink = productForm.value.selfLink;
-        this.roleDto.uid = productForm.value.uid;
-        this.roleDto.policyRules = productForm.value.policyRules;
-
-        let policyRulesArrsys: PolicyRule[] = [];
-
-        for (let i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
-                this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
-                this.roleDto.policyRules[i].resourceNames.split(',')));
-        }
-
-        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMeta(
-            this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
-
-        this.service.updateRole(role)
+        this.service.getRole(productForm.value.name, null)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue = typeof this.responseRole != "string";
-                    this.type = true;
+
+                    if (typeof this.responseRole != "string") {
+                        this.responseRoleDto = new RoleWithAllOptionsViewDto();
+                        this.responseRoleDto.metadata= [];
+                        this.responseRoleDto.typeMeta =[];
+
+                        this.responseRoleDto.metadata.push(this.responseRole.metadata);
+                        this.responseRoleDto.typeMeta.push(this.responseRole.typeMeta);
+
+
+                        let policyRulesArrsysDto: PolicyRuleDto[] = [];
+
+                        for (let i = 0; i < this.responseRole.rules.length; i++) {
+                            policyRulesArrsysDto.push(new PolicyRuleDto(this.responseRole.rules[i].verbs.toString(),
+                                this.responseRole.rules[i].apiGroups.toString(),
+                                this.responseRole.rules[i].resources.toString(),
+                                this.responseRole.rules[i].resourceNames.toString()));
+                        }
+                        this.responseRoleDto.rules = policyRulesArrsysDto;
+                        this.isInformationTable = true;
+                        this.isInformationError = false;
+                    }
+                    else {
+                        this.isInformationError = true;
+                    }
+
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public reset() {
-        this.productForm.reset();
+    public save() {
+        let policyRulesArrsys: PolicyRule[] = [];
+
+        for (let i = 0; i < this.responseRoleDto.rules.length; i++) {
+            policyRulesArrsys.push(new PolicyRule(this.responseRoleDto.rules[i].verbs.split(','),
+                this.responseRoleDto.rules[i].apiGroups.split(','), this.responseRoleDto.rules[i].resources.split(','),
+                this.responseRoleDto.rules[i].resourceNames.split(',')));
+        }
+
+        let role = new Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(),
+            policyRulesArrsys);
+        console.log(role);
+        this.service.updateRole(role)
+            .subscribe(
+                data => {
+                    if (typeof data != "string") {
+                        this.isInformationTable = true;
+                    }else{
+
+                        this.isInformationError = true;
+                    }
+                    this.responseRole = data;
+
+                },
+                error => this.errorMessage = error
+            );
     }
 
     private initForm() {
-        this.roleDto = new RoleDto();
-        this.productForm.patchValue(this.roleDto);
+        this.responseRole = new RoleWithAllOptionsView();
+        this.productForm.patchValue(this.responseRole);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            name: ["", Validators.required],
-            apiVersion: ["",],
-            generateName: ["",],
-            selfLink: ["",],
-            uid: ["",],
-            policyRules: this.fb.array([
-                this.initPolicyRules(),
-            ])
+            name: ["",Validators.required]
         });
     }
-
-    initPolicyRules() {
-        return this.fb.group({
-            verbs: ["", Validators.required],
-            apiGroups: ["",],
-            resources: ["",],
-            resourceNames: ["",],
-        });
-    }
-
-    addPolicyRules() {
-        const control = <FormArray>this.productForm.controls['policyRules'];
-        control.push(this.initPolicyRules());
-    }
-
-    removePolicyRules(i: number) {
-        const control = <FormArray>this.productForm.controls['policyRules'];
-        control.removeAt(i);
+    private addPolicy() {
+        this.responseRoleDto.rules.push(new PolicyRuleDto("null"));
     }
 
 }

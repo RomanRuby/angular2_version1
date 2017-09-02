@@ -17,9 +17,9 @@ var ListRoleComponent = (function () {
     function ListRoleComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.viewAdditionalField = false;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationTable = false;
+        this.isInformationError = false;
     }
     ListRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -32,22 +32,47 @@ var ListRoleComponent = (function () {
     ListRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleDto.namespace = productForm.value.namespace;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
         var listOptions = new common_1.ListOptions();
         listOptions.setTypeMeta(new common_1.TypeMeta("Role", this.roleDto.apiVersion));
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = true;
-            console.log(_this.responseRole);
             if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
             }
-            _this.type = true;
+            else {
+                _this.isInformationTable = true;
+            }
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    ListRoleComponent.prototype.reset = function () {
-        this.productForm.reset();
+    ListRoleComponent.prototype.deleteList = function (namespace) {
+        var _this = this;
+        console.log(namespace);
+        this.service.deleteCollectionRole(namespace, null, null)
+            .subscribe(function (data) {
+            _this.response = data;
+            _this.isInformationTable = false;
+            _this.isInformationError = true;
+        }, function (error) { return _this.errorMessage = error; });
+    };
+    ListRoleComponent.prototype.delete = function (name) {
+        var _this = this;
+        this.service.deleteRole(name, this.roleDto.namespace, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        this.service.deleteRole(name, this.roleDto.namespace, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        var listOptions = new common_1.ListOptions();
+        listOptions.setTypeMeta(new common_1.TypeMeta("Role", this.roleDto.apiVersion));
+        this.service.listRole(this.roleDto.namespace, listOptions)
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            if (typeof _this.responseRole == "string") {
+            }
+            else {
+                _this.isInformationTable = true;
+            }
+            _this.isInformationOutput = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     ListRoleComponent.prototype.initForm = function () {
         this.roleDto = new common_1.ListDto();
@@ -56,7 +81,6 @@ var ListRoleComponent = (function () {
     ListRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             namespace: ["", forms_1.Validators.required],
-            apiVersion: ["",]
         });
     };
     return ListRoleComponent;

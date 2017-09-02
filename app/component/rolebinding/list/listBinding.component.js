@@ -17,8 +17,9 @@ var ListBindingComponent = (function () {
     function ListBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationTable = false;
+        this.isInformationError = false;
     }
     ListBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -30,23 +31,50 @@ var ListBindingComponent = (function () {
     };
     ListBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.namespace = productForm.value.namespace;
         var listOptions = new common_1.ListOptions();
-        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding", this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding", null));
+        this.namespace = productForm.value.namespace;
+        this.service.listRole(this.namespace, listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = true;
+            _this.isInformationTable = true;
             console.log(_this.responseRole);
             if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
+                _this.isInformationTable = false;
             }
-            _this.type = true;
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    ListBindingComponent.prototype.reset = function () {
-        this.productForm.reset();
+    ListBindingComponent.prototype.deleteList = function () {
+        var _this = this;
+        var listOption = new common_1.ListOptions();
+        listOption.setTypeMeta(new common_1.TypeMeta("RoleBinding", null));
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("RoleBinding", null), null, null, null);
+        this.service.deleteCollectionRole(this.namespace, deleteOption, listOption)
+            .subscribe(function (data) {
+            _this.response = data;
+            _this.isInformationTable = false;
+            _this.isInformationError = true;
+        }, function (error) { return _this.errorMessage = error; });
+    };
+    ListBindingComponent.prototype.delete = function (name) {
+        var _this = this;
+        this.service.deleteRole(name, this.namespace, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        this.service.deleteRole(name, this.namespace, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        var listOptions = new common_1.ListOptions();
+        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding", null));
+        this.service.listRole(this.namespace, listOptions)
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            _this.isInformationTable = true;
+            console.log(_this.responseRole);
+            if (typeof _this.responseRole == "string") {
+                _this.isInformationTable = false;
+            }
+            _this.isInformationOutput = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     ListBindingComponent.prototype.initForm = function () {
         this.roleDto = new common_1.ListDto();
@@ -55,7 +83,6 @@ var ListBindingComponent = (function () {
     ListBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             namespace: ["", forms_1.Validators.required],
-            apiVersion: ["",]
         });
     };
     return ListBindingComponent;

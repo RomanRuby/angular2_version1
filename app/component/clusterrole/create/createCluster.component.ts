@@ -2,7 +2,10 @@ import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
-import {ObjectMeta, PolicyRule, Role, RoleDto, RoleResponse} from "../../../logic-service/models/role";
+import {
+    ObjectMeta, ObjectMetaView, PolicyRule, Role, RoleDto, RoleResponse,
+    RoleWithAllOptionsView
+} from "../../../logic-service/models/role";
 import {TypeMeta} from "../../../logic-service/models/common";
 
 @Component({
@@ -16,7 +19,7 @@ export class CreateClusterRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
     viewAdditionalField: boolean = false;
-    responseRole: RoleResponse;
+    responseRole: RoleWithAllOptionsView;
     type: boolean = false;
     responseValue: boolean = true;
 
@@ -37,10 +40,6 @@ export class CreateClusterRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.name = productForm.value.name;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.generateName = productForm.value.generateName;
-        this.roleDto.selfLink = productForm.value.selfLink;
-        this.roleDto.uid = productForm.value.uid;
         this.roleDto.policyRules = productForm.value.policyRules;
 
         let policyRulesArrsys: PolicyRule[] = [];
@@ -51,8 +50,9 @@ export class CreateClusterRoleComponent implements OnInit {
                 this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMeta(
-            this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
+        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMetaView(
+            this.roleDto.name, this.roleDto.namespace,this.roleDto.generation,this.roleDto.deletionTimestamp,
+            this.roleDto.deletionGracePeriodSeconds), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
@@ -77,10 +77,6 @@ export class CreateClusterRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             name: ["", Validators.required],
-            apiVersion: ["",],
-            generateName: ["",],
-            selfLink: ["",],
-            uid: ["",],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])

@@ -3,34 +3,22 @@
         <div class="form-group">
             <a href="#" onClick="history.go(-1)"><b>Cluster Role Binding</b> </a>
         </div>
-        <div class="form-group">
-            <label for="namespace"> namespace Meta</label>
-            <input id="namespace" type="text" class="form-control" formControlName="namespace">
-        </div>
+        <input type="button" class="btn btn-default" (click)="deleteList()" value="Delete List"/>
+        <input type="submit" class="btn btn-primary" value="List" [disabled]="productForm.invalid"/>
 
-        <input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField"/>
-        <div *ngIf="viewAdditionalField" class="form-group">
-
-            <div class="form-group">
-                <label for="apiVersion">apiVersion</label>
-                <input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-            </div>
-
-        </div>
-        <input type="button" class="btn btn-default" (click)="reset()" value="Reset"/>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
     </form>
     <h3 class="first">Information </h3>
-    <div *ngIf="type">
+    <div *ngIf="isInformationOutput">
         <div *ngFor="let responseRole of responseRole.items; let i=index">
-            <div *ngIf="responseValue">
+            <div *ngIf="isInformationTable">
                 <table class="table">
+                    <input type="button" class="btn btn-default" (click)="delete(responseRole.metadata.name)" value="Delete Role Binding"/>
                     <thead>
                     <tr>
-                        <th>creationTimestamp</th>
-                        <th>name</th>
-                        <th>namespace</th>
-                        <th>uid</th>
+                        <th>CreationTimestamp</th>
+                        <th>Name</th>
+                        <th>Namespace</th>
+                        <th>Uid</th>
                     </tr>
                     </thead>
 
@@ -69,7 +57,5 @@
                 </p-dataTable>
             </div>
         </div>
-        <div *ngIf="!responseValue">
-            <p>{{responseRole}}</p></div>
     </div>
 </div>

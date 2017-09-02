@@ -8,7 +8,9 @@ html, body, .app-container {
 .header, .footer {
     background-color: #3f51b5;
 }
-
+.back {
+    background-image: url(../assets/img/back2.jpg);
+}
 a {
     color: white;
     padding: 20px;

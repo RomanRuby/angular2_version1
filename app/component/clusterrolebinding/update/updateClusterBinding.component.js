@@ -20,8 +20,9 @@ var UpdateClusterBindingComponent = (function () {
         this.service = service;
         this.fb = fb;
         this.viewAdditionalField = false;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationTable = false;
+        this.isInformationError = false;
     }
     UpdateClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -33,30 +34,32 @@ var UpdateClusterBindingComponent = (function () {
     };
     UpdateClusterBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleBindingDto.namespace = productForm.value.namespace;
-        this.roleBindingDto.name = productForm.value.name;
-        this.roleBindingDto.kind = productForm.value.kind;
-        this.roleBindingDto.subjectRules = productForm.value.subjectRules;
-        this.roleBindingDto.apiGroup = productForm.value.apiGroup;
-        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
-        this.roleBindingDto.apiVersion = productForm.value.apiVersion;
-        this.roleBindingDto.generateName = productForm.value.generateName;
-        this.roleBindingDto.nameRef = productForm.value.nameRef;
-        var subjectRules = [];
-        for (var i = 0; i < this.roleBindingDto.subjectRules.length; i++) {
-            subjectRules.push(new rolebinding_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
-        }
-        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, "ClusterRole", this.roleBindingDto.nameRef);
-        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
-        this.service.updateRole(rolebinding)
+        var getOption = new common_1.GetOptions(new common_1.TypeMeta("ClusterRole", null), null, null);
+        this.service.getRole(productForm.value.name, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = typeof _this.responseRole != "string";
-            _this.type = true;
+            if (typeof _this.responseRole != "string") {
+                _this.isInformationTable = true;
+            }
+            else {
+                _this.isInformationError = true;
+            }
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateClusterBindingComponent.prototype.reset = function () {
-        this.productForm.reset();
+    UpdateClusterBindingComponent.prototype.save = function () {
+        var _this = this;
+        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", null), new role_1.ObjectMeta(this.responseRole.metadata.name, null), this.responseRole.subjects, this.responseRole.roleRef);
+        this.service.updateRole(role)
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            if (typeof _this.responseRole != "string") {
+                _this.isInformationTable = true;
+            }
+            else {
+                _this.isInformationError = true;
+            }
+        }, function (error) { return _this.errorMessage = error; });
     };
     UpdateClusterBindingComponent.prototype.initForm = function () {
         this.roleBindingDto = new rolebinding_1.RoleBindingDto();
@@ -64,31 +67,8 @@ var UpdateClusterBindingComponent = (function () {
     };
     UpdateClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["",],
-            generateName: ["",],
             name: ["", forms_1.Validators.required],
-            apiGroupRef: ["",],
-            nameRef: ["", forms_1.Validators.required],
-            subjectRules: this.fb.array([
-                this.initSubject(),
-            ])
         });
-    };
-    UpdateClusterBindingComponent.prototype.initSubject = function () {
-        return this.fb.group({
-            apiGroup: ["",],
-            kind: ["", forms_1.Validators.required],
-            name: ["", forms_1.Validators.required],
-            namespace: ["",]
-        });
-    };
-    UpdateClusterBindingComponent.prototype.addSubjectRules = function () {
-        var control = this.productForm.controls['subjectRules'];
-        control.push(this.initSubject());
-    };
-    UpdateClusterBindingComponent.prototype.removeSubjectRules = function (i) {
-        var control = this.productForm.controls['subjectRules'];
-        control.removeAt(i);
     };
     return UpdateClusterBindingComponent;
 }());

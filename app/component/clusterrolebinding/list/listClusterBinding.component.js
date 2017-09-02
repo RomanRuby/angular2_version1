@@ -11,14 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var rolebinding_service_1 = require("../../../logic-service/rolebinding.service");
 var common_1 = require("../../../logic-service/models/common");
+var clusterrolebinding_service_1 = require("../../../logic-service/clusterrolebinding.service");
 var ListClusterBindingComponent = (function () {
     function ListClusterBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationTable = false;
+        this.isInformationError = false;
     }
     ListClusterBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -28,35 +29,47 @@ var ListClusterBindingComponent = (function () {
         return this.productForm.get(element).hasError(errorType) &&
             this.productForm.get(element).touched;
     };
-    ListClusterBindingComponent.prototype.onSubmit = function (productForm) {
+    ListClusterBindingComponent.prototype.onSubmit = function () {
         var _this = this;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.namespace = productForm.value.namespace;
         var listOptions = new common_1.ListOptions();
-        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding", this.roleDto.apiVersion));
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding", null));
+        this.service.listRole(listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = true;
+            _this.isInformationTable = true;
             console.log(_this.responseRole);
             if (typeof _this.responseRole == "string") {
-                _this.responseValue = false;
+                _this.isInformationTable = false;
             }
-            _this.type = true;
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
-    ListClusterBindingComponent.prototype.reset = function () {
-        this.productForm.reset();
+    ListClusterBindingComponent.prototype.deleteList = function () {
+        var _this = this;
+        var listOption = new common_1.ListOptions();
+        listOption.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding", null));
+        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("ClusterRoleBinding", null), null, null, null);
+        this.service.deleteCollectionRole(deleteOption, listOption)
+            .subscribe(function (data) {
+            _this.response = data;
+            _this.isInformationTable = false;
+            _this.isInformationError = true;
+        }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterBindingComponent.prototype.initForm = function () {
         this.roleDto = new common_1.ListDto();
         this.productForm.patchValue(this.roleDto);
     };
+    ListClusterBindingComponent.prototype.delete = function (name) {
+        var _this = this;
+        this.service.deleteRole(name, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        this.service.deleteRole(name, null).subscribe(function (data) {
+        }, function (error) { return _this.errorMessage = error; });
+        this.onSubmit();
+    };
     ListClusterBindingComponent.prototype.buildForm = function () {
-        this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
-            apiVersion: ["",]
-        });
+        this.productForm = this.fb.group({});
     };
     return ListClusterBindingComponent;
 }());
@@ -66,7 +79,7 @@ ListClusterBindingComponent = __decorate([
         selector: "list",
         templateUrl: "listClusterBinding.component.html",
     }),
-    __metadata("design:paramtypes", [rolebinding_service_1.RoleBindingService,
+    __metadata("design:paramtypes", [clusterrolebinding_service_1.ClusterRoleBindingService,
         forms_1.FormBuilder])
 ], ListClusterBindingComponent);
 exports.ListClusterBindingComponent = ListClusterBindingComponent;

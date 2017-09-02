@@ -11,16 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var role_service_1 = require("../../../logic-service/role.service");
 var role_1 = require("../../../logic-service/models/role");
-var common_1 = require("../../../logic-service/models/common");
+var index_1 = require("../../../logic-service/index");
+var role_service_1 = require("../../../logic-service/role.service");
 var UpdateRoleComponent = (function () {
     function UpdateRoleComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.viewAdditionalField = false;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationTable = false;
+        this.isInformationError = false;
     }
     UpdateRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -32,60 +32,56 @@ var UpdateRoleComponent = (function () {
     };
     UpdateRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleDto.namespace = productForm.value.namespace;
-        this.roleDto.name = productForm.value.name;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.generateName = productForm.value.generateName;
-        this.roleDto.selfLink = productForm.value.selfLink;
-        this.roleDto.uid = productForm.value.uid;
-        this.roleDto.policyRules = productForm.value.policyRules;
+        this.service.getRole(productForm.value.name, productForm.value.namespace, null)
+            .subscribe(function (data) {
+            _this.responseRole = data;
+            if (typeof _this.responseRole != "string") {
+                _this.responseRoleDto = new role_1.RoleWithAllOptionsViewDto();
+                _this.responseRoleDto.metadata = [];
+                _this.responseRoleDto.metadata.push(_this.responseRole.metadata);
+                _this.responseRoleDto.typeMeta = [];
+                _this.responseRoleDto.typeMeta.push(_this.responseRole.typeMeta);
+                var policyRulesArrsysDto = [];
+                for (var i = 0; i < _this.responseRole.rules.length; i++) {
+                    policyRulesArrsysDto.push(new role_1.PolicyRuleDto(_this.responseRole.rules[i].verbs.toString(), _this.responseRole.rules[i].apiGroups.toString(), _this.responseRole.rules[i].resources.toString(), _this.responseRole.rules[i].resourceNames.toString()));
+                }
+                _this.responseRoleDto.rules = policyRulesArrsysDto;
+                _this.isInformationTable = true;
+            }
+            else {
+                _this.isInformationError = true;
+            }
+            _this.isInformationOutput = true;
+        }, function (error) { return _this.errorMessage = error; });
+    };
+    UpdateRoleComponent.prototype.save = function () {
+        var _this = this;
         var policyRulesArrsys = [];
-        for (var i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
+        for (var i = 0; i < this.responseRoleDto.rules.length; i++) {
+            policyRulesArrsys.push(new index_1.PolicyRule(this.responseRoleDto.rules[i].verbs.split(','), this.responseRoleDto.rules[i].apiGroups.split(','), this.responseRoleDto.rules[i].resources.split(','), this.responseRoleDto.rules[i].resourceNames.split(',')));
         }
-        var role = new role_1.Role(new common_1.TypeMeta("Role", this.roleDto.apiVersion), new role_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
+        var role = new role_1.Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(), policyRulesArrsys);
+        console.log(role);
         this.service.updateRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = typeof _this.responseRole != "string";
-            _this.type = true;
+            if (typeof _this.responseRole != "string") {
+                _this.isInformationTable = true;
+            }
+            else {
+                _this.isInformationError = true;
+            }
         }, function (error) { return _this.errorMessage = error; });
     };
-    UpdateRoleComponent.prototype.reset = function () {
-        this.productForm.reset();
-    };
     UpdateRoleComponent.prototype.initForm = function () {
-        this.roleDto = new role_1.RoleDto();
-        this.productForm.patchValue(this.roleDto);
+        this.responseRole = new role_1.RoleWithAllOptionsView();
+        this.productForm.patchValue(this.responseRole);
     };
     UpdateRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            namespace: ["", forms_1.Validators.required],
-            name: ["", forms_1.Validators.required],
-            apiVersion: ["",],
-            generateName: ["",],
-            selfLink: ["",],
-            uid: ["",],
-            policyRules: this.fb.array([
-                this.initPolicyRules(),
-            ])
+            name: ["",],
+            namespace: ["",]
         });
-    };
-    UpdateRoleComponent.prototype.initPolicyRules = function () {
-        return this.fb.group({
-            verbs: ["", forms_1.Validators.required],
-            apiGroups: ["",],
-            resources: ["",],
-            resourceNames: ["",],
-        });
-    };
-    UpdateRoleComponent.prototype.addPolicyRules = function () {
-        var control = this.productForm.controls['policyRules'];
-        control.push(this.initPolicyRules());
-    };
-    UpdateRoleComponent.prototype.removePolicyRules = function (i) {
-        var control = this.productForm.controls['policyRules'];
-        control.removeAt(i);
     };
     return UpdateRoleComponent;
 }());

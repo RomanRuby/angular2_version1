@@ -65,12 +65,9 @@ var CreateBindingComponent = (function () {
     };
     CreateBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["",],
-            generateName: ["",],
             name: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
             kindRef: ["", forms_1.Validators.required],
-            apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),

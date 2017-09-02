@@ -4,44 +4,24 @@
             <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
         </div>
 
+        <div class="ui-g-12 ui-md-8 ui-lg-10">
         <div class="form-group">
             <label for="name">Name</label>
             <input id="name" type="text" class="form-control" formControlName="name">
         </div>
-
-        <input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField"/>
-        <div *ngIf="viewAdditionalField" class="form-group">
-            <div class="form-group">
-                <label for="apiVersion">Apiversion </label>
-                <input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-            </div>
-            <div class="form-group">
-                <label for="generateName">GenerateName</label>
-                <input id="generateName" type="text" class="form-control" formControlName="generateName">
-            </div>
-
-            <div class="form-group">
-                <label for="selfLink">SelfLink</label>
-                <input id="selfLink" type="text" class="form-control" formControlName="selfLink">
-            </div>
-
-            <div class="form-group">
-                <label for="uid">Uid</label>
-                <input id="uid" type="text" class="form-control" formControlName="uid">
-            </div>
         </div>
-
         <div formArrayName="policyRules">
             <div *ngFor="let policyRules of productForm.controls.policyRules.controls; let i=index"
-                 class="panel panel-default">
+                 class="panel panel-default ui-g-12 ui-md-8 ui-lg-8">
                 <div class="panel-heading">
-                    <span>PolicyRules {{i + 1}}</span>
-                    <span class="glyphicon glyphicon-remove pull-right"
+                    <span>Policy Rule : {{i + 1}}</span>
+                    <span class="glyphicon glyphicon-remove pull-right "
                           *ngIf="productForm.controls.policyRules.controls.length > 1"
                           (click)="removePolicyRules(i)"></span>
                 </div>
-                <div class="panel-body" [formGroupName]="i">
-                    <div class="form-group col-xs-6">
+                <div class="panel-body " [formGroupName]="i">
+                    <div class="row">
+                    <div class="form-group col-xs-3">
                         <label>Verbs</label>
                         <input type="text" class="form-control" formControlName="verbs">
                         <small [hidden]="productForm.controls.policyRules.controls[i].controls.verbs.valid"
@@ -49,35 +29,37 @@
                             verbs is required
                         </small>
                     </div>
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-3">
                         <label>ApiGroups</label>
                         <input type="text" class="form-control" formControlName="apiGroups">
                     </div>
-                    <div class="form-group col-xs-6">
+                    </div>
+                    <div class="row">
+                    <div class="form-group col-xs-3">
                         <label>Resources</label>
                         <input type="text" class="form-control" formControlName="resources">
 
                     </div>
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-3">
                         <label>ResourceNames</label>
                         <input type="text" class="form-control" formControlName="resourceNames">
 
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="margin-20">
+        <div></div>
+        <div class="margin-20 ui-g-12 ui-md-6 ui-lg-8">
             <a (click)="addPolicyRules()" style="cursor: default">
                 Add +
             </a>
         </div>
-
-
-        <input type="button" class="btn btn-default" (click)="reset()" value="Reset"/>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
+        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="reset()" value="Reset"/>
+        <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8" value="Save" [disabled]="productForm.invalid"/>
     </form>
 
-
+    <div class="ui-g-12 ui-md-6 ui-lg-8">
     <div *ngIf="type">
         <h3 class="first">Information </h3>
         <div *ngIf="responseValue">
@@ -105,7 +87,8 @@
                 <p-column field="verbs" header="Verbs"></p-column>
             </p-dataTable>
         </div>
-        <div *ngIf="!responseValue">
+        <div *ngIf="!responseValue ">
             <p>{{responseRole}}</p></div>
     </div>
+</div>
 </div>

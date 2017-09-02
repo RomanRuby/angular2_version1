@@ -16,9 +16,11 @@
             '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
             'rxjs':                      'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-            'primeng':                   'npm:primeng'
+            'primeng':                   'npm:primeng',
+            'angular2-click-to-edit': 'node_modules/angular2-click-to-edit'
         },
         packages: {
+
             app: {
                 main: './main.js',
                 defaultExtension: 'js'
@@ -28,7 +30,8 @@
             },
             primeng: {
                 defaultExtension: 'js'
-            }
+            },
+            'angular2-click-to-edit': { main: 'index' }
         }
     });
 })(this);

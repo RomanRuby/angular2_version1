@@ -87,12 +87,9 @@ export class CreateBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["",],
-            generateName: ["",],
             name: ["", Validators.required],
             namespace: ["", Validators.required],
             kindRef: ["", Validators.required],
-            apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),

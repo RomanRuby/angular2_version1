@@ -44,7 +44,7 @@ AppModule = __decorate([
             app_routes_1.routeRoleComponent
         ],
         bootstrap: [app_component_1.AppComponent],
-        providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService, app_service_1.AppService]
+        providers: [role_service_1.RoleService, clusterrolebinding_service_1.ClusterRoleBindingService, clusterrole_service_1.ClusterRoleService, rolebinding_service_1.RoleBindingService, app_service_1.AppService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

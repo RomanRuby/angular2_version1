@@ -1,19 +1,7 @@
 import {ObjectMeta, RoleRef} from "./role";
 import {TypeMeta} from "./common";
 
-export class RoleBindingDto {
-    kind: string;
-    kindMeta: string;
-    apiVersion: string;
-    apiGroupRef: string;
-    name: string;
-    generateName?: string;
-    namespace: string;
-    subjectRules: Array<Subject>;
-    apiGroup: string;
-    kindRef: string;
-    nameRef: string;
-}
+
 export class Subject {
     apiGroup: string;
     kind: string;
@@ -30,6 +18,16 @@ export class Subject {
         this.namespace = namespace;
     }
 }
+
+export class SubjectDto {
+    apiGroup: string;
+    kind: string;
+    name: string;
+    namespace: string;
+
+
+}
+
 export class RoleBinding {
     typeMeta: TypeMeta;
     metadata: ObjectMeta;
@@ -47,6 +45,7 @@ export class RoleBinding {
 }
 
 export class ResponseRoleBinding {
+    typeMeta: TypeMeta;
     metadate: MetaData;
     subjects: Array<Subject>;
     roleRef: RoleRef;
@@ -64,6 +63,19 @@ export class MetaData {
 }
 
 
+export class RoleBindingDto {
+    kind: string;
+    kindMeta: string;
+    apiVersion: string;
+    apiGroupRef: string;
+    name: string;
+    generateName?: string;
+    namespace: string;
+    subjectRules: Array<Subject>;
+    apiGroup: string;
+    kindRef: string;
+    nameRef: string;
+}
 export class ResponsesRoleBindingList {
     items: ResponseRoleBinding;
     metadata: MetaDataMeta;

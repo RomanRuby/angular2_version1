@@ -33,16 +33,12 @@ var CreateClusterRoleComponent = (function () {
     CreateClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleDto.name = productForm.value.name;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.generateName = productForm.value.generateName;
-        this.roleDto.selfLink = productForm.value.selfLink;
-        this.roleDto.uid = productForm.value.uid;
         this.roleDto.policyRules = productForm.value.policyRules;
         var policyRulesArrsys = [];
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
             policyRulesArrsys.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new role_1.Role(new common_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new role_1.ObjectMeta(this.roleDto.name, this.roleDto.namespace), policyRulesArrsys);
+        var role = new role_1.Role(new common_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new role_1.ObjectMetaView(this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp, this.roleDto.deletionGracePeriodSeconds), policyRulesArrsys);
         this.service.createRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -60,10 +56,6 @@ var CreateClusterRoleComponent = (function () {
     CreateClusterRoleComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
             name: ["", forms_1.Validators.required],
-            apiVersion: ["",],
-            generateName: ["",],
-            selfLink: ["",],
-            uid: ["",],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])

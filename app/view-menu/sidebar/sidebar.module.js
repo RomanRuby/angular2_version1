@@ -22,7 +22,8 @@ var SidebarModule = (function () {
 SidebarModule = __decorate([
     core_1.NgModule({
         imports: [router_1.RouterModule, common_1.CommonModule],
-        declarations: [sidebar_component_1.SidebarComponent, mainRole_component_1.MainRoleComponent, mainClusterRole_component_1.MainClusterRoleComponent, mainClusterRoleBinding_component_1.MainClusterRoleBindingComponent, mainRoleBinding_component_1.MainRoleBindingComponent],
+        declarations: [sidebar_component_1.SidebarComponent, mainRole_component_1.MainRoleComponent, mainClusterRole_component_1.MainClusterRoleComponent, mainClusterRoleBinding_component_1.MainClusterRoleBindingComponent,
+            mainRoleBinding_component_1.MainRoleBindingComponent],
         exports: [sidebar_component_1.SidebarComponent]
     })
 ], SidebarModule);

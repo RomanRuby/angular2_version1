@@ -17,10 +17,12 @@ export class ListRoleComponent implements OnInit {
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
-    viewAdditionalField: boolean = false;
     responseRole: RoleResponses;
-    type: boolean = false;
-    responseValue: boolean =true;
+    response: string;
+    deleterole: string;
+    isInformationOutput: boolean = false;
+    isInformationTable: boolean = false;
+    isInformationError: boolean = false;
 
 
     constructor(private service: RoleService,
@@ -39,7 +41,6 @@ export class ListRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.namespace = productForm.value.namespace;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
 
 
        let listOptions = new ListOptions();
@@ -48,21 +49,56 @@ export class ListRoleComponent implements OnInit {
         this.service.listRole(this.roleDto.namespace, listOptions)
             .subscribe(
                 data => {
-                        this.responseRole = data;
-                    this.responseValue =true;
-                    console.log(this.responseRole);
-                    if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
-                    }
+                    this.responseRole = data;
 
-                    this.type = true;
+                    if (typeof this.responseRole == "string") {
+                    } else {
+                        this.isInformationTable = true;
+                    }
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
     }
+    public deleteList(namespace:string) {
+        console.log(namespace);
+        this.service.deleteCollectionRole(namespace,null, null)
+            .subscribe(
+                data => {
+                    this.response = data;
+                    this.isInformationTable = false;
+                    this.isInformationError = true;
+                },
+                error => this.errorMessage = error
+            );
+    }
+    public delete(name:string) {
+        this.service.deleteRole(name,this.roleDto.namespace, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.service.deleteRole(name,this.roleDto.namespace, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        let listOptions = new ListOptions();
+        listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
 
-    public reset() {
-        this.productForm.reset();
+        this.service.listRole(this.roleDto.namespace, listOptions)
+            .subscribe(
+                data => {
+                    this.responseRole = data;
+
+                    if (typeof this.responseRole == "string") {
+                    } else {
+                        this.isInformationTable = true;
+                    }
+                    this.isInformationOutput = true;
+                },
+                error => this.errorMessage = error
+            );
     }
 
     private initForm() {
@@ -73,9 +109,6 @@ export class ListRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             namespace: ["", Validators.required],
-            apiVersion: ["",]
         });
     }
-
-
 }

@@ -2,8 +2,9 @@ import {Component, OnInit} from "@angular/core";
 
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
-import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
+import {DeleteOptions, ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 import {ResponsesRoleBindingList} from "../../../logic-service/models/rolebinding";
+import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -16,10 +17,12 @@ export class ListClusterBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
     responseRole: ResponsesRoleBindingList;
-    type: boolean = false;
-    responseValue: boolean =true;
+    response: string;
+    isInformationOutput: boolean = false;
+    isInformationTable: boolean = false;
+    isInformationError: boolean = false;
 
-    constructor(private service: RoleBindingService,
+    constructor(private service: ClusterRoleBindingService,
                 private fb: FormBuilder) {
     }
 
@@ -33,30 +36,42 @@ export class ListClusterBindingComponent implements OnInit {
             this.productForm.get(element).touched
     }
 
-    public onSubmit(productForm: FormGroup) {
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.namespace = productForm.value.namespace;
+    public onSubmit() {
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("ClusterRoleBinding", this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("ClusterRoleBinding", null));
 
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.service.listRole(listOptions)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue =true;
+                    this.isInformationTable =true;
                     console.log(this.responseRole);
                     if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
+                        this.isInformationTable =false;
                     }
 
-                    this.type = true;
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public reset() {
-        this.productForm.reset();
+    public deleteList() {
+        let listOption = new ListOptions();
+        listOption.setTypeMeta(new TypeMeta("ClusterRoleBinding", null));
+
+        let deleteOption = new DeleteOptions( new TypeMeta("ClusterRoleBinding", null),null,
+            null,
+            null);
+
+        this.service.deleteCollectionRole(deleteOption,listOption)
+            .subscribe(
+                data => {  this.response = data;
+                    this.isInformationTable = false;
+                    this.isInformationError = true;
+                },
+                error => this.errorMessage = error
+            );
     }
 
     private initForm() {
@@ -64,10 +79,22 @@ export class ListClusterBindingComponent implements OnInit {
         this.productForm.patchValue(this.roleDto);
     }
 
+    public delete(name:string) {
+        this.service.deleteRole(name, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.service.deleteRole(name, null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.onSubmit();
+    }
+
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["", Validators.required],
-            apiVersion: ["",]
         });
     }
 

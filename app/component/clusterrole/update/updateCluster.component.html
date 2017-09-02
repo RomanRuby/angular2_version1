@@ -3,109 +3,50 @@
         <div class="form-group">
             <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
         </div>
-
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" type="text" class="form-control" formControlName="name">
-        </div>
-
-        <input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField"/>
-        <div *ngIf="viewAdditionalField" class="form-group">
+        <div class="ui-g-12 ui-md-6 ui-lg-8">
             <div class="form-group">
-                <label for="apiVersion">Application version </label>
-                <input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" formControlName="name">
+                <small [hidden]="productForm.controls.name.valid"
+                       class="text-danger">
+                    Name is required
+                </small>
             </div>
-            <div class="form-group">
-                <label for="generateName">GenerateName</label>
-                <input id="generateName" type="text" class="form-control" formControlName="generateName">
-            </div>
+            <div *ngIf="isInformationOutput">
+                <h3 class="first">Information </h3>
+                <div *ngIf="isInformationTable">
+                    <p-dataTable [value]="responseRoleDto.metadata">
+                        <p-column field="creationTimestamp" header="creationTimestamp"></p-column>
+                        <p-column field="name" header="name"></p-column>
+                        <p-column field="uid" header="uid"></p-column>
+                        <!--<p-column field="generation" header="generation"></p-column>-->
+                        <!--<p-column field="deletionTimestamp" header="deletionTimestamp"></p-column>-->
+                        <!--<p-column field="deletionGracePeriodSeconds" header="deletionGracePeriodSeconds"></p-column>-->
+                        <p-column field="resourceVersion" header="resourceVersion" ></p-column>
+                    </p-dataTable>
+                    <div><p>Mutable fields</p></div>
+                    <p-dataTable [value]="responseRoleDto.rules" [editable]="true">
+                        <p-column field="apiGroups" header="ApiGroups" [editable]="true"></p-column>
+                        <p-column field="resourceNames" header="ResourceNames" [editable]="true"></p-column>
+                        <p-column field="resources" header="Resources" [editable]="true"></p-column>
+                        <p-column field="verbs" header="Verbs" [editable]="true"></p-column>
+                    </p-dataTable>
 
-            <div class="form-group">
-                <label for="selfLink">SelfLink</label>
-                <input id="selfLink" type="text" class="form-control" formControlName="selfLink">
-            </div>
+                    <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="addPolicy()" value="add Policy"
+                    [disabled]="productForm.invalid || isInformationError || !isInformationOutput"/>
 
-            <div class="form-group">
-                <label for="uid">Uid</label>
-                <input id="uid" type="text" class="form-control" formControlName="uid">
-            </div>
-        </div>
-
-        <div formArrayName="policyRules">
-            <div *ngFor="let policyRules of productForm.controls.policyRules.controls; let i=index"
-                 class="panel panel-default">
-                <div class="panel-heading">
-                    <span>PolicyRules {{i + 1}}</span>
-                    <span class="glyphicon glyphicon-remove pull-right"
-                          *ngIf="productForm.controls.policyRules.controls.length > 1"
-                          (click)="removePolicyRules(i)"></span>
+                    <p-dataTable [value]="responseRoleDto.metadata" [editable]="true">
+                        <p-column field="generateName" header="generateName" [editable]="true"></p-column>
+                    </p-dataTable>
                 </div>
-                <div class="panel-body" [formGroupName]="i">
-                    <div class="form-group col-xs-6">
-                        <label>Verbs</label>
-                        <input type="text" class="form-control" formControlName="verbs">
-                        <small [hidden]="productForm.controls.policyRules.controls[i].controls.verbs.valid"
-                               class="text-danger">
-                            verbs is required
-                        </small>
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <label>ApiGroups</label>
-                        <input type="text" class="form-control" formControlName="apiGroups">
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <label>Resources</label>
-                        <input type="text" class="form-control" formControlName="resources">
+                <div *ngIf="isInformationError">
+                    <p>{{responseRole}}</p></div>
 
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <label>ResourceNames</label>
-                        <input type="text" class="form-control" formControlName="resourceNames">
-
-                    </div>
-                </div>
             </div>
+            <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="save()" value="Update"
+                   [disabled]="productForm.invalid || isInformationError || !isInformationOutput"/>
+            <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8"
+                   value="Get" [disabled]="productForm.invalid"/>
         </div>
-        <div class="margin-20">
-            <a (click)="addPolicyRules()" style="cursor: default">
-                Add +
-            </a>
-        </div>
-
-
-        <input type="button" class="btn btn-default" (click)="reset()" value="Reset"/>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
     </form>
-
-
-    <div *ngIf="type">
-        <h3 class="first">Information </h3>
-        <div *ngIf="responseValue">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>CreationTimestamp</th>
-                    <th>Name</th>
-                    <th>Uid</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-                    <th> {{responseRole.metadata.creationTimestamp}}</th>
-                    <th>{{responseRole.metadata.name}}</th>
-                    <th>{{responseRole.metadata.uid}}</th>
-                </tr>
-                </tbody>
-            </table>
-            <p-dataTable [value]="responseRole.rules">
-                <p-column field="apiGroups" header="ApiGroups"></p-column>
-                <p-column field="resourceNames" header="ResourceNames"></p-column>
-                <p-column field="resources" header="Resources"></p-column>
-                <p-column field="verbs" header="Verbs"></p-column>
-            </p-dataTable>
-        </div>
-        <div *ngIf="!responseValue">
-            <p>{{responseRole}}</p></div>
-    </div>
 </div>

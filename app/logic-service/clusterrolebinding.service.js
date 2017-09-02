@@ -38,8 +38,8 @@ var ClusterRoleBindingService = ClusterRoleBindingService_1 = (function () {
         return this.http.post(this.url + "/clusterrolebinding/deleteCollection", deleteOptions, listOptions)
             .catch(ClusterRoleBindingService_1.handleError);
     };
-    ClusterRoleBindingService.prototype.getRole = function (namespace, getOptions) {
-        return this.http.post(this.url + "/clusterrolebinding/get/" + namespace, getOptions)
+    ClusterRoleBindingService.prototype.getRole = function (name, getOptions) {
+        return this.http.post(this.url + "/clusterrolebinding/get/" + name, getOptions)
             .catch(ClusterRoleBindingService_1.handleError);
     };
     ClusterRoleBindingService.handleError = function (error, cought) {

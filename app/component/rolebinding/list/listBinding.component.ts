@@ -2,8 +2,9 @@ import {Component, OnInit} from "@angular/core";
 
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
-import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
+import {DeleteOptions, ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 import {ResponsesRoleBindingList} from "../../../logic-service/models/rolebinding";
+import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 
 @Component({
     moduleId: module.id,
@@ -16,9 +17,11 @@ export class ListBindingComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
     responseRole: ResponsesRoleBindingList;
-    type: boolean = false;
-    responseValue: boolean =true;
-
+    response: string;
+    isInformationOutput: boolean = false;
+    isInformationTable: boolean = false;
+    isInformationError: boolean = false;
+    namespace:string;
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
     }
@@ -34,30 +37,76 @@ export class ListBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.namespace = productForm.value.namespace;
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("RoleBinding", this.roleDto.apiVersion));
+        listOptions.setTypeMeta(new TypeMeta("RoleBinding", null));
 
-        this.service.listRole(this.roleDto.namespace, listOptions)
+        this.namespace = productForm.value.namespace;
+
+        this.service.listRole(this.namespace ,listOptions)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue =true;
+                    this.isInformationTable =true;
                     console.log(this.responseRole);
                     if (typeof this.responseRole =="string"){
-                        this.responseValue =false;
+                        this.isInformationTable =false;
                     }
 
-                    this.type = true;
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public reset() {
-        this.productForm.reset();
+    public deleteList() {
+        let listOption = new ListOptions();
+        listOption.setTypeMeta(new TypeMeta("RoleBinding", null));
+
+        let deleteOption = new DeleteOptions( new TypeMeta("RoleBinding", null),null,
+            null,
+            null);
+
+        this.service.deleteCollectionRole(this.namespace ,deleteOption,listOption)
+            .subscribe(
+                data => {  this.response = data;
+                    this.isInformationTable = false;
+                    this.isInformationError = true;
+                },
+                error => this.errorMessage = error
+            );
     }
+
+
+    public delete(name:string) {
+        this.service.deleteRole(name,this.namespace , null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        this.service.deleteRole(name,this.namespace , null).subscribe(
+            data => {
+            },
+            error => this.errorMessage = error
+        );
+        let listOptions = new ListOptions();
+        listOptions.setTypeMeta(new TypeMeta("RoleBinding", null));
+
+        this.service.listRole(this.namespace ,listOptions)
+            .subscribe(
+                data => {
+                    this.responseRole = data;
+                    this.isInformationTable =true;
+                    console.log(this.responseRole);
+                    if (typeof this.responseRole =="string"){
+                        this.isInformationTable =false;
+                    }
+
+                    this.isInformationOutput = true;
+                },
+                error => this.errorMessage = error
+            );
+    }
+
 
     private initForm() {
         this.roleDto = new ListDto();
@@ -67,9 +116,7 @@ export class ListBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({
             namespace: ["", Validators.required],
-            apiVersion: ["",]
         });
     }
-
 
 }

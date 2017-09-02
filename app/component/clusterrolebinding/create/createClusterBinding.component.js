@@ -37,9 +37,6 @@ var CreateClusterBindingComponent = (function () {
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
-        this.roleBindingDto.apiGroup = productForm.value.apiGroup;
-        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
-        this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
         var subjectRules = [];
@@ -64,10 +61,7 @@ var CreateClusterBindingComponent = (function () {
     };
     CreateClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            apiVersion: ["",],
-            generateName: ["",],
             name: ["", forms_1.Validators.required],
-            apiGroupRef: ["",],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),

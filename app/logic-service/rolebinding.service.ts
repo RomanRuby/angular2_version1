@@ -21,7 +21,7 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    public updateRole(role: RoleBinding): Observable<ResponseRoleBinding> {
+    public updateRole(role: RoleBinding): Observable<RoleBinding> {
         return this.http.post(this.url + "/rolebinding/update", role)
             .catch(RoleBindingService.handleError);
     }
@@ -41,7 +41,7 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    public getRole(id: string, namespace: string, getOptions: GetOptions): Observable<ResponseRoleBinding> {
+    public getRole(id: string, namespace: string, getOptions: GetOptions): Observable<RoleBinding> {
         return this.http.post(this.url + "/rolebinding/get/" + id + "/" + namespace, getOptions)
             .catch(RoleBindingService.handleError);
     }

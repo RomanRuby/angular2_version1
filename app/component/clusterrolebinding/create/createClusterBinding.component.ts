@@ -41,10 +41,7 @@ export class CreateClusterBindingComponent implements OnInit {
         this.roleBindingDto.name = productForm.value.name;
         this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
-        this.roleBindingDto.apiGroup = productForm.value.apiGroup;
-        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
 
-        this.roleBindingDto.apiVersion = productForm.value.apiVersion;
         this.roleBindingDto.generateName = productForm.value.generateName;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
 
@@ -86,10 +83,7 @@ export class CreateClusterBindingComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            apiVersion: ["",],
-            generateName: ["",],
             name: ["", Validators.required],
-            apiGroupRef: ["",],
             nameRef: ["", Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),

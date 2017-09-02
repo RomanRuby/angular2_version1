@@ -2,17 +2,18 @@ import {MetaResponse, TypeMeta} from "./common";
 
 export class Role {
     typeMeta: TypeMeta;
-    metadata: ObjectMeta;
+    metadata: ObjectMetaView;
     rules: Array<PolicyRule>;
 
     constructor(typeMeta: TypeMeta,
-                metadata: ObjectMeta,
+                metadata: ObjectMetaView,
                 rules: Array<PolicyRule>) {
         this.typeMeta = typeMeta;
         this.metadata = metadata;
         this.rules = rules;
     }
 }
+
 
 export class RoleResponse {
     metadata: MetaResponse;
@@ -28,6 +29,9 @@ export class RoleDto {
     kind: string;
     apiVersion: string;
     name: string;
+    generation: any;
+    deletionTimestamp: any;
+    deletionGracePeriodSeconds: any;
     generateName?: string;
     namespace: string;
     selfLink?: string;
@@ -77,6 +81,16 @@ export class PolicyRuleDto {
     apiGroups: string;
     resources: string;
     resourceNames: string;
+
+    constructor(verbs: string,
+                apiGroups?: string,
+                resources?: string,
+                resourceNames?: string) {
+        this.verbs = verbs;
+        this.apiGroups = apiGroups;
+        this.resources = resources;
+        this.resourceNames = resourceNames;
+    }
 }
 class UID {
     uid?: string;
@@ -99,24 +113,58 @@ export class ObjectMeta {
 export class ObjectMetaView {
     name: string;
     generateName: string;
-    namespace: string;
+    generation: number;
     selfLink: string;
-    uid: UID;
+    uid: string;
     resourceVersion: string;
-    generation:number;
-    creationTimesmamp:number;
-    deletionTimestamp:number;
-    deletionGracePeriodSeconds:number;
-    finalizers:Array<string>;
-    clusterName:string;
+    namespace: string;
+    finalizers: Array<string>;
+    clusterName: string;
+    creationTimestamp: any;
+    deletionTimestamp: any;
+    deletionGracePeriodSeconds: any;
 
-    constructor(){
+    constructor(name: string,
+                namespace: string,
+                generation?: number,
+                deletionGracePeriodSeconds?: any,
+                deletionTimestamp?: any,
+                selfLink?: string,
+                uid?: string,
+                resourceVersion?: string,
+                finalizers?: Array<string>,
+                clusterName?: string,
+
+                creationTimestamp?: any,
+                generateName?: string) {
+        this.name = name;
+        this.namespace = namespace;
+        this.deletionTimestamp = deletionTimestamp;
+        this.deletionGracePeriodSeconds = deletionGracePeriodSeconds;
+        this.selfLink = selfLink;
+        this.uid = uid;
+        this.resourceVersion = resourceVersion;
+        this.finalizers = finalizers;
+        this.clusterName = clusterName;
+        this.generation = generation;
+        this.creationTimestamp = creationTimestamp;
+
+        this.generateName = generateName;
 
     }
 }
 
 export class RoleWithAllOptionsView {
     typeMeta: TypeMeta;
-    objectMeta:ObjectMetaView;
-    rules: Array<PolicyRuleDto>;
+    metadata: ObjectMetaView;
+    rules: Array<PolicyRule>;
 }
+export class RoleWithAllOptionsViewDto {
+    typeMeta: Array<TypeMeta>;
+    metadata: Array<ObjectMetaView>;
+    rules: Array<PolicyRuleDto>;
+
+    constructor() {
+    }
+}
+

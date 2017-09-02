@@ -9,7 +9,8 @@ import {MainRoleBindingComponent} from "../../component/rolebinding/main/mainRol
 
 @NgModule({
     imports: [ RouterModule, CommonModule ],
-    declarations: [ SidebarComponent,MainRoleComponent,MainClusterRoleComponent,MainClusterRoleBindingComponent ,MainRoleBindingComponent],
+    declarations: [ SidebarComponent,MainRoleComponent,MainClusterRoleComponent,MainClusterRoleBindingComponent ,
+    MainRoleBindingComponent],
     exports: [ SidebarComponent ]
 })
 

@@ -1,31 +1,23 @@
 <div class="container" *ngIf="productForm">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
         <div class="form-group">
-            <a href="#" onClick="history.go(-1)"><b> Role</b> </a>
+            <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
         </div>
         <div class="form-group">
             <label for="namespace">Namespace</label>
             <input id="namespace" type="text" class="form-control" formControlName="namespace">
         </div>
-        <input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
-        <div *ngIf="viewAdditionalField" class="form-group">
-
-            <div class="form-group">
-                <label for="apiVersion">ApiVersion</label>
-                <input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-            </div>
-
-        </div>
-        <input type="button" class="btn btn-default" (click)="reset()" value="Reset"/>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid"/>
+        <input type="button" class="btn btn-default" (click)="deleteList()" value="Delete List"/>
+        <input type="submit" class="btn btn-primary" value="List" [disabled]="productForm.invalid"/>
     </form>
 
     <h3 class="first">Information </h3>
-    <div *ngIf="type">
+    <div *ngIf="isInformationOutput">
         <div *ngFor="let responseRole of responseRole.items; let i=index">
             <br>
+            <input type="button" class="btn btn-default" (click)="delete(responseRole.metadata.name)" value="Delete Role"/>
             <hr class="style18">
-            <div *ngIf="responseValue">
+            <div *ngIf="isInformationTable">
                 <table class="table">
                     <thead>
                     <tr>
@@ -34,7 +26,6 @@
                         <th>Uid</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
                         <th> {{responseRole.metadata.creationTimestamp}}</th>
@@ -42,6 +33,7 @@
                         <th>{{responseRole.metadata.uid}}</th>
                     </tr>
                     </tbody>
+
                 </table>
                 <p-dataTable [value]="responseRole.rules" >
                     <p-column field="apiGroups" header="ApiGroups"></p-column>
@@ -50,9 +42,5 @@
                     <p-column field="verbs" header="Verbs"></p-column>
                 </p-dataTable>
             </div>
-
         </div>
-        <div *ngIf="!responseValue">
-            <p>{{responseRole}}</p></div>
     </div>
-</div>

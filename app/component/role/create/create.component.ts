@@ -4,7 +4,10 @@ import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 
 import {RoleService} from "../../../logic-service/role.service";
-import {ObjectMeta, PolicyRule, Role, RoleDto, RoleResponse} from "../../../logic-service/models/role";
+import {
+    ObjectMeta, ObjectMetaView, PolicyRule, Role, RoleDto,
+    RoleWithAllOptionsView
+} from "../../../logic-service/models/role";
 import {TypeMeta} from "../../../logic-service/models/common";
 
 
@@ -19,7 +22,7 @@ export class CreateRoleComponent implements OnInit {
     errorMessage: string;
     productForm: FormGroup;
     viewAdditionalField: boolean = false;
-    responseRole: RoleResponse;
+    responseRole: RoleWithAllOptionsView;
     type: boolean = false;
     responseValue: boolean =true;
 
@@ -56,8 +59,8 @@ export class CreateRoleComponent implements OnInit {
             this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMeta(
-            this.roleDto.name,this.roleDto.namespace), policyRulesArrsys);
+        let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMetaView(
+            this.roleDto.name,null,this.roleDto.namespace,null,null,null,null,null,null,null,null,null), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(
@@ -83,10 +86,6 @@ export class CreateRoleComponent implements OnInit {
         this.productForm = this.fb.group({
             namespace: ["",Validators.required ],
             name: ["",  Validators.required],
-            apiVersion: ["", ],
-            generateName: ["", ],
-            selfLink: ["", ],
-            uid: ["", ],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])

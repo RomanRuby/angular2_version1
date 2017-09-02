@@ -11,30 +11,6 @@
 			<label for="namespace">Namespace</label>
 			<input id="namespace" type="text" class="form-control" formControlName="namespace">
 		</div>
-		<input type="checkbox" [checked]="viewAdditionalField" (change)="viewAdditionalField = !viewAdditionalField" />
-		<div *ngIf="viewAdditionalField" class="form-group">
-			<div class="form-group">
-				<label for="apiVersion">Application version </label>
-				<input id="apiVersion" type="text" class="form-control" formControlName="apiVersion">
-
-			</div>
-			<div class="form-group">
-				<label for="generateName">GenerateName</label>
-				<input id="generateName" type="text" class="form-control" formControlName="generateName">
-			</div>
-
-			<div class="form-group">
-				<label for="selfLink">SelfLink</label>
-				<input id="selfLink" type="text" class="form-control" formControlName="selfLink">
-			</div>
-
-			<div class="form-group">
-				<label for="uid">Uid</label>
-				<input id="uid" type="text" class="form-control" formControlName="uid">
-			</div>
-
-		</div>
-
 
 		<div formArrayName="policyRules">
 			<div *ngFor="let policyRules of productForm.controls.policyRules.controls; let i=index" class="panel panel-default">
@@ -72,7 +48,6 @@
 				Add +
 			</a>
 		</div>
-
 
 		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
 		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />

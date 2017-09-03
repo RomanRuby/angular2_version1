@@ -17,7 +17,8 @@
             'rxjs':                      'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'primeng':                   'npm:primeng',
-            'angular2-click-to-edit': 'node_modules/angular2-click-to-edit'
+            'angular2-click-to-edit': 'node_modules/angular2-click-to-edit',
+            'ngx-pagination':'https://npmcdn.com/ngx-pagination'
         },
         packages: {
 
@@ -31,7 +32,8 @@
             primeng: {
                 defaultExtension: 'js'
             },
-            'angular2-click-to-edit': { main: 'index' }
+            'angular2-click-to-edit': { main: 'index' },
+            'ngx-pagination': { defaultExtension: 'js' }
         }
     });
 })(this);

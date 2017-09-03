@@ -1,14 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
-import {GetOptions, GetOptionsDto, Options, TypeMeta} from "../../../logic-service/models/common";
 import {
-    ObjectMeta, ObjectMetaView, PolicyRuleDto, PolicyRuleDtoWithDeleteFunction,
-    Role, RoleResponse, RoleWithAllOptionsView, RoleWithAllOptionsViewDto,
+    ObjectMetaView, PolicyRuleDtoWithDeleteFunction,
+    Role, RoleWithAllOptionsView, RoleWithAllOptionsViewDto,
 } from "../../../logic-service/models/role";
-import {FormArray} from "@angular/forms";
 import {PolicyRule} from "../../../logic-service/index";
-import { Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -21,7 +18,7 @@ export class UpdateClusterRoleComponent implements OnInit {
     productForm: FormGroup;
     responseRole: RoleWithAllOptionsView;
     responseRoleDto: RoleWithAllOptionsViewDto;
-    policyRuleDtoWithDeleteFunction = new Array<PolicyRuleDtoWithDeleteFunction>();
+    policyRuleDtoWithDeleteFunction = [];
     errorMessage: string;
     response: string;
 
@@ -48,18 +45,20 @@ export class UpdateClusterRoleComponent implements OnInit {
             .subscribe(
                 data => {
                     this.responseRole = data;
+
                     this.policyRuleDtoWithDeleteFunction = [];
+
                     if (typeof this.responseRole != "string") {
                         this.responseRoleDto = new RoleWithAllOptionsViewDto();
-                        this.responseRoleDto.metadata= [];
-                        this.responseRoleDto.typeMeta =[];
+                        this.responseRoleDto.metadata = [];
 
-                        this.responseRoleDto.metadata.push(this.responseRole.metadata);
-                        this.responseRoleDto.typeMeta.push(this.responseRole.typeMeta);
-
+                        this.responseRoleDto.metadata.push(new ObjectMetaView
+                        (this.responseRole.metadata.name, this.responseRole.metadata.namespace,
+                            this.responseRole.metadata.generateName));
 
                         for (let i = 0; i < this.responseRole.rules.length; i++) {
-                            this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction(this.responseRole.rules[i].verbs.toString(),
+                            this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction(
+                                this.responseRole.rules[i].verbs.toString(),
                                 false,
                                 this.responseRole.rules[i].apiGroups.toString(),
                                 this.responseRole.rules[i].resources.toString(),
@@ -70,6 +69,7 @@ export class UpdateClusterRoleComponent implements OnInit {
                         this.isInformationError = false;
                     }
                     else {
+                        this.isInformationTable = false;
                         this.isInformationError = true;
                     }
 
@@ -83,27 +83,34 @@ export class UpdateClusterRoleComponent implements OnInit {
         let policyRulesArrays: PolicyRule[] = [];
 
         for (let i = 0; i < this.policyRuleDtoWithDeleteFunction.length; i++) {
-            if(this.policyRuleDtoWithDeleteFunction[i].isDelete==false){
-            policyRulesArrays.push(new PolicyRule(this.policyRuleDtoWithDeleteFunction[i].verbs.split(','),
-                this.policyRuleDtoWithDeleteFunction[i].apiGroups.split(','),
-                this.policyRuleDtoWithDeleteFunction[i].resources.split(','),
-                this.policyRuleDtoWithDeleteFunction[i].resourceNames.split(',')));}
-        }
+            if (this.policyRuleDtoWithDeleteFunction[i].isDelete == false) {
+                policyRulesArrays.push(new PolicyRule(this.policyRuleDtoWithDeleteFunction[i].verbs.split(','),
+                    this.policyRuleDtoWithDeleteFunction[i].apiGroups.split(','),
+                    this.policyRuleDtoWithDeleteFunction[i].resources.split(','),
+                    this.policyRuleDtoWithDeleteFunction[i].resourceNames.split(',')));
+            }
+            else {
+                this.policyRuleDtoWithDeleteFunction =
+                    this.policyRuleDtoWithDeleteFunction.filter(policy => policy.isDelete == false);
+            }
 
-        let role = new Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(),
+        }
+        let role = new Role(this.responseRole.typeMeta, this.responseRoleDto.metadata.pop(),
             policyRulesArrays);
-        console.log(role);
         this.service.updateRole(role)
             .subscribe(
                 data => {
                     if (typeof data != "string") {
                         this.isInformationTable = true;
-                    }else{
+                    } else {
 
                         this.isInformationError = true;
                     }
                     this.responseRole = data;
 
+                    this.responseRoleDto.metadata.push(new ObjectMetaView
+                    (this.responseRole.metadata.name, this.responseRole.metadata.namespace,
+                        this.responseRole.metadata.generateName));
                 },
                 error => this.errorMessage = error
             );
@@ -116,11 +123,12 @@ export class UpdateClusterRoleComponent implements OnInit {
 
     private buildForm() {
         this.productForm = this.fb.group({
-            name: ["",Validators.required]
+            name: ["", Validators.required]
         });
     }
+
     private addPolicy() {
-        this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction("",false,"","",""));
+        this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction("", false, "", "", ""));
     }
 
 

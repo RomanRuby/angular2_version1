@@ -1,10 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 import {
-    ObjectMeta, ObjectMetaView, PolicyRule, Role, RoleDto, RoleResponse,
-    RoleWithAllOptionsView
+    ObjectMetaView, PolicyRule, Role, RoleDto, RoleWithAllOptionsView
 } from "../../../logic-service/models/role";
 import {TypeMeta} from "../../../logic-service/models/common";
 
@@ -15,13 +13,14 @@ import {TypeMeta} from "../../../logic-service/models/common";
 })
 
 export class CreateClusterRoleComponent implements OnInit {
+
     roleDto: RoleDto;
-    errorMessage: string;
-    productForm: FormGroup;
-    viewAdditionalField: boolean = false;
     responseRole: RoleWithAllOptionsView;
-    type: boolean = false;
-    responseValue: boolean = true;
+    productForm: FormGroup;
+    errorMessage: string;
+    viewAdditionalField: boolean = false;
+    isInformationOutput: boolean = false;
+    isInformationError: boolean = true;
 
 
     constructor(private service: ClusterRoleService,
@@ -42,24 +41,24 @@ export class CreateClusterRoleComponent implements OnInit {
         this.roleDto.name = productForm.value.name;
         this.roleDto.policyRules = productForm.value.policyRules;
 
-        let policyRulesArrsys: PolicyRule[] = [];
+        let policyRulesArrays: PolicyRule[] = [];
 
         for (let i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
+            policyRulesArrays.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
                 this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
                 this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
         let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMetaView(
-            this.roleDto.name, this.roleDto.namespace,this.roleDto.generation,this.roleDto.deletionTimestamp,
-            this.roleDto.deletionGracePeriodSeconds), policyRulesArrsys);
+            this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp,
+            this.roleDto.deletionGracePeriodSeconds), policyRulesArrays);
 
         this.service.createRole(role)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue = typeof this.responseRole != "string";
-                    this.type = true;
+                    this.isInformationError = typeof this.responseRole != "string";
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );

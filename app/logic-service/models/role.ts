@@ -147,7 +147,7 @@ export class ObjectMetaView {
 
     constructor(name: string,
                 namespace: string,
-                generation?: number,
+                generateName?: string,
                 deletionGracePeriodSeconds?: any,
                 deletionTimestamp?: any,
                 selfLink?: string,
@@ -155,9 +155,9 @@ export class ObjectMetaView {
                 resourceVersion?: string,
                 finalizers?: Array<string>,
                 clusterName?: string,
-
                 creationTimestamp?: any,
-                generateName?: string) {
+    generation?:number
+              ) {
         this.name = name;
         this.namespace = namespace;
         this.deletionTimestamp = deletionTimestamp;

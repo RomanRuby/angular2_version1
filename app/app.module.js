@@ -22,6 +22,7 @@ var clusterrole_service_1 = require("./logic-service/clusterrole.service");
 var rolebinding_service_1 = require("./logic-service/rolebinding.service");
 var app_service_1 = require("./logic-service/app.service");
 var primeng_1 = require("primeng/primeng");
+var ngx_pagination_1 = require("ngx-pagination");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -36,7 +37,7 @@ AppModule = __decorate([
             sidebar_module_1.SidebarModule,
             navbar_module_1.NavbarModule,
             footer_module_1.FooterModule,
-            primeng_1.InputTextModule, primeng_1.DataTableModule, primeng_1.ButtonModule, primeng_1.DialogModule,
+            primeng_1.InputTextModule, primeng_1.DataTableModule, primeng_1.ButtonModule, primeng_1.DialogModule, ngx_pagination_1.NgxPaginationModule,
             router_1.RouterModule.forRoot(app_routes_1.routes)
         ],
         declarations: [

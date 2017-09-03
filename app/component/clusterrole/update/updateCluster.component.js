@@ -18,7 +18,7 @@ var UpdateClusterRoleComponent = (function () {
     function UpdateClusterRoleComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.policyRuleDtoWithDeleteFunction = new Array();
+        this.policyRuleDtoWithDeleteFunction = [];
         this.isInformationOutput = false;
         this.isInformationTable = false;
         this.isInformationError = false;
@@ -40,9 +40,7 @@ var UpdateClusterRoleComponent = (function () {
             if (typeof _this.responseRole != "string") {
                 _this.responseRoleDto = new role_1.RoleWithAllOptionsViewDto();
                 _this.responseRoleDto.metadata = [];
-                _this.responseRoleDto.typeMeta = [];
-                _this.responseRoleDto.metadata.push(_this.responseRole.metadata);
-                _this.responseRoleDto.typeMeta.push(_this.responseRole.typeMeta);
+                _this.responseRoleDto.metadata.push(new role_1.ObjectMetaView(_this.responseRole.metadata.name, _this.responseRole.metadata.namespace, _this.responseRole.metadata.generateName));
                 for (var i = 0; i < _this.responseRole.rules.length; i++) {
                     _this.policyRuleDtoWithDeleteFunction.push(new role_1.PolicyRuleDtoWithDeleteFunction(_this.responseRole.rules[i].verbs.toString(), false, _this.responseRole.rules[i].apiGroups.toString(), _this.responseRole.rules[i].resources.toString(), _this.responseRole.rules[i].resourceNames.toString()));
                 }
@@ -50,6 +48,7 @@ var UpdateClusterRoleComponent = (function () {
                 _this.isInformationError = false;
             }
             else {
+                _this.isInformationTable = false;
                 _this.isInformationError = true;
             }
             _this.isInformationOutput = true;
@@ -62,9 +61,12 @@ var UpdateClusterRoleComponent = (function () {
             if (this.policyRuleDtoWithDeleteFunction[i].isDelete == false) {
                 policyRulesArrays.push(new index_1.PolicyRule(this.policyRuleDtoWithDeleteFunction[i].verbs.split(','), this.policyRuleDtoWithDeleteFunction[i].apiGroups.split(','), this.policyRuleDtoWithDeleteFunction[i].resources.split(','), this.policyRuleDtoWithDeleteFunction[i].resourceNames.split(',')));
             }
+            else {
+                this.policyRuleDtoWithDeleteFunction =
+                    this.policyRuleDtoWithDeleteFunction.filter(function (policy) { return policy.isDelete == false; });
+            }
         }
-        var role = new role_1.Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(), policyRulesArrays);
-        console.log(role);
+        var role = new role_1.Role(this.responseRole.typeMeta, this.responseRoleDto.metadata.pop(), policyRulesArrays);
         this.service.updateRole(role)
             .subscribe(function (data) {
             if (typeof data != "string") {
@@ -74,6 +76,7 @@ var UpdateClusterRoleComponent = (function () {
                 _this.isInformationError = true;
             }
             _this.responseRole = data;
+            _this.responseRoleDto.metadata.push(new role_1.ObjectMetaView(_this.responseRole.metadata.name, _this.responseRole.metadata.namespace, _this.responseRole.metadata.generateName));
         }, function (error) { return _this.errorMessage = error; });
     };
     UpdateClusterRoleComponent.prototype.initForm = function () {

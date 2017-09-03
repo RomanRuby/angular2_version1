@@ -19,8 +19,8 @@ var CreateClusterRoleComponent = (function () {
         this.service = service;
         this.fb = fb;
         this.viewAdditionalField = false;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationError = true;
     }
     CreateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -34,16 +34,16 @@ var CreateClusterRoleComponent = (function () {
         var _this = this;
         this.roleDto.name = productForm.value.name;
         this.roleDto.policyRules = productForm.value.policyRules;
-        var policyRulesArrsys = [];
+        var policyRulesArrays = [];
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
+            policyRulesArrays.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new role_1.Role(new common_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new role_1.ObjectMetaView(this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp, this.roleDto.deletionGracePeriodSeconds), policyRulesArrsys);
+        var role = new role_1.Role(new common_1.TypeMeta("ClusterRole", this.roleDto.apiVersion), new role_1.ObjectMetaView(this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp, this.roleDto.deletionGracePeriodSeconds), policyRulesArrays);
         this.service.createRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = typeof _this.responseRole != "string";
-            _this.type = true;
+            _this.isInformationError = typeof _this.responseRole != "string";
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     CreateClusterRoleComponent.prototype.reset = function () {

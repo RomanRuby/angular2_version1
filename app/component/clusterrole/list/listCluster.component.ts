@@ -5,24 +5,23 @@ import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/comm
 import {RoleResponses} from "../../../logic-service/index";
 import 'rxjs/add/operator/map'
 
-
 @Component({
     moduleId: module.id,
     selector: "list",
+
     templateUrl: "listCluster.component.html",
 })
 
 export class ListClusterRoleComponent implements OnInit {
 
     roleDto: ListDto;
-    errorMessage: string;
     productForm: FormGroup;
     responseRole: RoleResponses;
+    errorMessage: string;
     response: string;
-    deleterole: string;
+    deleteRole: string;
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
-    isInformationError: boolean = false;
 
 
     constructor(private service: ClusterRoleService,
@@ -40,8 +39,8 @@ export class ListClusterRoleComponent implements OnInit {
     }
 
     public onSubmit() {
-       let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("ClusterRole",null));
+        let listOptions = new ListOptions();
+        listOptions.setTypeMeta(new TypeMeta("ClusterRole", null));
 
         this.service.listRole(listOptions)
             .subscribe(
@@ -63,13 +62,12 @@ export class ListClusterRoleComponent implements OnInit {
                 data => {
                     this.response = data;
                     this.isInformationTable = false;
-                    this.isInformationError = true;
                 },
                 error => this.errorMessage = error
             );
     }
 
-    public delete(name:string) {
+    public delete(name: string) {
         this.service.deleteRole(name, null);
         this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }

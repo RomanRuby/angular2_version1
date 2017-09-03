@@ -18,7 +18,7 @@ import {ClusterRoleService} from "./logic-service/clusterrole.service";
 import {RoleBindingService} from "./logic-service/rolebinding.service";
 import {AppService} from "./logic-service/app.service";
 import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng/primeng';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
     imports: [
@@ -28,7 +28,7 @@ import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng
         SidebarModule,
         NavbarModule,
         FooterModule,
-        InputTextModule,DataTableModule,ButtonModule,DialogModule,
+        InputTextModule,DataTableModule,ButtonModule,DialogModule,NgxPaginationModule,
         RouterModule.forRoot(routes)
     ],
     declarations: [

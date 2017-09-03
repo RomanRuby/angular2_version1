@@ -20,7 +20,6 @@ var ListClusterRoleComponent = (function () {
         this.fb = fb;
         this.isInformationOutput = false;
         this.isInformationTable = false;
-        this.isInformationError = false;
     }
     ListClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -49,7 +48,6 @@ var ListClusterRoleComponent = (function () {
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;
-            _this.isInformationError = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterRoleComponent.prototype.delete = function (name) {

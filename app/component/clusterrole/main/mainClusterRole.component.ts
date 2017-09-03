@@ -1,7 +1,4 @@
-import {Component, OnInit} from "@angular/core";
-import {ListOptions, TypeMeta} from "../../../logic-service/models/common";
-import {RoleResponses} from "../../../logic-service/models/role";
-import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
+import {Component} from "@angular/core";
 
 
 @Component({

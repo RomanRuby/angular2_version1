@@ -59,7 +59,7 @@
           lighten($variation-color, $mdb-param-1));
 }
 
-// navbar-variations(" label input[type=checkbox]:checked + .toggle:active:after", $brand-primary
+// navbar-variations(" label input[isInformationOutput=checkbox]:checked + .toggle:active:after", $brand-primary
 @mixin navbar-variations($component, $selector-suffix, $color-default) {
   @include generic-variations($component, $selector-suffix, $color-default, "navbar-variations-content", null);
 }

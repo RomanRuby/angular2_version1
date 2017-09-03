@@ -25,16 +25,16 @@
                         <p-column field="resourceVersion" header="resourceVersion" ></p-column>
                     </p-dataTable>
                     <div><p>Mutable fields</p></div>
-                    <p-dataTable [value]="responseRoleDto.rules" [editable]="true">
+                    <p-dataTable [value]="policyRuleDtoWithDeleteFunction" [editable]="true">
                         <p-column field="apiGroups" header="ApiGroups" [editable]="true"></p-column>
                         <p-column field="resourceNames" header="ResourceNames" [editable]="true"></p-column>
                         <p-column field="resources" header="Resources" [editable]="true"></p-column>
                         <p-column field="verbs" header="Verbs" [editable]="true"></p-column>
+                        <p-column field="isDelete" header="Delete(write true or false)" [editable]="true"></p-column>
                     </p-dataTable>
 
                     <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="addPolicy()" value="add Policy"
                     [disabled]="productForm.invalid || isInformationError || !isInformationOutput"/>
-
                     <p-dataTable [value]="responseRoleDto.metadata" [editable]="true">
                         <p-column field="generateName" header="generateName" [editable]="true"></p-column>
                     </p-dataTable>

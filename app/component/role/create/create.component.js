@@ -44,7 +44,7 @@ var CreateRoleComponent = (function () {
         for (var i = 0; i < this.roleDto.policyRules.length; i++) {
             policyRulesArrsys.push(new role_1.PolicyRule(this.roleDto.policyRules[i].verbs.split(','), this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','), this.roleDto.policyRules[i].resourceNames.split(',')));
         }
-        var role = new role_1.Role(new common_1.TypeMeta("Role", this.roleDto.apiVersion), new role_1.ObjectMetaView(this.roleDto.name, null, this.roleDto.namespace, null, null, null, null, null, null, null, null, null), policyRulesArrsys);
+        var role = new role_1.Role(new common_1.TypeMeta("Role", this.roleDto.apiVersion), new role_1.ObjectMetaView(this.roleDto.name, this.roleDto.namespace, null, null, null, null, null, null, null, null, null), policyRulesArrsys);
         this.service.createRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;

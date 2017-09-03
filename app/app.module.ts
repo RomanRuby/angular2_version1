@@ -20,7 +20,6 @@ import {AppService} from "./logic-service/app.service";
 import {InputTextModule,DataTableModule,ButtonModule,DialogModule} from 'primeng/primeng';
 
 
-
 @NgModule({
     imports: [
         BrowserModule,

@@ -60,7 +60,7 @@ export class CreateRoleComponent implements OnInit {
         }
 
         let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMetaView(
-            this.roleDto.name,null,this.roleDto.namespace,null,null,null,null,null,null,null,null,null), policyRulesArrsys);
+            this.roleDto.name,this.roleDto.namespace,null,null,null,null,null,null,null,null,null), policyRulesArrsys);
 
         this.service.createRole(role)
             .subscribe(

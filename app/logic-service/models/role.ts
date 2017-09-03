@@ -16,13 +16,13 @@ export class Role {
 
 
 export class RoleResponse {
-    metadata: MetaResponse;
+    metadata: ObjectMetaView;
     rules: Array<PolicyRule>;
 
 }
 export class RoleResponses {
     metadata: MetaD;
-    roleResponse: RoleResponse;
+    items: Array<RoleResponse>;
 
 }
 export class RoleDto {
@@ -90,6 +90,27 @@ export class PolicyRuleDto {
         this.apiGroups = apiGroups;
         this.resources = resources;
         this.resourceNames = resourceNames;
+    }
+}
+
+export class PolicyRuleDtoWithDeleteFunction {
+    verbs: string;
+    apiGroups: string;
+    resources: string;
+    resourceNames: string;
+    isDelete:boolean;
+
+    constructor(verbs: string,
+                isDelete:boolean,
+                apiGroups?: string,
+                resources?: string,
+                resourceNames?: string,
+                ) {
+        this.verbs = verbs;
+        this.apiGroups = apiGroups;
+        this.resources = resources;
+        this.resourceNames = resourceNames;
+        this.isDelete = isDelete;
     }
 }
 class UID {

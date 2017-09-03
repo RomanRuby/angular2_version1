@@ -3,7 +3,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 import {GetOptions, GetOptionsDto, Options, TypeMeta} from "../../../logic-service/models/common";
 import {
-    ObjectMeta, ObjectMetaView, PolicyRuleDto,
+    ObjectMeta, ObjectMetaView, PolicyRuleDto, PolicyRuleDtoWithDeleteFunction,
     Role, RoleResponse, RoleWithAllOptionsView, RoleWithAllOptionsViewDto,
 } from "../../../logic-service/models/role";
 import {FormArray} from "@angular/forms";
@@ -21,6 +21,7 @@ export class UpdateClusterRoleComponent implements OnInit {
     productForm: FormGroup;
     responseRole: RoleWithAllOptionsView;
     responseRoleDto: RoleWithAllOptionsViewDto;
+    policyRuleDtoWithDeleteFunction = new Array<PolicyRuleDtoWithDeleteFunction>();
     errorMessage: string;
     response: string;
 
@@ -47,7 +48,7 @@ export class UpdateClusterRoleComponent implements OnInit {
             .subscribe(
                 data => {
                     this.responseRole = data;
-
+                    this.policyRuleDtoWithDeleteFunction = [];
                     if (typeof this.responseRole != "string") {
                         this.responseRoleDto = new RoleWithAllOptionsViewDto();
                         this.responseRoleDto.metadata= [];
@@ -57,15 +58,14 @@ export class UpdateClusterRoleComponent implements OnInit {
                         this.responseRoleDto.typeMeta.push(this.responseRole.typeMeta);
 
 
-                        let policyRulesArrsysDto: PolicyRuleDto[] = [];
-
                         for (let i = 0; i < this.responseRole.rules.length; i++) {
-                            policyRulesArrsysDto.push(new PolicyRuleDto(this.responseRole.rules[i].verbs.toString(),
+                            this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction(this.responseRole.rules[i].verbs.toString(),
+                                false,
                                 this.responseRole.rules[i].apiGroups.toString(),
                                 this.responseRole.rules[i].resources.toString(),
-                                this.responseRole.rules[i].resourceNames.toString()));
+                                this.responseRole.rules[i].resourceNames.toString()
+                            ));
                         }
-                        this.responseRoleDto.rules = policyRulesArrsysDto;
                         this.isInformationTable = true;
                         this.isInformationError = false;
                     }
@@ -80,16 +80,18 @@ export class UpdateClusterRoleComponent implements OnInit {
     }
 
     public save() {
-        let policyRulesArrsys: PolicyRule[] = [];
+        let policyRulesArrays: PolicyRule[] = [];
 
-        for (let i = 0; i < this.responseRoleDto.rules.length; i++) {
-            policyRulesArrsys.push(new PolicyRule(this.responseRoleDto.rules[i].verbs.split(','),
-                this.responseRoleDto.rules[i].apiGroups.split(','), this.responseRoleDto.rules[i].resources.split(','),
-                this.responseRoleDto.rules[i].resourceNames.split(',')));
+        for (let i = 0; i < this.policyRuleDtoWithDeleteFunction.length; i++) {
+            if(this.policyRuleDtoWithDeleteFunction[i].isDelete==false){
+            policyRulesArrays.push(new PolicyRule(this.policyRuleDtoWithDeleteFunction[i].verbs.split(','),
+                this.policyRuleDtoWithDeleteFunction[i].apiGroups.split(','),
+                this.policyRuleDtoWithDeleteFunction[i].resources.split(','),
+                this.policyRuleDtoWithDeleteFunction[i].resourceNames.split(',')));}
         }
 
         let role = new Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(),
-            policyRulesArrsys);
+            policyRulesArrays);
         console.log(role);
         this.service.updateRole(role)
             .subscribe(
@@ -118,7 +120,8 @@ export class UpdateClusterRoleComponent implements OnInit {
         });
     }
     private addPolicy() {
-        this.responseRoleDto.rules.push(new PolicyRuleDto("null"));
+        this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction("",false,"","",""));
     }
+
 
 }

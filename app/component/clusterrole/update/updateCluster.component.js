@@ -18,6 +18,7 @@ var UpdateClusterRoleComponent = (function () {
     function UpdateClusterRoleComponent(service, fb) {
         this.service = service;
         this.fb = fb;
+        this.policyRuleDtoWithDeleteFunction = new Array();
         this.isInformationOutput = false;
         this.isInformationTable = false;
         this.isInformationError = false;
@@ -35,17 +36,16 @@ var UpdateClusterRoleComponent = (function () {
         this.service.getRole(productForm.value.name, null)
             .subscribe(function (data) {
             _this.responseRole = data;
+            _this.policyRuleDtoWithDeleteFunction = [];
             if (typeof _this.responseRole != "string") {
                 _this.responseRoleDto = new role_1.RoleWithAllOptionsViewDto();
                 _this.responseRoleDto.metadata = [];
                 _this.responseRoleDto.typeMeta = [];
                 _this.responseRoleDto.metadata.push(_this.responseRole.metadata);
                 _this.responseRoleDto.typeMeta.push(_this.responseRole.typeMeta);
-                var policyRulesArrsysDto = [];
                 for (var i = 0; i < _this.responseRole.rules.length; i++) {
-                    policyRulesArrsysDto.push(new role_1.PolicyRuleDto(_this.responseRole.rules[i].verbs.toString(), _this.responseRole.rules[i].apiGroups.toString(), _this.responseRole.rules[i].resources.toString(), _this.responseRole.rules[i].resourceNames.toString()));
+                    _this.policyRuleDtoWithDeleteFunction.push(new role_1.PolicyRuleDtoWithDeleteFunction(_this.responseRole.rules[i].verbs.toString(), false, _this.responseRole.rules[i].apiGroups.toString(), _this.responseRole.rules[i].resources.toString(), _this.responseRole.rules[i].resourceNames.toString()));
                 }
-                _this.responseRoleDto.rules = policyRulesArrsysDto;
                 _this.isInformationTable = true;
                 _this.isInformationError = false;
             }
@@ -57,11 +57,13 @@ var UpdateClusterRoleComponent = (function () {
     };
     UpdateClusterRoleComponent.prototype.save = function () {
         var _this = this;
-        var policyRulesArrsys = [];
-        for (var i = 0; i < this.responseRoleDto.rules.length; i++) {
-            policyRulesArrsys.push(new index_1.PolicyRule(this.responseRoleDto.rules[i].verbs.split(','), this.responseRoleDto.rules[i].apiGroups.split(','), this.responseRoleDto.rules[i].resources.split(','), this.responseRoleDto.rules[i].resourceNames.split(',')));
+        var policyRulesArrays = [];
+        for (var i = 0; i < this.policyRuleDtoWithDeleteFunction.length; i++) {
+            if (this.policyRuleDtoWithDeleteFunction[i].isDelete == false) {
+                policyRulesArrays.push(new index_1.PolicyRule(this.policyRuleDtoWithDeleteFunction[i].verbs.split(','), this.policyRuleDtoWithDeleteFunction[i].apiGroups.split(','), this.policyRuleDtoWithDeleteFunction[i].resources.split(','), this.policyRuleDtoWithDeleteFunction[i].resourceNames.split(',')));
+            }
         }
-        var role = new role_1.Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(), policyRulesArrsys);
+        var role = new role_1.Role(this.responseRoleDto.typeMeta.pop(), this.responseRoleDto.metadata.pop(), policyRulesArrays);
         console.log(role);
         this.service.updateRole(role)
             .subscribe(function (data) {
@@ -84,7 +86,7 @@ var UpdateClusterRoleComponent = (function () {
         });
     };
     UpdateClusterRoleComponent.prototype.addPolicy = function () {
-        this.responseRoleDto.rules.push(new role_1.PolicyRuleDto("null"));
+        this.policyRuleDtoWithDeleteFunction.push(new role_1.PolicyRuleDtoWithDeleteFunction("", false, "", "", ""));
     };
     return UpdateClusterRoleComponent;
 }());

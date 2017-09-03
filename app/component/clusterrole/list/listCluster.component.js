@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var clusterrole_service_1 = require("../../../logic-service/clusterrole.service");
 var common_1 = require("../../../logic-service/models/common");
+require("rxjs/add/operator/map");
 var ListClusterRoleComponent = (function () {
     function ListClusterRoleComponent(service, fb) {
         this.service = service;
@@ -52,12 +53,8 @@ var ListClusterRoleComponent = (function () {
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterRoleComponent.prototype.delete = function (name) {
-        var _this = this;
-        this.service.deleteRole(name, null).subscribe(function (data) {
-        }, function (error) { return _this.errorMessage = error; });
-        this.service.deleteRole(name, null).subscribe(function (data) {
-        }, function (error) { return _this.errorMessage = error; });
-        this.onSubmit();
+        this.service.deleteRole(name, null);
+        this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListClusterRoleComponent.prototype.initForm = function () {
         this.roleDto = new common_1.ListDto();

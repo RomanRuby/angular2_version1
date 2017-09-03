@@ -3,6 +3,8 @@ import {FormGroup, FormBuilder} from "@angular/forms";
 import {ClusterRoleService} from "../../../logic-service/clusterrole.service";
 import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 import {RoleResponses} from "../../../logic-service/index";
+import 'rxjs/add/operator/map'
+
 
 @Component({
     moduleId: module.id,
@@ -11,6 +13,7 @@ import {RoleResponses} from "../../../logic-service/index";
 })
 
 export class ListClusterRoleComponent implements OnInit {
+
     roleDto: ListDto;
     errorMessage: string;
     productForm: FormGroup;
@@ -67,17 +70,8 @@ export class ListClusterRoleComponent implements OnInit {
     }
 
     public delete(name:string) {
-        this.service.deleteRole(name, null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        this.service.deleteRole(name, null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        this.onSubmit();
+        this.service.deleteRole(name, null);
+        this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 
     private initForm() {
@@ -88,5 +82,4 @@ export class ListClusterRoleComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({});
     }
-
 }

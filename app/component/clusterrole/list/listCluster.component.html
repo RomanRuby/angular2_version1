@@ -3,19 +3,18 @@
         <div class="form-group">
             <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
         </div>
-        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="deleteList()" value="Delete List"/>
         <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8" value="List" [disabled]="productForm.invalid"/>
+        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="deleteList()" value="Delete List"/>
     </form>
     <div class="ui-g-12 ui-md-6 ui-lg-8">
     <h3 class="first ui-g-12 ui-md-6 ui-lg-8">Information </h3>
     <div *ngIf="isInformationOutput">
-        <div *ngFor="let responseRole of responseRole.items; let i=index">
+
+        <div *ngFor="let responseRole of responseRole.items ; let i=index">
             <br>
 
             <hr class="style18">
             <div *ngIf="isInformationTable">
-                <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="delete(responseRole.metadata.name)"
-                       value="Delete Role"/>
                 <table class="table">
                     <thead>
                     <tr>
@@ -39,8 +38,12 @@
                     <p-column field="resources" header="Resources"></p-column>
                     <p-column field="verbs" header="Verbs"></p-column>
                 </p-dataTable>
+                <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="delete(responseRole.metadata.name)"
+                       value="Delete Role"/>
+                <hr><hr>
             </div>
         </div>
+
     </div>
     </div>
 </div>

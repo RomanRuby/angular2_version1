@@ -2,7 +2,10 @@ import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
-import {ResponseRoleBinding, RoleBinding, RoleBindingDto, Subject} from "../../../logic-service/models/rolebinding";
+import {
+    ResponseRoleBinding, RoleBinding, RoleBindingDto, Subject,
+    SubjectDto
+} from "../../../logic-service/models/rolebinding";
 import {ObjectMeta, Role, RoleRef} from "../../../logic-service/models/role";
 import {GetOptions, TypeMeta} from "../../../logic-service/models/common";
 
@@ -15,10 +18,11 @@ import {GetOptions, TypeMeta} from "../../../logic-service/models/common";
 
 export class UpdateClusterBindingComponent implements OnInit {
     roleBindingDto:RoleBindingDto;
-    errorMessage: string;
     productForm: FormGroup;
-    viewAdditionalField: boolean = false;
-    responseRole: RoleBinding;
+    responseRole: ResponseRoleBinding;
+    subjectRuleDtoWithDeleteFunction = [];
+    errorMessage: string;
+
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
@@ -45,10 +49,23 @@ export class UpdateClusterBindingComponent implements OnInit {
             .subscribe(
                 data => {
                     this.responseRole = data;
+                    this.subjectRuleDtoWithDeleteFunction = [];
+
                     if (typeof this.responseRole != "string") {
                         this.isInformationTable = true;
+                        this.isInformationError = false;
+                        for (let i = 0; i < this.responseRole.subjects.length; i++) {
+                            this.subjectRuleDtoWithDeleteFunction.push(new SubjectDto(
+                                this.responseRole.subjects[i].apiGroup,
+                                false,
+                                this.responseRole.subjects[i].kind,
+                                this.responseRole.subjects[i].name,
+                                this.responseRole.subjects[i].namespace
+                            ));
+                        }
                     }
                     else {
+                        this.isInformationTable = false;
                         this.isInformationError = true;
                     }
                     this.isInformationOutput = true;
@@ -58,18 +75,36 @@ export class UpdateClusterBindingComponent implements OnInit {
     }
 
     public save() {
+        let subjectRulesArrays: Subject[] = [];
+
+        for (let i = 0; i < this.subjectRuleDtoWithDeleteFunction.length; i++) {
+            if (this.subjectRuleDtoWithDeleteFunction[i].isDelete == false) {
+                subjectRulesArrays.push(new Subject(this.subjectRuleDtoWithDeleteFunction[i].apiGroup,
+                    this.subjectRuleDtoWithDeleteFunction[i].kind,
+                    this.subjectRuleDtoWithDeleteFunction[i].name,
+                    this.subjectRuleDtoWithDeleteFunction[i].namespace));
+            }
+            else {
+                this.subjectRuleDtoWithDeleteFunction =
+                    this.subjectRuleDtoWithDeleteFunction.filter(subject => subject.isDelete == false);
+            }
+
+        }
+
         let role = new RoleBinding(new TypeMeta("RoleBinding", null),
-            new ObjectMeta(this.responseRole.metadata.name, null), this.responseRole.subjects,
+            new ObjectMeta(this.responseRole.metadata.name, null), subjectRulesArrays,
             this.responseRole.roleRef);
         this.service.updateRole(role)
             .subscribe(
                 data => {
-                    this.responseRole = data;
-                    if (typeof this.responseRole != "string") {
+                    if (typeof data != "string") {
                         this.isInformationTable = true;
                     } else {
                         this.isInformationError = true;
+                        this.isInformationTable = false;
                     }
+                    this.responseRole = data;
+                    console.log(this.responseRole);
                 },
                 error => this.errorMessage = error
             );
@@ -85,5 +120,7 @@ export class UpdateClusterBindingComponent implements OnInit {
             name: ["", Validators.required],
         });
     }
-
+    private addSubjectRules() {
+        this.subjectRuleDtoWithDeleteFunction.push(new SubjectDto("", false, "User", "", ""));
+    }
 }

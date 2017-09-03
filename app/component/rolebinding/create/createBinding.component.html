@@ -3,112 +3,129 @@
 		<div class="form-group">
 			<a href="#" onClick="history.go(-1)"><b> Role Binding</b> </a>
 		</div>
-
-		<div class="form-group">
-			<label for="nameRef">name Authorizer</label>
-			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
-		</div>
-		<div class="form-group">
-			<label for="kindRef">Kind Authorizer</label>
-			<input id="kindRef" type="text" class="form-control" formControlName="kindRef">
-		</div>
-
-		<div class="form-group">
-			<label for="name">Name Meta</label>
-			<input id="name" type="text" class="form-control" formControlName="name">
-		</div>
-		<div class="form-group">
-			<label for="namespace"> Namespace Meta</label>
-			<input id="namespace" type="text" class="form-control" formControlName="namespace">
+		<div class="ui-g-12 ui-md-8 ui-lg-10">
+			<div class="form-group">
+				<label for="nameRef"> Role name</label>
+				<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
+				<small [hidden]="productForm.controls.nameRef.valid"
+					   class="text-danger">
+					Role name is required
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="namespace">Role binding namespace</label>
+				<input id="namespace" type="text" class="form-control" formControlName="namespace">
+				<small [hidden]="productForm.controls.namespace.valid"
+					   class="text-danger">
+					Role binding namespace is required
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="name"> Role binding name</label>
+				<input id="name" type="text" class="form-control" formControlName="name">
+				<small [hidden]="productForm.controls.name.valid"
+					   class="text-danger">
+					Role binding name is required
+				</small>
+			</div>
 		</div>
 		<div formArrayName="subjectRules">
-			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
-				<div class="panel-heading">
+			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index"
+				 class="panel panel-default ui-g-12 ui-md-8 ui-lg-8">
+				<div class="panel-heading ">
 					<span>Subject Rules {{i + 1}}</span>
-					<span class="glyphicon glyphicon-remove pull-right" *ngIf="productForm.controls.subjectRules.controls.length > 1" (click)="removeSubjectRules(i)"></span>
+					<span class="glyphicon glyphicon-remove pull-right"
+						  *ngIf="productForm.controls.subjectRules.controls.length > 1"
+						  (click)="removeSubjectRules(i)"></span>
 				</div>
 				<div class="panel-body" [formGroupName]="i">
-					<div class="form-group col-xs-6">
+					<div class="form-group col-xs-3">
 						<label>ApiGroup</label>
 						<input type="text" class="form-control" formControlName="apiGroup">
 					</div>
-					<div class="form-group col-xs-6">
+					<div class="form-group col-xs-3">
 						<label>Kind</label>
 						<input type="text" class="form-control" formControlName="kind">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid" class="text-danger">
+						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid"
+							   class="text-danger">
 							kind is required
 						</small>
 					</div>
-					<div class="form-group col-xs-6">
+					<div class="form-group col-xs-3">
 						<label>Name</label>
 						<input type="text" class="form-control" formControlName="name">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.name.valid" class="text-danger">
+						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.name.valid"
+							   class="text-danger">
 							name is required
 						</small>
 					</div>
-					<div class="form-group col-xs-6">
+					<div class="form-group col-xs-3">
 						<label>Namespace</label>
 						<input type="text" class="form-control" formControlName="namespace">
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="margin-20">
+		<div class="margin-20 ui-g-12 ui-md-6 ui-lg-8">
 			<a (click)="addSubjectRules()" style="cursor: default">
-				Add another +
+				Add +
 			</a>
 		</div>
-		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
-		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
+		<input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8"
+			   (click)="reset()" value="Reset"/>
+		<input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8"
+			   value="Save" [disabled]="productForm.invalid"/>
 	</form>
-	<div *ngIf="type">
-		<h3 class="first">Information </h3>
-		<div *ngIf="responseValue">
-			<table class="table">
-				<thead>
-				<tr>
-					<th>CreationTimestamp</th>
-					<th>Name</th>
-					<th>Namespace</th>
-					<th>Uid</th>
-				</tr>
-				</thead>
+	<div class="ui-g-12 ui-md-6 ui-lg-8">
+		<div *ngIf="isInformationOutput">
+			<h3 class="first">Information </h3>
+			<div *ngIf="!isInformationError">
+				<table class="table">
+					<thead>
+					<tr>
+						<th>CreationTimestamp</th>
+						<th>Name</th>
+						<th>Uid</th>
+						<th>Namespace</th>
+					</tr>
+					</thead>
 
-				<tbody>
-				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-					<th> {{responseRole.metadata.creationTimestamp}}</th>
-					<th>{{responseRole.metadata.name}}</th>
-					<th>{{responseRole.metadata.namespace}}</th>
-					<th>{{responseRole.metadata.uid}}</th>
-				</tr>
-				</tbody>
-			</table>
-			<table class="table">
-			<thead>
-			<tr>
-				<th>ApiGroup</th>
-				<th>Kind</th>
-				<th>Name</th>
-			</tr>
-			</thead>
+					<tbody>
+					<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+						<th> {{responseRole.metadata.creationTimestamp}}</th>
+						<th>{{responseRole.metadata.name}}</th>
+						<th>{{responseRole.metadata.uid}}</th>
+						<th>{{responseRole.metadata.namespace}}</th>
+					</tr>
+					</tbody>
+				</table>
+				<table class="table">
+					<thead>
+					<tr>
+						<th>ApiGroup</th>
+						<th>Kind</th>
+						<th>Name</th>
+					</tr>
+					</thead>
 
-			<tbody>
-			<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-				<th> {{responseRole.roleRef.apiGroup}}</th>
-				<th>{{responseRole.roleRef.kind}}</th>
-				<th>{{responseRole.roleRef.name}}</th>
+					<tbody>
+					<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+						<th> {{responseRole.roleRef.apiGroup}}</th>
+						<th>{{responseRole.roleRef.kind}}</th>
+						<th>{{responseRole.roleRef.name}}</th>
 
-			</tr>
-			</tbody>
-			</table>
-			<p-dataTable [value]="responseRole.subjects" >
-				<p-column field="apiGroup" header="ApiGroups"></p-column>
-				<p-column field="kind" header="ResourceNames"></p-column>
-				<p-column field="name" header="Resources"></p-column>
-				<p-column field="namespace" header="Namespace"></p-column>
-			</p-dataTable>
+					</tr>
+					</tbody>
+				</table>
+				<p-dataTable [value]="responseRole.subjects">
+					<p-column field="apiGroup" header="ApiGroup"></p-column>
+					<p-column field="kind" header="Kind"></p-column>
+					<p-column field="name" header="Name"></p-column>
+					<p-column field="namespace" header="Namespace"></p-column>
+				</p-dataTable>
+			</div>
+			<div *ngIf="isInformationError">
+				<p>{{responseRole}}</p></div>
 		</div>
-		<div *ngIf="!responseValue">
-			<p>{{responseRole}}</p></div>
 	</div>
 </div>

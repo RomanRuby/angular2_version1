@@ -19,7 +19,7 @@ var UpdateClusterBindingComponent = (function () {
     function UpdateClusterBindingComponent(service, fb) {
         this.service = service;
         this.fb = fb;
-        this.viewAdditionalField = false;
+        this.subjectRuleDtoWithDeleteFunction = [];
         this.isInformationOutput = false;
         this.isInformationTable = false;
         this.isInformationError = false;
@@ -38,10 +38,16 @@ var UpdateClusterBindingComponent = (function () {
         this.service.getRole(productForm.value.name, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
+            _this.subjectRuleDtoWithDeleteFunction = [];
             if (typeof _this.responseRole != "string") {
                 _this.isInformationTable = true;
+                _this.isInformationError = false;
+                for (var i = 0; i < _this.responseRole.subjects.length; i++) {
+                    _this.subjectRuleDtoWithDeleteFunction.push(new rolebinding_1.SubjectDto(_this.responseRole.subjects[i].apiGroup, false, _this.responseRole.subjects[i].kind, _this.responseRole.subjects[i].name, _this.responseRole.subjects[i].namespace));
+                }
             }
             else {
+                _this.isInformationTable = false;
                 _this.isInformationError = true;
             }
             _this.isInformationOutput = true;
@@ -49,16 +55,28 @@ var UpdateClusterBindingComponent = (function () {
     };
     UpdateClusterBindingComponent.prototype.save = function () {
         var _this = this;
-        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", null), new role_1.ObjectMeta(this.responseRole.metadata.name, null), this.responseRole.subjects, this.responseRole.roleRef);
+        var subjectRulesArrays = [];
+        for (var i = 0; i < this.subjectRuleDtoWithDeleteFunction.length; i++) {
+            if (this.subjectRuleDtoWithDeleteFunction[i].isDelete == false) {
+                subjectRulesArrays.push(new rolebinding_1.Subject(this.subjectRuleDtoWithDeleteFunction[i].apiGroup, this.subjectRuleDtoWithDeleteFunction[i].kind, this.subjectRuleDtoWithDeleteFunction[i].name, this.subjectRuleDtoWithDeleteFunction[i].namespace));
+            }
+            else {
+                this.subjectRuleDtoWithDeleteFunction =
+                    this.subjectRuleDtoWithDeleteFunction.filter(function (subject) { return subject.isDelete == false; });
+            }
+        }
+        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", null), new role_1.ObjectMeta(this.responseRole.metadata.name, null), subjectRulesArrays, this.responseRole.roleRef);
         this.service.updateRole(role)
             .subscribe(function (data) {
-            _this.responseRole = data;
-            if (typeof _this.responseRole != "string") {
+            if (typeof data != "string") {
                 _this.isInformationTable = true;
             }
             else {
                 _this.isInformationError = true;
+                _this.isInformationTable = false;
             }
+            _this.responseRole = data;
+            console.log(_this.responseRole);
         }, function (error) { return _this.errorMessage = error; });
     };
     UpdateClusterBindingComponent.prototype.initForm = function () {
@@ -69,6 +87,9 @@ var UpdateClusterBindingComponent = (function () {
         this.productForm = this.fb.group({
             name: ["", forms_1.Validators.required],
         });
+    };
+    UpdateClusterBindingComponent.prototype.addSubjectRules = function () {
+        this.subjectRuleDtoWithDeleteFunction.push(new rolebinding_1.SubjectDto("", false, "User", "", ""));
     };
     return UpdateClusterBindingComponent;
 }());

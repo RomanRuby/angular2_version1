@@ -18,14 +18,24 @@ export class Subject {
         this.namespace = namespace;
     }
 }
-
 export class SubjectDto {
     apiGroup: string;
     kind: string;
     name: string;
     namespace: string;
+    isDelete:boolean;
 
-
+    constructor(apiGroup: string,
+                isDelete:boolean,
+                kind: string,
+                name: string,
+                namespace: string) {
+        this.apiGroup = apiGroup;
+        this.isDelete = isDelete;
+        this.kind = kind;
+        this.name = name;
+        this.namespace = namespace;
+    }
 }
 
 export class RoleBinding {
@@ -46,7 +56,7 @@ export class RoleBinding {
 
 export class ResponseRoleBinding {
     typeMeta: TypeMeta;
-    metadate: MetaData;
+    metadata: MetaData;
     subjects: Array<Subject>;
     roleRef: RoleRef;
 
@@ -77,7 +87,7 @@ export class RoleBindingDto {
     nameRef: string;
 }
 export class ResponsesRoleBindingList {
-    items: ResponseRoleBinding;
+    items: Array<ResponseRoleBinding>;
     metadata: MetaDataMeta;
 }
 

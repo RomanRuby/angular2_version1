@@ -34,15 +34,6 @@
                         </tbody>
 
                     </table>
-                    <!--<p-dataTable [value]="responseRoleDto.metadata">-->
-                        <!--<p-column field="creationTimestamp" header="creationTimestamp"></p-column>-->
-                        <!--<p-column field="name" header="name"></p-column>-->
-                        <!--<p-column field="uid" header="uid"></p-column>-->
-                        <!--&lt;!&ndash;<p-column field="generation" header="generation"></p-column>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p-column field="deletionTimestamp" header="deletionTimestamp"></p-column>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p-column field="deletionGracePeriodSeconds" header="deletionGracePeriodSeconds"></p-column>&ndash;&gt;-->
-                        <!--<p-column field="resourceVersion" header="resourceVersion" ></p-column>-->
-                    <!--</p-dataTable>-->
                     <p-dataTable [value]="policyRuleDtoWithDeleteFunction" [editable]="true">
                         <p-column field="apiGroups" header="ApiGroups" [editable]="true"></p-column>
                         <p-column field="resourceNames" header="ResourceNames" [editable]="true"></p-column>

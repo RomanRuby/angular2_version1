@@ -1,105 +1,113 @@
 <div class="container" *ngIf="productForm">
-	<form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
-		<div class="form-group">
-			<a href="#" onClick="history.go(-1)"><b> Cluster Role Binding</b> </a>
-		</div>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+        <div class="form-group">
+            <a href="#" onClick="history.go(-1)"><b> Cluster Role Binding</b> </a>
+        </div>
+        <div class="ui-g-12 ui-md-8 ui-lg-10">
+            <div class="form-group">
+                <label for="nameRef">Cluster role name</label>
+                <input id="nameRef" type="text" class="form-control" formControlName="nameRef">
+            </div>
+            <div class="form-group">
+                <label for="name">Cluster role binding name</label>
+                <input id="name" type="text" class="form-control" formControlName="name">
+            </div>
+        </div>
+        <div formArrayName="subjectRules">
+            <div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index"
+                 class="panel panel-default ui-g-12 ui-md-8 ui-lg-8">
+                <div class="panel-heading ">
+                    <span>Subject Rules {{i + 1}}</span>
+                    <span class="glyphicon glyphicon-remove pull-right"
+                          *ngIf="productForm.controls.subjectRules.controls.length > 1"
+                          (click)="removeSubjectRules(i)"></span>
+                </div>
+                <div class="panel-body" [formGroupName]="i">
+                    <div class="form-group col-xs-3">
+                        <label>ApiGroup</label>
+                        <input type="text" class="form-control" formControlName="apiGroup">
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <label>Kind</label>
+                        <input type="text" class="form-control" formControlName="kind">
+                        <small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid"
+                               class="text-danger">
+                            kind is required
+                        </small>
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" formControlName="name">
+                        <small [hidden]="productForm.controls.subjectRules.controls[i].controls.name.valid"
+                               class="text-danger">
+                            name is required
+                        </small>
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <label>Namespace</label>
+                        <input type="text" class="form-control" formControlName="namespace">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="margin-20 ui-g-12 ui-md-6 ui-lg-8">
+            <a (click)="addSubjectRules()" style="cursor: default">
+                Add +
+            </a>
+        </div>
+        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8"
+               (click)="reset()" value="Reset"/>
+        <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8"
+               value="Save" [disabled]="productForm.invalid"/>
+    </form>
+    <div class="ui-g-12 ui-md-6 ui-lg-8">
+        <div *ngIf="isInformationOutput">
+            <h3 class="first">Information </h3>
+            <div *ngIf="!isInformationError">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>CreationTimestamp</th>
+                        <th>Name</th>
+                        <th>Uid</th>
+                    </tr>
+                    </thead>
 
-		<div class="form-group">
-			<label for="nameRef">Name Authorizer</label>
-			<input id="nameRef" type="text" class="form-control" formControlName="nameRef">
-		</div>
-		<div class="form-group">
-			<label for="name">Name Meta</label>
-			<input id="name" type="text" class="form-control" formControlName="name">
-		</div>
-		<div formArrayName="subjectRules">
-			<div *ngFor="let subjectRules of productForm.controls.subjectRules.controls; let i=index" class="panel panel-default">
-				<div class="panel-heading">
-					<span>Subject Rules {{i + 1}}</span>
-					<span class="glyphicon glyphicon-remove pull-right" *ngIf="productForm.controls.subjectRules.controls.length > 1" (click)="removeSubjectRules(i)"></span>
-				</div>
-				<div class="panel-body" [formGroupName]="i">
-					<div class="form-group col-xs-6">
-						<label>ApiGroup</label>
-						<input type="text" class="form-control" formControlName="apiGroup">
-					</div>
-					<div class="form-group col-xs-6">
-						<label>Kind</label>
-						<input type="text" class="form-control" formControlName="kind">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.kind.valid" class="text-danger">
-							kind is required
-						</small>
-					</div>
-					<div class="form-group col-xs-6">
-						<label>Name</label>
-						<input type="text" class="form-control" formControlName="name">
-						<small [hidden]="productForm.controls.subjectRules.controls[i].controls.name.valid" class="text-danger">
-							name is required
-						</small>
-					</div>
-					<div class="form-group col-xs-6">
-						<label>Namespace</label>
-						<input type="text" class="form-control" formControlName="namespace">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="margin-20">
-			<a (click)="addSubjectRules()" style="cursor: default">
-				Add another +
-			</a>
-		</div>
-		<input type="button" class="btn btn-default" (click)="reset()" value="Reset" />
-		<input type="submit" class="btn btn-primary" value="Save" [disabled]="productForm.invalid" />
-	</form>
-	<div *ngIf="type">
-		<h3 class="first">Information </h3>
-		<div *ngIf="responseValue">
-			<table class="table">
-				<thead>
-				<tr>
-					<th>CreationTimestamp</th>
-					<th>Name</th>
-					<th>Namespace</th>
-					<th>Uid</th>
-				</tr>
-				</thead>
+                    <tbody>
+                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                        <th> {{responseRole.metadata.creationTimestamp}}</th>
+                        <th>{{responseRole.metadata.name}}</th>
+                        <th>{{responseRole.metadata.uid}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ApiGroup</th>
+                        <th>Kind</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
 
-				<tbody>
-				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-					<th> {{responseRole.metadata.creationTimestamp}}</th>
-					<th>{{responseRole.metadata.name}}</th>
-					<th>{{responseRole.metadata.namespace}}</th>
-					<th>{{responseRole.metadata.uid}}</th>
-				</tr>
-				</tbody>
-			</table>
-			<table class="table">
-				<thead>
-				<tr>
-					<th>ApiGroup</th>
-					<th>Kind</th>
-					<th>Name</th>
-				</tr>
-				</thead>
+                    <tbody>
+                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                        <th> {{responseRole.roleRef.apiGroup}}</th>
+                        <th>{{responseRole.roleRef.kind}}</th>
+                        <th>{{responseRole.roleRef.name}}</th>
 
-				<tbody>
-				<tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-					<th> {{responseRole.roleRef.apiGroup}}</th>
-					<th>{{responseRole.roleRef.kind}}</th>
-					<th>{{responseRole.roleRef.name}}</th>
-
-				</tr>
-				</tbody>
-			</table>
-			<p-dataTable [value]="responseRole.subjects" >
-				<p-column field="apiGroup" header="ApiGroups"></p-column>
-				<p-column field="kind" header="ResourceNames"></p-column>
-				<p-column field="name" header="Resources"></p-column>
-				<p-column field="namespace" header="Namespace"></p-column>
-			</p-dataTable>
-		</div>
-		<div *ngIf="!responseValue">
-			<p>{{responseRole}}</p></div>
-	</div>
+                    </tr>
+                    </tbody>
+                </table>
+                <p-dataTable [value]="responseRole.subjects">
+                    <p-column field="apiGroup" header="ApiGroup"></p-column>
+                    <p-column field="kind" header="Kind"></p-column>
+                    <p-column field="name" header="Name"></p-column>
+                    <p-column field="namespace" header="Namespace"></p-column>
+                </p-dataTable>
+            </div>
+            <div *ngIf="isInformationError">
+                <p>{{responseRole}}</p></div>
+        </div>
+    </div>
 </div>

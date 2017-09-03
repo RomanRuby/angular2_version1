@@ -103,7 +103,7 @@ export class UpdateClusterRoleComponent implements OnInit {
                     if (typeof data != "string") {
                         this.isInformationTable = true;
                     } else {
-
+                        this.isInformationTable = false;
                         this.isInformationError = true;
                     }
                     this.responseRole = data;

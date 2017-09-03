@@ -18,10 +18,11 @@ export class ListBindingComponent implements OnInit {
     productForm: FormGroup;
     responseRole: ResponsesRoleBindingList;
     response: string;
+    namespace: string;
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
-    namespace:string;
+
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
     }
@@ -37,21 +38,19 @@ export class ListBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
+        this.namespace = productForm.value.namespace;
+
         let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta("RoleBinding", null));
 
-        this.namespace = productForm.value.namespace;
-
-        this.service.listRole(this.namespace ,listOptions)
+        this.service.listRole(this.namespace, listOptions)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.isInformationTable =true;
-                    console.log(this.responseRole);
-                    if (typeof this.responseRole =="string"){
-                        this.isInformationTable =false;
-                    }
 
+                    if (typeof this.responseRole != "string") {
+                        this.isInformationTable = true;
+                    }
                     this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
@@ -59,54 +58,20 @@ export class ListBindingComponent implements OnInit {
     }
 
     public deleteList() {
-        let listOption = new ListOptions();
-        listOption.setTypeMeta(new TypeMeta("RoleBinding", null));
-
-        let deleteOption = new DeleteOptions( new TypeMeta("RoleBinding", null),null,
-            null,
-            null);
-
-        this.service.deleteCollectionRole(this.namespace ,deleteOption,listOption)
-            .subscribe(
-                data => {  this.response = data;
-                    this.isInformationTable = false;
-                    this.isInformationError = true;
-                },
-                error => this.errorMessage = error
-            );
-    }
-
-
-    public delete(name:string) {
-        this.service.deleteRole(name,this.namespace , null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        this.service.deleteRole(name,this.namespace , null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("RoleBinding", null));
-
-        this.service.listRole(this.namespace ,listOptions)
+        this.service.deleteCollectionRole(this.namespace, null, null)
             .subscribe(
                 data => {
-                    this.responseRole = data;
-                    this.isInformationTable =true;
-                    console.log(this.responseRole);
-                    if (typeof this.responseRole =="string"){
-                        this.isInformationTable =false;
-                    }
-
-                    this.isInformationOutput = true;
+                    this.response = data;
+                    this.isInformationTable = false;
                 },
                 error => this.errorMessage = error
             );
     }
 
+    public delete(name: string) {
+        this.service.deleteRole(name, this.namespace, null);
+        this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
+    }
 
     private initForm() {
         this.roleDto = new ListDto();

@@ -20,8 +20,7 @@ export class CreateClusterRoleComponent implements OnInit {
     errorMessage: string;
     viewAdditionalField: boolean = false;
     isInformationOutput: boolean = false;
-    isInformationError: boolean = true;
-
+    isInformationError: boolean = false;
 
     constructor(private service: ClusterRoleService,
                 private fb: FormBuilder) {
@@ -57,7 +56,7 @@ export class CreateClusterRoleComponent implements OnInit {
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.isInformationError = typeof this.responseRole != "string";
+                    this.isInformationError = typeof this.responseRole == "string";
                     this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error

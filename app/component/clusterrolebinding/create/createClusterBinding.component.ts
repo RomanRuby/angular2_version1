@@ -15,12 +15,12 @@ import {TypeMeta} from "../../../logic-service/models/common";
 
 export class CreateClusterBindingComponent implements OnInit {
     roleBindingDto: RoleBindingDto;
-    errorMessage: string;
     productForm: FormGroup;
-    viewAdditionalField: boolean = false;
     responseRole: ResponseRoleBinding;
-    type: boolean = false;
-    responseValue: boolean =true;
+    errorMessage: string;
+    viewAdditionalField: boolean = false;
+    isInformationOutput: boolean = false;
+    isInformationError: boolean = false;
 
     constructor(private service: ClusterRoleBindingService,
                 private fb: FormBuilder) {
@@ -37,13 +37,11 @@ export class CreateClusterBindingComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
-        this.roleBindingDto.kind = productForm.value.kind;
+        this.roleBindingDto.nameRef = productForm.value.nameRef;
+
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
 
-        this.roleBindingDto.generateName = productForm.value.generateName;
-        this.roleBindingDto.nameRef = productForm.value.nameRef;
 
         let subjectRules: Subject[] = [];
 
@@ -53,20 +51,21 @@ export class CreateClusterBindingComponent implements OnInit {
                 this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name,
                 this.roleBindingDto.subjectRules[i].namespace));
         }
-        let roleRef = new RoleRef(this.roleBindingDto.apiGroup,
-           "ClusterRole",
-            this.roleBindingDto.nameRef);
+        let roleRef = new RoleRef(this.roleBindingDto.apiGroup,"ClusterRole", this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion), new ObjectMeta(
-            this.roleBindingDto.name ,this.roleBindingDto.namespace), subjectRules, roleRef);
+        let rolebinding = new RoleBinding(new TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion),
+         new ObjectMeta(this.roleBindingDto.name ,this.roleBindingDto.namespace), subjectRules, roleRef);
 
 
         this.service.createRole(rolebinding)
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.responseValue = typeof this.responseRole != "string";
-                    this.type = true;
+                    this.isInformationError = false;
+                    if (typeof this.responseRole == "string") {
+                        this.isInformationError = true;
+                    }
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );

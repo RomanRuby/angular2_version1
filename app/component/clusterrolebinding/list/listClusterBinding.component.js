@@ -36,24 +36,18 @@ var ListClusterBindingComponent = (function () {
         this.service.listRole(listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.isInformationTable = true;
-            console.log(_this.responseRole);
-            if (typeof _this.responseRole == "string") {
-                _this.isInformationTable = false;
+            if (typeof _this.responseRole != "string") {
+                _this.isInformationTable = true;
             }
             _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterBindingComponent.prototype.deleteList = function () {
         var _this = this;
-        var listOption = new common_1.ListOptions();
-        listOption.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding", null));
-        var deleteOption = new common_1.DeleteOptions(new common_1.TypeMeta("ClusterRoleBinding", null), null, null, null);
-        this.service.deleteCollectionRole(deleteOption, listOption)
+        this.service.deleteCollectionRole(null, null)
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;
-            _this.isInformationError = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterBindingComponent.prototype.initForm = function () {
@@ -61,12 +55,8 @@ var ListClusterBindingComponent = (function () {
         this.productForm.patchValue(this.roleDto);
     };
     ListClusterBindingComponent.prototype.delete = function (name) {
-        var _this = this;
-        this.service.deleteRole(name, null).subscribe(function (data) {
-        }, function (error) { return _this.errorMessage = error; });
-        this.service.deleteRole(name, null).subscribe(function (data) {
-        }, function (error) { return _this.errorMessage = error; });
-        this.onSubmit();
+        this.service.deleteRole(name, null);
+        this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListClusterBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({});

@@ -20,7 +20,7 @@ var CreateClusterRoleComponent = (function () {
         this.fb = fb;
         this.viewAdditionalField = false;
         this.isInformationOutput = false;
-        this.isInformationError = true;
+        this.isInformationError = false;
     }
     CreateClusterRoleComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -42,7 +42,7 @@ var CreateClusterRoleComponent = (function () {
         this.service.createRole(role)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.isInformationError = typeof _this.responseRole != "string";
+            _this.isInformationError = typeof _this.responseRole == "string";
             _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };

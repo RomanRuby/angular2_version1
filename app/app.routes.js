@@ -16,6 +16,7 @@ var updateClusterBinding_component_1 = require("./component/clusterrolebinding/u
 var listBinding_component_1 = require("./component/rolebinding/list/listBinding.component");
 var createBinding_component_1 = require("./component/rolebinding/create/createBinding.component");
 var updateBinding_component_1 = require("./component/rolebinding/update/updateBinding.component");
+var mainRoleBinding_component_1 = require("./component/rolebinding/main/mainRoleBinding.component");
 exports.routes = [
     {
         path: "",
@@ -32,7 +33,7 @@ exports.routes = [
     { path: "role", component: mainRole_component_1.MainRoleComponent },
     { path: "clusterrolebinding", component: mainClusterRoleBinding_component_1.MainClusterRoleBindingComponent },
     { path: "clusterrole", component: mainClusterRole_component_1.MainClusterRoleComponent },
-    { path: "rolebinding", component: mainClusterRoleBinding_component_1.MainClusterRoleBindingComponent },
+    { path: "rolebinding", component: mainRoleBinding_component_1.MainRoleBindingComponent },
     { path: "clusterrolebinding/create", component: createClusterBinding_component_1.CreateClusterBindingComponent },
     { path: "clusterrolebinding/list", component: listClusterBinding_component_1.ListClusterBindingComponent },
     { path: "clusterrolebinding/update", component: updateClusterBinding_component_1.UpdateClusterBindingComponent },

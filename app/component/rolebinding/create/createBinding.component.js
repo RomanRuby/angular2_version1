@@ -20,8 +20,8 @@ var CreateBindingComponent = (function () {
         this.service = service;
         this.fb = fb;
         this.viewAdditionalField = false;
-        this.type = false;
-        this.responseValue = true;
+        this.isInformationOutput = false;
+        this.isInformationError = false;
     }
     CreateBindingComponent.prototype.ngOnInit = function () {
         this.buildForm();
@@ -33,27 +33,24 @@ var CreateBindingComponent = (function () {
     };
     CreateBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.name = productForm.value.name;
-        this.roleBindingDto.kind = productForm.value.kind;
-        this.roleBindingDto.subjectRules = productForm.value.subjectRules;
-        this.roleBindingDto.apiGroup = productForm.value.apiGroup;
-        this.roleBindingDto.apiGroupRef = productForm.value.apiGroupRef;
-        this.roleBindingDto.apiVersion = productForm.value.apiVersion;
-        this.roleBindingDto.generateName = productForm.value.generateName;
-        this.roleBindingDto.kindRef = productForm.value.kindRef;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
+        this.roleBindingDto.namespace = productForm.value.namespace;
+        this.roleBindingDto.subjectRules = productForm.value.subjectRules;
         var subjectRules = [];
         for (var i = 0; i < this.roleBindingDto.subjectRules.length; i++) {
             subjectRules.push(new rolebinding_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
-        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kindRef, this.roleBindingDto.nameRef);
-        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
+        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, "ClusterRole", this.roleBindingDto.nameRef);
+        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
         this.service.createRole(rolebinding)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.responseValue = typeof _this.responseRole != "string";
-            _this.type = true;
+            _this.isInformationError = false;
+            if (typeof _this.responseRole == "string") {
+                _this.isInformationError = true;
+            }
+            _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };
     CreateBindingComponent.prototype.reset = function () {
@@ -65,9 +62,8 @@ var CreateBindingComponent = (function () {
     };
     CreateBindingComponent.prototype.buildForm = function () {
         this.productForm = this.fb.group({
-            name: ["", forms_1.Validators.required],
             namespace: ["", forms_1.Validators.required],
-            kindRef: ["", forms_1.Validators.required],
+            name: ["", forms_1.Validators.required],
             nameRef: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),

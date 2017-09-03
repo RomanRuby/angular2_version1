@@ -1,65 +1,84 @@
 <div class="container" *ngIf="productForm">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
         <div class="form-group">
-            <a href="#" onClick="history.go(-1)"><b>Cluster Role Binding</b> </a>
+            <a href="#" onClick="history.go(-1)"><b>Role Binding</b> </a>
         </div>
+        <div class="ui-g-12 ui-md-8 ui-lg-10">
         <div class="form-group">
-            <label for="namespace"> Namespace Meta</label>
+            <label for="namespace">Role binding namespace</label>
             <input id="namespace" type="text" class="form-control" formControlName="namespace">
+            <small [hidden]="productForm.controls.namespace.valid"
+                   class="text-danger">
+                Role binding namespace is required
+            </small>
         </div>
-        <input type="button" class="btn btn-default" (click)="deleteList()" value="Delete List"/>
-        <input type="submit" class="btn btn-primary" value="List" [disabled]="productForm.invalid"/>
+        </div>
+        <input type="button" class="btn btn-default  ui-g-12 ui-md-6 ui-lg-8" (click)="deleteList()"
+               value="Delete List"/>
+        <input type="submit" class="btn btn-primary  ui-g-12 ui-md-6 ui-lg-8" value="List"
+               [disabled]="productForm.invalid"/>
 
     </form>
-    <h3 class="first">Information </h3>
-    <div *ngIf="isInformationOutput">
-        <div *ngFor="let responseRole of responseRole.items; let i=index">
-            <div *ngIf="isInformationTable">
-                <table class="table">
-                    <input type="button" class="btn btn-default" (click)="delete(responseRole.metadata.name)" value="Delete Role Binding"/>
-                    <thead>
-                    <tr>
-                        <th>CreationTimestamp</th>
-                        <th>Name</th>
-                        <th>Namespace</th>
-                        <th>Uid</th>
-                    </tr>
-                    </thead>
+    <div class="ui-g-12 ui-md-6 ui-lg-8">
+        <h3 class="first ui-g-12 ui-md-6 ui-lg-8">Information </h3>
+        <div *ngIf="isInformationOutput">
+            <ul>
+                <li *ngFor="let responseRole of responseRole.items | paginate: { itemsPerPage: 2, currentPage: p }; let i=index">
+                    <br>
+                    <hr class="style18">
+                    <div *ngIf="isInformationTable">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>CreationTimestamp</th>
+                                <th>Name</th>
+                                <th>Uid</th>
+                                <th>Namespace</th>
+                            </tr>
+                            </thead>
 
-                    <tbody>
-                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-                        <th> {{responseRole.metadata.creationTimestamp}}</th>
-                        <th>{{responseRole.metadata.name}}</th>
-                        <th>{{responseRole.metadata.namespace}}</th>
-                        <th>{{responseRole.metadata.uid}}</th>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>apiGroup</th>
-                        <th>kind</th>
-                        <th>name</th>
-                    </tr>
-                    </thead>
+                            <tbody>
+                            <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                                <th> {{responseRole.metadata.creationTimestamp}}</th>
+                                <th>{{responseRole.metadata.name}}</th>
+                                <th>{{responseRole.metadata.uid}}</th>
+                                <th>{{responseRole.metadata.namespace}}</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ApiGroup</th>
+                                <th>Kind</th>
+                                <th>Name</th>
+                            </tr>
+                            </thead>
 
-                    <tbody>
-                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
-                        <th> {{responseRole.roleRef.apiGroup}}</th>
-                        <th>{{responseRole.roleRef.kind}}</th>
-                        <th>{{responseRole.roleRef.name}}</th>
+                            <tbody>
+                            <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                                <th> {{responseRole.roleRef.apiGroup}}</th>
+                                <th>{{responseRole.roleRef.kind}}</th>
+                                <th>{{responseRole.roleRef.name}}</th>
 
-                    </tr>
-                    </tbody>
-                </table>
-                <p-dataTable [value]="responseRole.subjects">
-                    <p-column field="apiGroup" header="apiGroups"></p-column>
-                    <p-column field="kind" header="resourceNames"></p-column>
-                    <p-column field="name" header="resources"></p-column>
-                    <p-column field="namespace" header="namespace"></p-column>
-                </p-dataTable>
-            </div>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p-dataTable [value]="responseRole.subjects">
+                            <p-column field="apiGroup" header="ApiGroup"></p-column>
+                            <p-column field="kind" header="Kind"></p-column>
+                            <p-column field="name" header="Name"></p-column>
+                            <p-column field="namespace" header="Namespace"></p-column>
+                        </p-dataTable>
+                        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8"
+                               (click)="delete(responseRole.metadata.name)"
+                               value="Delete "/>
+                        <hr>
+                        <hr>
+                    </div>
+                </li>
+            </ul>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
     </div>
 </div>

@@ -73,6 +73,7 @@ var UpdateClusterRoleComponent = (function () {
                 _this.isInformationTable = true;
             }
             else {
+                _this.isInformationTable = false;
                 _this.isInformationError = true;
             }
             _this.responseRole = data;

@@ -20,7 +20,7 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public updateRole(role: RoleBinding) :Observable<RoleBinding>{
+    public updateRole(role: RoleBinding) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/update", role)
             .catch(ClusterRoleBindingService.handleError);
     }
@@ -40,7 +40,7 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public getRole(name:string, getOptions: GetOptions) :Observable<RoleBinding>{
+    public getRole(name:string, getOptions: GetOptions) :Observable<ResponseRoleBinding>{
         return this.http.post(this.url +"/clusterrolebinding/get/"+name, getOptions)
             .catch(ClusterRoleBindingService.handleError);
     }

@@ -9,8 +9,6 @@ import (
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-
-
 func Create(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := v1beta1.Role{}

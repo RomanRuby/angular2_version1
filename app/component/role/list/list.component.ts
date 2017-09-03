@@ -15,14 +15,13 @@ import {RoleResponses} from "../../../logic-service/models/role";
 
 export class ListRoleComponent implements OnInit {
     roleDto: ListDto;
-    errorMessage: string;
     productForm: FormGroup;
     responseRole: RoleResponses;
+    errorMessage: string;
     response: string;
-    deleterole: string;
+    deleteRole: string;
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
-    isInformationError: boolean = false;
 
 
     constructor(private service: RoleService,
@@ -41,7 +40,6 @@ export class ListRoleComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleDto.namespace = productForm.value.namespace;
-
 
        let listOptions = new ListOptions();
         listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
@@ -67,38 +65,13 @@ export class ListRoleComponent implements OnInit {
                 data => {
                     this.response = data;
                     this.isInformationTable = false;
-                    this.isInformationError = true;
                 },
                 error => this.errorMessage = error
             );
     }
-    public delete(name:string) {
-        this.service.deleteRole(name,this.roleDto.namespace, null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        this.service.deleteRole(name,this.roleDto.namespace, null).subscribe(
-            data => {
-            },
-            error => this.errorMessage = error
-        );
-        let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("Role", this.roleDto.apiVersion));
-
-        this.service.listRole(this.roleDto.namespace, listOptions)
-            .subscribe(
-                data => {
-                    this.responseRole = data;
-
-                    if (typeof this.responseRole == "string") {
-                    } else {
-                        this.isInformationTable = true;
-                    }
-                    this.isInformationOutput = true;
-                },
-                error => this.errorMessage = error
-            );
+    public delete(name: string) {
+        this.service.deleteRole(name,this.roleDto.namespace, null);
+        this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 
     private initForm() {

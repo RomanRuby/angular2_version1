@@ -1,15 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-
 import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-
-
-import {RoleService} from "../../../logic-service/role.service";
 import {
-    ObjectMeta, ObjectMetaView, PolicyRule, Role, RoleDto,
-    RoleWithAllOptionsView
+    ObjectMetaView, PolicyRule, Role, RoleDto, RoleWithAllOptionsView
 } from "../../../logic-service/models/role";
 import {TypeMeta} from "../../../logic-service/models/common";
-
+import {RoleService} from "../../../logic-service/role.service";
 
 @Component({
     moduleId: module.id,
@@ -18,13 +13,15 @@ import {TypeMeta} from "../../../logic-service/models/common";
 })
 
 export class CreateRoleComponent implements OnInit {
+
     roleDto: RoleDto;
-    errorMessage: string;
-    productForm: FormGroup;
-    viewAdditionalField: boolean = false;
     responseRole: RoleWithAllOptionsView;
-    type: boolean = false;
-    responseValue: boolean =true;
+    productForm: FormGroup;
+    errorMessage: string;
+    viewAdditionalField: boolean = false;
+    isInformationOutput: boolean = false;
+    isInformationError: boolean = false;
+
 
     constructor(private service: RoleService,
                 private fb: FormBuilder) {
@@ -41,33 +38,30 @@ export class CreateRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.name = productForm.value.name;
-        this.roleDto.kind = productForm.value.kind;
-        this.roleDto.apiVersion = productForm.value.apiVersion;
-        this.roleDto.generateName = productForm.value.generateName;
-        this.roleDto.selfLink = productForm.value.selfLink;
-        this.roleDto.uid = productForm.value.uid;
+        this.roleDto.namespace = productForm.value.namespace;
         this.roleDto.policyRules = productForm.value.policyRules;
 
-        let policyRulesArrsys: PolicyRule[] = [];
-
+        let policyRulesArrays: PolicyRule[] = [];
 
         for (let i = 0; i < this.roleDto.policyRules.length; i++) {
-            policyRulesArrsys.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
-            this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
-            this.roleDto.policyRules[i].resourceNames.split(',')));
+            policyRulesArrays.push(new PolicyRule(this.roleDto.policyRules[i].verbs.split(','),
+                this.roleDto.policyRules[i].apiGroups.split(','), this.roleDto.policyRules[i].resources.split(','),
+                this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMetaView(
-            this.roleDto.name,this.roleDto.namespace,null,null,null,null,null,null,null,null,null), policyRulesArrsys);
+        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMetaView(
+            this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp,
+            this.roleDto.deletionGracePeriodSeconds), policyRulesArrays);
 
         this.service.createRole(role)
             .subscribe(
                 data => {
+                    console.log(data);
                     this.responseRole = data;
-                    this.responseValue = typeof this.responseRole != "string";
-                    this.type = true;
+
+                    this.isInformationError = typeof this.responseRole == "string";
+                    this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error
             );
@@ -78,14 +72,14 @@ export class CreateRoleComponent implements OnInit {
     }
 
     private initForm() {
-            this.roleDto = new RoleDto();
-            this.productForm.patchValue(this.roleDto);
+        this.roleDto = new RoleDto();
+        this.productForm.patchValue(this.roleDto);
     }
 
     private buildForm() {
         this.productForm = this.fb.group({
-            namespace: ["",Validators.required ],
-            name: ["",  Validators.required],
+            name: ["", Validators.required],
+            namespace: ["", Validators.required],
             policyRules: this.fb.array([
                 this.initPolicyRules(),
             ])
@@ -95,8 +89,8 @@ export class CreateRoleComponent implements OnInit {
     initPolicyRules() {
         return this.fb.group({
             verbs: ["", Validators.required],
-            apiGroups: ["", ],
-            resources: ["", ],
+            apiGroups: ["",],
+            resources: ["",],
             resourceNames: ["",],
         });
     }

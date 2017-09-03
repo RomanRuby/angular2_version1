@@ -156,7 +156,7 @@ export class ObjectMetaView {
                 finalizers?: Array<string>,
                 clusterName?: string,
                 creationTimestamp?: any,
-    generation?:number
+                generation?:number
               ) {
         this.name = name;
         this.namespace = namespace;

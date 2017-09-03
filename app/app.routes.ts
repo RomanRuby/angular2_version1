@@ -16,6 +16,7 @@ import {UpdateClusterBindingComponent} from "./component/clusterrolebinding/upda
 import {ListBindingComponent} from "./component/rolebinding/list/listBinding.component";
 import {CreateBindingComponent} from "./component/rolebinding/create/createBinding.component";
 import {UpdateBindingComponent} from "./component/rolebinding/update/updateBinding.component";
+import {MainRoleBindingComponent} from "./component/rolebinding/main/mainRoleBinding.component";
 
 
 
@@ -38,7 +39,7 @@ export const routes: Routes = [
     {path: "role", component: MainRoleComponent},
     {path: "clusterrolebinding", component: MainClusterRoleBindingComponent},
     {path: "clusterrole", component: MainClusterRoleComponent},
-    {path: "rolebinding", component: MainClusterRoleBindingComponent},
+    {path: "rolebinding", component: MainRoleBindingComponent},
 
     {path: "clusterrolebinding/create", component: CreateClusterBindingComponent},
     {path: "clusterrolebinding/list", component: ListClusterBindingComponent},

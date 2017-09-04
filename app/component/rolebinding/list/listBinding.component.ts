@@ -23,6 +23,7 @@ export class ListBindingComponent implements OnInit {
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
 
+
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {
     }

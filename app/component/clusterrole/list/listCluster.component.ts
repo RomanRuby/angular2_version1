@@ -40,7 +40,7 @@ export class ListClusterRoleComponent implements OnInit {
 
     public onSubmit() {
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("ClusterRole", null));
+        listOptions.setTypeMeta(new TypeMeta("ClusterRole"));
 
         this.service.listRole(listOptions)
             .subscribe(
@@ -68,7 +68,7 @@ export class ListClusterRoleComponent implements OnInit {
     }
 
     public delete(name: string) {
-        this.service.deleteRole(name, null);
+        this.service.deleteRole(name);
         this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 

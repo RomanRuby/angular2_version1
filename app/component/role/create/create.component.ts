@@ -13,7 +13,6 @@ import {RoleService} from "../../../logic-service/role.service";
 })
 
 export class CreateRoleComponent implements OnInit {
-
     roleDto: RoleDto;
     responseRole: RoleWithAllOptionsView;
     productForm: FormGroup;

@@ -1,0 +1,11 @@
+.ul li  {
+    display:block;
+}
+
+.ul li :hover, ul li :focus {
+    color: #9eff6d;
+}
+
+.ul li separator :hover, ul li separator:focus {
+    color: #9eff6d;
+}

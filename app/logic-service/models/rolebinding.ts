@@ -1,7 +1,6 @@
 import {ObjectMeta, RoleRef} from "./role";
 import {TypeMeta} from "./common";
 
-
 export class Subject {
     apiGroup: string;
     kind: string;
@@ -92,7 +91,6 @@ export class ResponsesRoleBindingList {
 }
 
 export class MetaDataMeta {
-
     selfLink: string;
     resourceVersion: number;
 }

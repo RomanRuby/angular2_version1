@@ -3,6 +3,8 @@
 }
 .main-panel {
     background-image: url(../assets/img/back2.jpg);
+    padding:10px;
+    padding-bottom:60px;   /* Height of the footer */
 }
 nav {
     float: left;
@@ -70,4 +72,20 @@ hr.style18:before {
             inset #c5f4ff 0 0 0 22px,
             inset #bfecf7 0 0 0 23px;
 }
-
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+.wrapper {
+    min-height:100%;
+    position:relative;
+}
+#body {
+    padding:10px;
+    padding-bottom:60px;   /* Height of the footer */
+}
+.footer {
+    position: absolute;
+    background: #fbfdff;
+}

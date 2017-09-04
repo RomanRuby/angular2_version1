@@ -23,11 +23,11 @@ export class UpdateBindingComponent implements OnInit {
     responseRole: ResponseRoleBinding;
     subjectRuleDtoWithDeleteFunction = [];
     errorMessage: string;
-
+    namespace:string;
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
-    namespace:string;
+
 
     constructor(private service: RoleBindingService,
                 private fb: FormBuilder) {

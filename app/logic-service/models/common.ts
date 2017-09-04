@@ -1,4 +1,5 @@
-import {PolicyRuleDto, PolicyRule} from "./role";
+import { PolicyRule} from "./role";
+
 export class MetaResponse {
     creationTimestamp: string;
     name: string;
@@ -72,17 +73,6 @@ export class DeleteOptions {
     }
 }
 
-export class DeleteOptionsDto {
-    kind: string;
-    apiVersion: string;
-    name: string;
-    namespace: string;
-    gracePeriodSeconds?: number;
-    orphanDependents?: boolean;
-    preconditions?: string;
-    propagationPolicy?: string;
-}
-
 export class GetOptions {
     typeMeta: TypeMeta;
     resourceVersion: string;
@@ -95,29 +85,4 @@ export class GetOptions {
         this.resourceVersion = resourceVersion;
         this.includeUninitialized = includeUninitialized;
     }
-}
-
-export class GetOptionsDto {
-    name: string;
-    nameUrl: string;
-    kind: string;
-    apiVersion: string;
-    resourceVersion: string;
-    includeUninitialized: boolean;
-}
-export class Options {
-    name: string;
-    generateName: string;
-    namespace: string;
-    selfLink: string;
-    uid: string;
-    resourceVersion: string;
-    generation:number;
-    creationTimestamp:number;
-    deletionTimestamp:number;
-    deletionGracePeriodSeconds:number;
-    finalizers:Array<string>;
-    clusterName:string;
-    rules:Array<PolicyRule>;
-
 }

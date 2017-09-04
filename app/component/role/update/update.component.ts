@@ -21,10 +21,10 @@ export class UpdateRoleComponent implements OnInit {
     policyRuleDtoWithDeleteFunction = [];
     errorMessage: string;
     response: string;
-
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
+
 
     constructor(private service: RoleService,
                 private fb: FormBuilder) {

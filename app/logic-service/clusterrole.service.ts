@@ -31,7 +31,7 @@ export class ClusterRoleService {
             .catch(ClusterRoleService.handleError);
     }
 
-    public deleteRole(namespace: string, deleteOptions: DeleteOptions): Observable<string> {
+    public deleteRole(namespace: string, deleteOptions?: DeleteOptions): Observable<string> {
         return this.http.post(this.url + "/clusterrole/delete/" + namespace, deleteOptions)
             .catch(ClusterRoleService.handleError);
     }

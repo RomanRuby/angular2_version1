@@ -1,4 +1,4 @@
-import {MetaResponse, TypeMeta} from "./common";
+import { TypeMeta} from "./common";
 
 export class Role {
     typeMeta: TypeMeta;
@@ -118,7 +118,6 @@ class UID {
 }
 
 export class ObjectMeta {
-
     name: string;
     generateName?: string;
     namespace: string;

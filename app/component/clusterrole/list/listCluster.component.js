@@ -32,7 +32,7 @@ var ListClusterRoleComponent = (function () {
     ListClusterRoleComponent.prototype.onSubmit = function () {
         var _this = this;
         var listOptions = new common_1.ListOptions();
-        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRole", null));
+        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRole"));
         this.service.listRole(listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -51,7 +51,7 @@ var ListClusterRoleComponent = (function () {
         }, function (error) { return _this.errorMessage = error; });
     };
     ListClusterRoleComponent.prototype.delete = function (name) {
-        this.service.deleteRole(name, null);
+        this.service.deleteRole(name);
         this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListClusterRoleComponent.prototype.initForm = function () {

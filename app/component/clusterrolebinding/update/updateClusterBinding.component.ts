@@ -22,10 +22,10 @@ export class UpdateClusterBindingComponent implements OnInit {
     responseRole: ResponseRoleBinding;
     subjectRuleDtoWithDeleteFunction = [];
     errorMessage: string;
-
     isInformationOutput: boolean = false;
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
+
 
     constructor(private service: ClusterRoleBindingService,
                 private fb: FormBuilder) {

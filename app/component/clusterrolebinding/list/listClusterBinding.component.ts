@@ -21,6 +21,7 @@ export class ListClusterBindingComponent implements OnInit {
     isInformationTable: boolean = false;
     isInformationError: boolean = false;
 
+
     constructor(private service: ClusterRoleBindingService,
                 private fb: FormBuilder) {
     }
@@ -77,6 +78,5 @@ export class ListClusterBindingComponent implements OnInit {
     private buildForm() {
         this.productForm = this.fb.group({});
     }
-
 
 }

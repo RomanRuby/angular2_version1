@@ -25,6 +25,7 @@ SidebarComponent = __decorate([
         moduleId: module.id,
         selector: 'sidebar-cmp',
         templateUrl: 'sidebar.component.html',
+        styleUrls: ["sidebar.component.css"]
     })
 ], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;

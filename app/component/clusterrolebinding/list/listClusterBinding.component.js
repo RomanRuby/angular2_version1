@@ -32,7 +32,7 @@ var ListClusterBindingComponent = (function () {
     ListClusterBindingComponent.prototype.onSubmit = function () {
         var _this = this;
         var listOptions = new common_1.ListOptions();
-        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding", null));
+        listOptions.setTypeMeta(new common_1.TypeMeta("ClusterRoleBinding"));
         this.service.listRole(listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -44,7 +44,7 @@ var ListClusterBindingComponent = (function () {
     };
     ListClusterBindingComponent.prototype.deleteList = function () {
         var _this = this;
-        this.service.deleteCollectionRole(null, null)
+        this.service.deleteCollectionRole()
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;
@@ -55,7 +55,7 @@ var ListClusterBindingComponent = (function () {
         this.productForm.patchValue(this.roleDto);
     };
     ListClusterBindingComponent.prototype.delete = function (name) {
-        this.service.deleteRole(name, null);
+        this.service.deleteRole(name);
         this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListClusterBindingComponent.prototype.buildForm = function () {

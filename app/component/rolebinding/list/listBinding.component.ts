@@ -41,7 +41,7 @@ export class ListBindingComponent implements OnInit {
         this.namespace = productForm.value.namespace;
 
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("RoleBinding", null));
+        listOptions.setTypeMeta(new TypeMeta("RoleBinding"));
 
         this.service.listRole(this.namespace, listOptions)
             .subscribe(
@@ -58,7 +58,7 @@ export class ListBindingComponent implements OnInit {
     }
 
     public deleteList() {
-        this.service.deleteCollectionRole(this.namespace, null, null)
+        this.service.deleteCollectionRole(this.namespace)
             .subscribe(
                 data => {
                     this.response = data;
@@ -69,7 +69,7 @@ export class ListBindingComponent implements OnInit {
     }
 
     public delete(name: string) {
-        this.service.deleteRole(name, this.namespace, null);
+        this.service.deleteRole(name, this.namespace);
         this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 

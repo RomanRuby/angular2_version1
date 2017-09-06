@@ -60,7 +60,7 @@ export class ListRoleComponent implements OnInit {
     }
     public deleteList(namespace:string) {
         console.log(namespace);
-        this.service.deleteCollectionRole(namespace,null, null)
+        this.service.deleteCollectionRole(namespace)
             .subscribe(
                 data => {
                     this.response = data;
@@ -70,7 +70,7 @@ export class ListRoleComponent implements OnInit {
             );
     }
     public delete(name: string) {
-        this.service.deleteRole(name,this.roleDto.namespace, null);
+        this.service.deleteRole(name,this.roleDto.namespace);
         this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 

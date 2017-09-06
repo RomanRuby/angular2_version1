@@ -34,7 +34,7 @@ var UpdateClusterBindingComponent = (function () {
     };
     UpdateClusterBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        var getOption = new common_1.GetOptions(new common_1.TypeMeta("ClusterRole", null), null, null);
+        var getOption = new common_1.GetOptions(new common_1.TypeMeta("ClusterRole"), null, null);
         this.service.getRole(productForm.value.name, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -65,7 +65,7 @@ var UpdateClusterBindingComponent = (function () {
                     this.subjectRuleDtoWithDeleteFunction.filter(function (subject) { return subject.isDelete == false; });
             }
         }
-        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", null), new role_1.ObjectMeta(this.responseRole.metadata.name, null), subjectRulesArrays, this.responseRole.roleRef);
+        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding"), new role_1.ObjectMeta(this.responseRole.metadata.name, null), subjectRulesArrays, this.responseRole.roleRef);
         this.service.updateRole(role)
             .subscribe(function (data) {
             if (typeof data != "string") {

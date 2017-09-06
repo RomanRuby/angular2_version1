@@ -23,7 +23,6 @@ func clientSet() (client *v1beta12.RbacV1beta1Client) {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())

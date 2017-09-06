@@ -36,12 +36,12 @@ export class ClusterRoleService {
             .catch(ClusterRoleService.handleError);
     }
 
-    public deleteCollectionRole(deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
+    public deleteCollectionRole(deleteOptions?: DeleteOptions, listOptions?: ListOptions): Observable<string> {
         return this.http.post(this.url + "/clusterrole/deleteCollection", new DeleteCol(deleteOptions, listOptions))
             .catch(ClusterRoleService.handleError);
     }
 
-    public getRole(namespace: string, getOptions: GetOptions): Observable<RoleWithAllOptionsView> {
+    public getRole(namespace: string, getOptions?: GetOptions): Observable<RoleWithAllOptionsView> {
         return this.http.post(this.url + "/clusterrole/get/" + namespace, getOptions)
             .catch(ClusterRoleService.handleError);
     }

@@ -12,7 +12,6 @@ import (
 )
 
 
-
 func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := v1beta1.ClusterRole{}

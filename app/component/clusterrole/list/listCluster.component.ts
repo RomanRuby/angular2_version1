@@ -57,7 +57,7 @@ export class ListClusterRoleComponent implements OnInit {
     }
 
     public deleteList() {
-        this.service.deleteCollectionRole(null, null)
+        this.service.deleteCollectionRole()
             .subscribe(
                 data => {
                     this.response = data;

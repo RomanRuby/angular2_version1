@@ -41,7 +41,7 @@ export class UpdateRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.service.getRole(productForm.value.name, productForm.value.namespace,null)
+        this.service.getRole(productForm.value.name, productForm.value.namespace)
             .subscribe(
                 data => {
                     this.responseRole = data;

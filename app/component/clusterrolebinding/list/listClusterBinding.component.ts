@@ -38,7 +38,7 @@ export class ListClusterBindingComponent implements OnInit {
 
     public onSubmit() {
         let listOptions = new ListOptions();
-        listOptions.setTypeMeta(new TypeMeta("ClusterRoleBinding", null));
+        listOptions.setTypeMeta(new TypeMeta("ClusterRoleBinding"));
 
         this.service.listRole(listOptions)
             .subscribe(
@@ -55,7 +55,7 @@ export class ListClusterBindingComponent implements OnInit {
     }
 
     public deleteList() {
-        this.service.deleteCollectionRole(null, null)
+        this.service.deleteCollectionRole()
             .subscribe(
                 data => {
                     this.response = data;
@@ -71,7 +71,7 @@ export class ListClusterBindingComponent implements OnInit {
     }
 
     public delete(name: string) {
-        this.service.deleteRole(name, null);
+        this.service.deleteRole(name);
         this.responseRole.items = this.responseRole.items.filter(items => items.metadata.name != name);
     }
 

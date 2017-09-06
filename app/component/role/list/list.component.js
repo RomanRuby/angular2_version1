@@ -47,14 +47,14 @@ var ListRoleComponent = (function () {
     ListRoleComponent.prototype.deleteList = function (namespace) {
         var _this = this;
         console.log(namespace);
-        this.service.deleteCollectionRole(namespace, null, null)
+        this.service.deleteCollectionRole(namespace)
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListRoleComponent.prototype.delete = function (name) {
-        this.service.deleteRole(name, this.roleDto.namespace, null);
+        this.service.deleteRole(name, this.roleDto.namespace);
         this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListRoleComponent.prototype.initForm = function () {

@@ -35,7 +35,7 @@ var UpdateBindingComponent = (function () {
     UpdateBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.namespace = productForm.value.namespace;
-        var getOption = new common_1.GetOptions(new common_1.TypeMeta("ClusterRole", null), null, null);
+        var getOption = new common_1.GetOptions(new common_1.TypeMeta("ClusterRole"), null, null);
         this.service.getRole(productForm.value.name, this.namespace, getOption)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -66,7 +66,7 @@ var UpdateBindingComponent = (function () {
                     this.subjectRuleDtoWithDeleteFunction.filter(function (subject) { return subject.isDelete == false; });
             }
         }
-        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", null), new role_1.ObjectMeta(this.responseRole.metadata.name, this.namespace), subjectRulesArrays, this.responseRole.roleRef);
+        var role = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding"), new role_1.ObjectMeta(this.responseRole.metadata.name, this.namespace), subjectRulesArrays, this.responseRole.roleRef);
         this.service.updateRole(role)
             .subscribe(function (data) {
             if (typeof data != "string") {

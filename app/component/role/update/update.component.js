@@ -33,7 +33,7 @@ var UpdateRoleComponent = (function () {
     };
     UpdateRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.service.getRole(productForm.value.name, productForm.value.namespace, null)
+        this.service.getRole(productForm.value.name, productForm.value.namespace)
             .subscribe(function (data) {
             _this.responseRole = data;
             _this.policyRuleDtoWithDeleteFunction = [];

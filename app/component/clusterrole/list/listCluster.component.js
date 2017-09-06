@@ -44,7 +44,7 @@ var ListClusterRoleComponent = (function () {
     };
     ListClusterRoleComponent.prototype.deleteList = function () {
         var _this = this;
-        this.service.deleteCollectionRole(null, null)
+        this.service.deleteCollectionRole()
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;

@@ -33,7 +33,7 @@ var ListBindingComponent = (function () {
         var _this = this;
         this.namespace = productForm.value.namespace;
         var listOptions = new common_1.ListOptions();
-        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding", null));
+        listOptions.setTypeMeta(new common_1.TypeMeta("RoleBinding"));
         this.service.listRole(this.namespace, listOptions)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -45,14 +45,14 @@ var ListBindingComponent = (function () {
     };
     ListBindingComponent.prototype.deleteList = function () {
         var _this = this;
-        this.service.deleteCollectionRole(this.namespace, null, null)
+        this.service.deleteCollectionRole(this.namespace)
             .subscribe(function (data) {
             _this.response = data;
             _this.isInformationTable = false;
         }, function (error) { return _this.errorMessage = error; });
     };
     ListBindingComponent.prototype.delete = function (name) {
-        this.service.deleteRole(name, this.namespace, null);
+        this.service.deleteRole(name, this.namespace);
         this.responseRole.items = this.responseRole.items.filter(function (items) { return items.metadata.name != name; });
     };
     ListBindingComponent.prototype.initForm = function () {

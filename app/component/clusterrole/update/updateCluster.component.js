@@ -33,7 +33,7 @@ var UpdateClusterRoleComponent = (function () {
     };
     UpdateClusterRoleComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
-        this.service.getRole(productForm.value.name, null)
+        this.service.getRole(productForm.value.name)
             .subscribe(function (data) {
             _this.responseRole = data;
             _this.policyRuleDtoWithDeleteFunction = [];

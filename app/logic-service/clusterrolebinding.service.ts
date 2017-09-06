@@ -30,12 +30,12 @@ export class ClusterRoleBindingService {
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public deleteRole(id: string, deleteOptions: DeleteOptions) :Observable<string>{
+    public deleteRole(id: string, deleteOptions?: DeleteOptions) :Observable<string>{
         return this.http.post(this.url + "/clusterrolebinding/delete/"+ id, deleteOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
 
-    public deleteCollectionRole( deleteOptions: DeleteOptions,listOptions: ListOptions):Observable<string> {
+    public deleteCollectionRole( deleteOptions?: DeleteOptions,listOptions?: ListOptions):Observable<string> {
         return this.http.post(this.url +"/clusterrolebinding/deleteCollection", deleteOptions,listOptions)
             .catch(ClusterRoleBindingService.handleError);
     }
@@ -59,4 +59,5 @@ export class ClusterRoleBindingService {
 
         return Observable.throw(message);
     }
+
 }

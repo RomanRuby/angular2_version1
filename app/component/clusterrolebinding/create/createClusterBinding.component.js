@@ -45,10 +45,7 @@ var CreateClusterBindingComponent = (function () {
         this.service.createRole(rolebinding)
             .subscribe(function (data) {
             _this.responseRole = data;
-            _this.isInformationError = false;
-            if (typeof _this.responseRole == "string") {
-                _this.isInformationError = true;
-            }
+            _this.isInformationError = typeof _this.responseRole == "string";
             _this.isInformationOutput = true;
         }, function (error) { return _this.errorMessage = error; });
     };

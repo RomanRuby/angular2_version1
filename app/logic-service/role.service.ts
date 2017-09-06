@@ -32,17 +32,17 @@ export class RoleService {
             .catch(RoleService.handleError);
     }
 
-    public deleteRole(id: string, namespace: string, deleteOptions: DeleteOptions): Observable<string> {
+    public deleteRole(id: string, namespace: string, deleteOptions?: DeleteOptions): Observable<string> {
         return this.http.post(this.url + "/role/delete/" + id + "/" + namespace, deleteOptions)
             .catch(RoleService.handleError);
     }
 
-    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
+    public deleteCollectionRole(id: string, deleteOptions?: DeleteOptions, listOptions?: ListOptions): Observable<string> {
         return this.http.post(this.url + "/role/deleteCollection/" + id, new DeleteCol(deleteOptions, listOptions))
             .catch(RoleService.handleError);
     }
 
-    public getRole(id: string, namespace: string, getOptions: GetOptions): Observable<RoleWithAllOptionsView> {
+    public getRole(id: string, namespace: string, getOptions?: GetOptions): Observable<RoleWithAllOptionsView> {
         return this.http.post(this.url + "/role/get" + "/" + id + "/" + namespace, getOptions)
             .catch(RoleService.handleError);
     }

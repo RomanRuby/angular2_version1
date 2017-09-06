@@ -29,12 +29,12 @@ export class RoleBindingService {
             .catch(RoleBindingService.handleError);
     }
 
-    public deleteRole(id: string, namespace: string, deleteOptions: DeleteOptions): Observable<string> {
+    public deleteRole(id: string, namespace: string, deleteOptions?: DeleteOptions): Observable<string> {
         return this.http.post(this.url + "/rolebinding/delete/" + id + "/" + namespace, deleteOptions)
             .catch(RoleBindingService.handleError);
     }
 
-    public deleteCollectionRole(id: string, deleteOptions: DeleteOptions, listOptions: ListOptions): Observable<string> {
+    public deleteCollectionRole(id: string, deleteOptions?: DeleteOptions, listOptions?: ListOptions): Observable<string> {
         return this.http.post(this.url + "/rolebinding/deleteCollection/" + id, deleteOptions, listOptions)
             .catch(RoleBindingService.handleError);
     }

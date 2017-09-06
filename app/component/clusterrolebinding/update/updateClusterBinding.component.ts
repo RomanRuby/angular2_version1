@@ -1,12 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {
     ResponseRoleBinding, RoleBinding, RoleBindingDto, Subject,
     SubjectDto
 } from "../../../logic-service/models/rolebinding";
-import {ObjectMeta, Role, RoleRef} from "../../../logic-service/models/role";
+import {ObjectMeta} from "../../../logic-service/models/role";
 import {GetOptions, TypeMeta} from "../../../logic-service/models/common";
 
 
@@ -43,7 +43,7 @@ export class UpdateClusterBindingComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         let getOption = new GetOptions(
-            new TypeMeta("ClusterRole",null),
+            new TypeMeta("ClusterRole"),
            null, null);
         this.service.getRole(productForm.value.name, getOption)
             .subscribe(
@@ -91,7 +91,7 @@ export class UpdateClusterBindingComponent implements OnInit {
 
         }
 
-        let role = new RoleBinding(new TypeMeta("RoleBinding", null),
+        let role = new RoleBinding(new TypeMeta("RoleBinding"),
             new ObjectMeta(this.responseRole.metadata.name, null), subjectRulesArrays,
             this.responseRole.roleRef);
         this.service.updateRole(role)

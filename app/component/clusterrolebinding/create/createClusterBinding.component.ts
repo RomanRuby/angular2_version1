@@ -62,10 +62,8 @@ export class CreateClusterBindingComponent implements OnInit {
             .subscribe(
                 data => {
                     this.responseRole = data;
-                    this.isInformationError = false;
-                    if (typeof this.responseRole == "string") {
-                        this.isInformationError = true;
-                    }
+
+                    this.isInformationError = typeof this.responseRole == "string";
                     this.isInformationOutput = true;
                 },
                 error => this.errorMessage = error

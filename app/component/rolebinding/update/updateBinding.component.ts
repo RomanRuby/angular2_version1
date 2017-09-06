@@ -45,7 +45,7 @@ export class UpdateBindingComponent implements OnInit {
     public onSubmit(productForm: FormGroup) {
         this.namespace = productForm.value.namespace;
         let getOption = new GetOptions(
-            new TypeMeta("ClusterRole",null),
+            new TypeMeta("ClusterRole"),
             null, null);
         this.service.getRole(productForm.value.name,this.namespace, getOption)
             .subscribe(
@@ -93,7 +93,7 @@ export class UpdateBindingComponent implements OnInit {
 
         }
 
-        let role = new RoleBinding(new TypeMeta("RoleBinding", null),
+        let role = new RoleBinding(new TypeMeta("RoleBinding"),
             new ObjectMeta(this.responseRole.metadata.name, this.namespace), subjectRulesArrays,
             this.responseRole.roleRef);
         this.service.updateRole(role)

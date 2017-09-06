@@ -41,7 +41,7 @@ export class UpdateClusterRoleComponent implements OnInit {
     }
 
     public onSubmit(productForm: FormGroup) {
-        this.service.getRole(productForm.value.name, null)
+        this.service.getRole(productForm.value.name)
             .subscribe(
                 data => {
                     this.responseRole = data;
@@ -130,6 +130,5 @@ export class UpdateClusterRoleComponent implements OnInit {
     private addPolicy() {
         this.policyRuleDtoWithDeleteFunction.push(new PolicyRuleDtoWithDeleteFunction("", false, "", "", ""));
     }
-
 
 }

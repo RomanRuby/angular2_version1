@@ -1,17 +1,3 @@
-import { PolicyRule} from "./role";
-
-export class MetaResponse {
-    creationTimestamp: string;
-    name: string;
-    resourceVersion: string;
-    selfLink: string;
-    uid: UID;
-}
-
-class UID {
-    uid?: string;
-}
-
 export class DeleteCol {
     deleteOption: DeleteOptions;
     list: ListOptions;

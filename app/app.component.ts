@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import "./rx-js.operators";
 declare var $: any;
+
 @Component({
     moduleId: module.id,
     selector: "my-app",

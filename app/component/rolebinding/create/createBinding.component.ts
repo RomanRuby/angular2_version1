@@ -39,6 +39,7 @@ export class CreateBindingComponent implements OnInit {
 
     public onSubmit(productForm: FormGroup) {
         this.roleBindingDto.name = productForm.value.name;
+        this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
@@ -52,9 +53,9 @@ export class CreateBindingComponent implements OnInit {
                 this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name,
                 this.roleBindingDto.subjectRules[i].namespace));
         }
-        let roleRef = new RoleRef(this.roleBindingDto.apiGroup, "ClusterRole", this.roleBindingDto.nameRef);
+        let roleRef = new RoleRef(this.roleBindingDto.apiGroup,  this.roleBindingDto.kind, this.roleBindingDto.nameRef);
 
-        let rolebinding = new RoleBinding(new TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion),
+        let rolebinding = new RoleBinding(new TypeMeta("RoleBinding", this.roleBindingDto.apiVersion),
             new ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
 
 
@@ -86,6 +87,7 @@ export class CreateBindingComponent implements OnInit {
             namespace: ["", Validators.required],
             name: ["", Validators.required],
             nameRef: ["", Validators.required],
+            kind: ["", Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
             ])

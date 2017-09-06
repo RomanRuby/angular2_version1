@@ -14,7 +14,6 @@ export class Role {
     }
 }
 
-
 export class RoleResponse {
     metadata: ObjectMetaView;
     rules: Array<PolicyRule>;

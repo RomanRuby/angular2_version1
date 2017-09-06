@@ -37,9 +37,9 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>apiGroup</th>
-                                <th>kind</th>
-                                <th>name</th>
+                                <th>ApiGroup</th>
+                                <th>Kind</th>
+                                <th>Role name</th>
                             </tr>
                             </thead>
 
@@ -55,7 +55,7 @@
                         <p-dataTable [value]="responseRole.subjects">
                             <p-column field="apiGroup" header="ApiGroup"></p-column>
                             <p-column field="kind" header="Kind"></p-column>
-                            <p-column field="name" header="Name"></p-column>
+                            <p-column field="name" header="Account name"></p-column>
                             <p-column field="namespace" header="Namespace"></p-column>
                         </p-dataTable>
                         <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8"

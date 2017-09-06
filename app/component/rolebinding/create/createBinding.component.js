@@ -34,6 +34,7 @@ var CreateBindingComponent = (function () {
     CreateBindingComponent.prototype.onSubmit = function (productForm) {
         var _this = this;
         this.roleBindingDto.name = productForm.value.name;
+        this.roleBindingDto.kind = productForm.value.kind;
         this.roleBindingDto.nameRef = productForm.value.nameRef;
         this.roleBindingDto.namespace = productForm.value.namespace;
         this.roleBindingDto.subjectRules = productForm.value.subjectRules;
@@ -41,8 +42,8 @@ var CreateBindingComponent = (function () {
         for (var i = 0; i < this.roleBindingDto.subjectRules.length; i++) {
             subjectRules.push(new rolebinding_1.Subject(this.roleBindingDto.subjectRules[i].apiGroup, this.roleBindingDto.subjectRules[i].kind, this.roleBindingDto.subjectRules[i].name, this.roleBindingDto.subjectRules[i].namespace));
         }
-        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, "ClusterRole", this.roleBindingDto.nameRef);
-        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("ClusterRoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
+        var roleRef = new role_1.RoleRef(this.roleBindingDto.apiGroup, this.roleBindingDto.kind, this.roleBindingDto.nameRef);
+        var rolebinding = new rolebinding_1.RoleBinding(new common_1.TypeMeta("RoleBinding", this.roleBindingDto.apiVersion), new role_1.ObjectMeta(this.roleBindingDto.name, this.roleBindingDto.namespace), subjectRules, roleRef);
         this.service.createRole(rolebinding)
             .subscribe(function (data) {
             _this.responseRole = data;
@@ -65,6 +66,7 @@ var CreateBindingComponent = (function () {
             namespace: ["", forms_1.Validators.required],
             name: ["", forms_1.Validators.required],
             nameRef: ["", forms_1.Validators.required],
+            kind: ["", forms_1.Validators.required],
             subjectRules: this.fb.array([
                 this.initSubject(),
             ])

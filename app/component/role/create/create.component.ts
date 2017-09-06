@@ -49,7 +49,7 @@ export class CreateRoleComponent implements OnInit {
                 this.roleDto.policyRules[i].resourceNames.split(',')));
         }
 
-        let role = new Role(new TypeMeta("ClusterRole", this.roleDto.apiVersion), new ObjectMetaView(
+        let role = new Role(new TypeMeta("Role", this.roleDto.apiVersion), new ObjectMetaView(
             this.roleDto.name, this.roleDto.namespace, this.roleDto.generation, this.roleDto.deletionTimestamp,
             this.roleDto.deletionGracePeriodSeconds), policyRulesArrays);
 

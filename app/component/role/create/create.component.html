@@ -8,12 +8,20 @@
 			<div class="form-group">
 				<label for="name">Name</label>
 				<input id="name" type="text" class="form-control" formControlName="name">
+				<small [hidden]="productForm.controls.name.valid"
+					   class="text-danger">
+					name is required
+				</small>
 			</div>
 		</div>
 		<div class="ui-g-12 ui-md-8 ui-lg-10">
 			<div class="form-group">
 				<label for="namespace">Namespace</label>
 				<input id="namespace" type="text" class="form-control" formControlName="namespace">
+				<small [hidden]="productForm.controls.namespace.valid"
+					   class="text-danger">
+					namespace is required
+				</small>
 			</div>
 		</div>
 		<div formArrayName="policyRules">

@@ -1,12 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 import {
     ResponseRoleBinding, RoleBinding, RoleBindingDto, Subject,
     SubjectDto
 } from "../../../logic-service/models/rolebinding";
-import {ObjectMeta, Role, RoleRef} from "../../../logic-service/models/role";
+import {ObjectMeta} from "../../../logic-service/models/role";
 import {GetOptions, TypeMeta} from "../../../logic-service/models/common";
 import {RoleBindingService} from "../../../logic-service/rolebinding.service";
 

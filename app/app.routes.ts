@@ -19,7 +19,6 @@ import {UpdateBindingComponent} from "./component/rolebinding/update/updateBindi
 import {MainRoleBindingComponent} from "./component/rolebinding/main/mainRoleBinding.component";
 
 
-
 export const routes: Routes = [
     {
         path: "",

@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 
 import {FormGroup, FormBuilder} from "@angular/forms";
-import {DeleteOptions, ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
+import {ListDto, ListOptions, TypeMeta} from "../../../logic-service/models/common";
 import {ResponsesRoleBindingList} from "../../../logic-service/models/rolebinding";
 import {ClusterRoleBindingService} from "../../../logic-service/clusterrolebinding.service";
 

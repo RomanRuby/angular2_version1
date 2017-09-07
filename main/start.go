@@ -6,10 +6,7 @@ import (
 	"log"
 	"net/http"
 	mux "github.com/gorilla/mux"
-	routerClusterRoleBinding "./controllers/binding/cluster"
-	routerRoleBinding "./controllers/binding/singleValue"
-	routerClusterRole "./controllers/roles/cluster"
-	routerRole "./controllers/roles/singleValue"
+	controllers "./controllers"
 )
 
 func Start(){
@@ -22,11 +19,7 @@ func Start(){
 
 	router := mux.NewRouter()
 	router.Handle("/", http.RedirectHandler("/static/index.html", 302))
-
-	routerClusterRoleBinding.AddURL(router)
-	routerRoleBinding.AddURL(router)
-	routerClusterRole.AddURL(router)
-	routerRole.AddURL(router)
+	controllers.AddRouting(router)
 
 	router.PathPrefix("/").Handler(http.StripPrefix("/static", fileHandler))
 	http.Handle("/assets/", http.FileServer(http.Dir(".")))

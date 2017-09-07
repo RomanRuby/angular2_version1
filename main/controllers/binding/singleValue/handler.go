@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	res "../../utils"
+	result "../../utils"
 )
 
 func CreateRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -18,7 +18,7 @@ func CreateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(roleInterfaceParsing.ObjectMeta.Namespace)
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -28,7 +28,7 @@ func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(roleInterfaceParsing.Namespace)
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func ListRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -40,7 +40,7 @@ func ListRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(namespace)
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func DeleteRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -53,7 +53,7 @@ func DeleteRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(namespace)
 	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -65,7 +65,7 @@ func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Req
 
 	roleInterface := models.ClientSettings.RoleBindings(namespace)
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func GetRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -78,5 +78,5 @@ func GetRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(namespace)
 	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	res "../../utils"
+	result "../../utils"
 )
 
 var roleInterface = models.ClientSettings.ClusterRoleBindings()
@@ -20,7 +20,7 @@ func CreateClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func UpdateClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -29,7 +29,7 @@ func UpdateClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 
 }
 
@@ -39,7 +39,7 @@ func ListClusterRoleBinding(response http.ResponseWriter, request *http.Request)
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -50,7 +50,7 @@ func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func DeleteCollectionClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -59,7 +59,7 @@ func DeleteCollectionClusterRoleBinding(response http.ResponseWriter, request *h
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func GetClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -70,6 +70,6 @@ func GetClusterRoleBinding(response http.ResponseWriter, request *http.Request) 
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 

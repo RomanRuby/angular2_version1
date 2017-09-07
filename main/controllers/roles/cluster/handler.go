@@ -9,7 +9,7 @@ import (
 	mux "github.com/gorilla/mux"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	res "../../utils"
+	result "../../utils"
 )
 
 var roleInterface = models.ClientSettings.ClusterRoles()
@@ -21,7 +21,7 @@ func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func UpdateCluster(response http.ResponseWriter, request *http.Request) {
@@ -30,7 +30,7 @@ func UpdateCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 func ListCluster(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
@@ -38,7 +38,7 @@ func ListCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func DeleteCluster(response http.ResponseWriter, request *http.Request) {
@@ -49,7 +49,7 @@ func DeleteCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	res.Send(response, "Success",err)
+	result.Send(response, "Success",err)
 
 }
 
@@ -59,7 +59,7 @@ func DeleteCollectionCluster(response http.ResponseWriter, request *http.Request
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func GetCluster(response http.ResponseWriter, request *http.Request) {
@@ -70,7 +70,7 @@ func GetCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 

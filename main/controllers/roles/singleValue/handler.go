@@ -8,7 +8,7 @@ import (
 	v1beta1 "k8s.io/api/rbac/v1beta1"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	res "../../utils"
+	result "../../utils"
 )
 
 func Create(response http.ResponseWriter, request *http.Request) {
@@ -18,7 +18,7 @@ func Create(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.Roles(roleInterfaceParsing.ObjectMeta.Namespace)
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func Update(response http.ResponseWriter, request *http.Request) {
@@ -28,7 +28,7 @@ func Update(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.Roles(roleInterfaceParsing.ObjectMeta.Namespace)
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 func List(response http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
@@ -39,7 +39,7 @@ func List(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface :=models.ClientSettings.Roles(namespace)
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 
 func Delete(response http.ResponseWriter, request *http.Request) {
@@ -52,7 +52,7 @@ func Delete(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.Roles(namespace)
 	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func DeleteCollection(response http.ResponseWriter, request *http.Request) {
@@ -64,7 +64,7 @@ func DeleteCollection(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.Roles(namespace)
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	res.Send(response,"Success",err)
+	result.Send(response,"Success",err)
 }
 
 func Get(response http.ResponseWriter, request *http.Request) {
@@ -77,6 +77,6 @@ func Get(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.Roles(namespace)
 	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	res.Send(response,roles,err)
+	result.Send(response,roles,err)
 }
 

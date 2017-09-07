@@ -1,0 +1,61 @@
+<div class="container" *ngIf="productForm">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+        <div class="form-group">
+            <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-8">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" formControlName="name">
+                <small [hidden]="productForm.controls.name.valid"
+                       class="text-danger">
+                    Name is required
+                </small>
+            </div>
+            <div *ngIf="isInformationOutput">
+                <h3 class="first">Information </h3>
+                <div *ngIf="isInformationTable">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>CreationTimestamp</th>
+                            <th>Name</th>
+                            <th>Uid</th>
+                            <th>ResourceVersion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                            <th> {{responseRole.metadata.creationTimestamp}}</th>
+                            <th>{{responseRole.metadata.name}}</th>
+                            <th>{{responseRole.metadata.uid}}</th>
+                            <th>{{responseRole.metadata.resourceVersion}}</th>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <p-dataTable [value]="policyRuleDtoWithDeleteFunction" [editable]="true">
+                        <p-column field="apiGroups" header="ApiGroups" [editable]="true"></p-column>
+                        <p-column field="resourceNames" header="ResourceNames" [editable]="true"></p-column>
+                        <p-column field="resources" header="Resources" [editable]="true"></p-column>
+                        <p-column field="verbs" header="Verbs" [editable]="true"></p-column>
+                        <p-column field="isDelete" header="Delete(write true to delete policy)" [editable]="true"></p-column>
+                    </p-dataTable>
+
+                    <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="addPolicy()" value="add Policy"
+                    [disabled]="productForm.invalid || isInformationError || !isInformationOutput"/>
+                    <p-dataTable [value]="responseRoleDto.metadata" [editable]="true">
+                        <p-column field="generateName" header="generateName" [editable]="true"></p-column>
+                    </p-dataTable>
+                </div>
+                <div *ngIf="isInformationError">
+                    <p>{{errorMessage}}</p></div>
+
+            </div>
+            <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="save()" value="Update"
+                   [disabled]="productForm.invalid || isInformationError || !isInformationOutput"/>
+            <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8"
+                   value="Get" [disabled]="productForm.invalid"/>
+        </div>
+    </form>
+</div>

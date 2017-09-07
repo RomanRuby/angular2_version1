@@ -1,37 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/create/createCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/delete/deleteCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/deleteCollection/deleteCollectionCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/get/getCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/list/listCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/patch/patchCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/update/updateCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrole/watch/watchCluster.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/create/createClusterBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/delete/deleteClusterRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/deleteCollection/deleteClusterRoleBindingCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/get/getClusterRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/list/listClusterBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/patch/patchClusterRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/update/updateClusterBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/clusterrolebinding/watch/watchClusterRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/create/create.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/delete/delete.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/deleteCollection/deleteCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/get/get.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/list/list.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/patch/patch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/update/update.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/role/watch/watch.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/create/createBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/delete/deleteRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/deleteCollection/deleteRoleBindingCollection.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/get/getRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/list/listBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/patch/patchRoleBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/update/updateBinding.component.ts" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/app/component/rolebinding/watch/watchRoleBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/clusterrole/create/createClusterBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/clusterrole/list/listClusterBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/clusterrole/update/updateClusterBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/role/create/createBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/role/list/listBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/binding/role/update/updateBinding.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/cluster/create/createCluster.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/cluster/list/listCluster.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/cluster/update/updateCluster.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/single-value/create/create.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/single-value/list/list.component.ts" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/app/components/roles/single-value/update/update.component.ts" charset="ISO-8859-1" />
   </component>
 </project>

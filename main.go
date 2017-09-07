@@ -1,12 +1,10 @@
 package main
 
 import (
-	server "./routing"
+	server "./main"
 )
 
 func main() {
-	server.Provide()
+	server.Start()
 }
-
-
 

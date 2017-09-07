@@ -1,6 +1,6 @@
 ## kubernetes_rbac
 This project is an application for creating users and roles based on the basic Kubernetes Role-Based Access Control.
-# Documentation for kubernets
+# Documentation for kubernetes
 https://kubernetes.io/
 
 # Documentation for rbac
@@ -18,6 +18,7 @@ https://github.com/kubernetes/client-go/
 - Install  angular dependencies in application("npm install").
 
 ## Features
+
 # Frontend
 * TypeScript
 * High resolution

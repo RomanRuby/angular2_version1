@@ -1,0 +1,99 @@
+<div class="container" *ngIf="productForm">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+        <div class="form-group">
+            <a href="#" onClick="history.go(-1)"><b>Cluster Role</b> </a>
+        </div>
+
+        <div class="ui-g-12 ui-md-8 ui-lg-10">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" formControlName="name">
+                <small [hidden]="productForm.controls.name.valid"
+                       class="text-danger">
+                    name is required
+                </small>
+            </div>
+        </div>
+        <div formArrayName="policyRules">
+            <div *ngFor="let policyRules of productForm.controls.policyRules.controls; let i=index"
+                 class="panel panel-default ui-g-12 ui-md-8 ui-lg-8">
+                <div class="panel-heading">
+                    <span>Policy Rule : {{i + 1}}</span>
+                    <span class="glyphicon glyphicon-remove pull-right "
+                          *ngIf="productForm.controls.policyRules.controls.length > 1"
+                          (click)="removePolicyRules(i)"></span>
+                </div>
+                <div class="panel-body " [formGroupName]="i">
+                    <div class="row">
+                        <div class="form-group col-xs-3">
+                            <label>Verbs</label>
+                            <input type="text" class="form-control" formControlName="verbs">
+                            <small [hidden]="productForm.controls.policyRules.controls[i].controls.verbs.valid"
+                                   class="text-danger">
+                                verbs is required
+                            </small>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <label>ApiGroups</label>
+                            <input type="text" class="form-control" formControlName="apiGroups">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xs-3">
+                            <label>Resources</label>
+                            <input type="text" class="form-control" formControlName="resources">
+
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <label>ResourceNames</label>
+                            <input type="text" class="form-control" formControlName="resourceNames">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div></div>
+        <div class="margin-20 ui-g-12 ui-md-6 ui-lg-8">
+            <a (click)="addPolicyRules()" style="cursor: default">
+                Add +
+            </a>
+        </div>
+        <input type="button" class="btn btn-default ui-g-12 ui-md-6 ui-lg-8" (click)="reset()" value="Reset"/>
+        <input type="submit" class="btn btn-primary ui-g-12 ui-md-6 ui-lg-8" value="Save"
+               [disabled]="productForm.invalid"/>
+    </form>
+
+    <div class="ui-g-12 ui-md-6 ui-lg-8">
+        <div *ngIf="isInformationOutput">
+            <h3 class="first">Information </h3>
+            <div *ngIf="!isInformationError">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>CreationTimestamp</th>
+                        <th>Name</th>
+                        <th>Uid</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr class="accordion-toggle" data-toggle="collapse" data-target="#12345-cores">
+                        <th> {{responseRole.metadata.creationTimestamp}}</th>
+                        <th>{{responseRole.metadata.name}}</th>
+                        <th>{{responseRole.metadata.uid}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <p-dataTable [value]="responseRole.rules">
+                    <p-column field="apiGroups" header="ApiGroups"></p-column>
+                    <p-column field="resourceNames" header="ResourceNames"></p-column>
+                    <p-column field="resources" header="Resources"></p-column>
+                    <p-column field="verbs" header="Verbs"></p-column>
+                </p-dataTable>
+            </div>
+            <div *ngIf="isInformationError ">
+                <p>{{errorMessage}}</p></div>
+        </div>
+    </div>
+</div>

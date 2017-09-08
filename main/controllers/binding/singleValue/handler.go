@@ -60,7 +60,7 @@ func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Req
 	vars := mux.Vars(request)
 	namespace := vars["namespace"]
 	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := models.DeleteCollections{}
+	roleInterfaceParsing := models.DeleteCollection{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roleInterface := models.ClientSettings.RoleBindings(namespace)

@@ -55,7 +55,7 @@ func DeleteClusterRoleBinding(response http.ResponseWriter, request *http.Reques
 
 func DeleteCollectionClusterRoleBinding(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
-	roleInterfaceParsing := models.DeleteCollections{}
+	roleInterfaceParsing := models.DeleteCollection{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)

@@ -7,27 +7,30 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"os"
 	v1beta12 "k8s.io/client-go/kubernetes/typed/rbac/v1beta1"
-
 )
 
-func clientSet() (client *v1beta12.RbacV1beta1Client) {
+func clientSet(name string, suffix string) (client *v1beta12.RbacV1beta1Client) {
 	var kubeconfig *string
+
 	if home := homeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "./")
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, name, suffix), "./")
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "./config.kube")
 	}
 	flag.Parse()
 
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
-	if err != nil {
-		panic(err.Error())
-	}
+	errorHandle(err)
 	clientSet, err := kubernetes.NewForConfig(config)
+	errorHandle(err)
+
+	return clientSet.RbacV1beta1Client
+}
+
+func errorHandle(err error) {
 	if err != nil {
 		panic(err.Error())
 	}
-	return clientSet.RbacV1beta1Client
 }
 
 func homeDir() string {
@@ -37,4 +40,4 @@ func homeDir() string {
 	return os.Getenv("USERPROFILE")
 }
 
-var ClientSettings = clientSet()
+var ClientSettings = clientSet(".kube", "config")

@@ -5,10 +5,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	v1beta1 "k8s.io/api/rbac/v1beta1"
-	"github.com/gorilla/mux"
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	result "../../utils"
+	handler "../../utils"
 )
 
 func CreateRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -18,7 +17,7 @@ func CreateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(roleInterfaceParsing.ObjectMeta.Namespace)
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 
 func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
@@ -28,55 +27,49 @@ func UpdateRoleBinding(response http.ResponseWriter, request *http.Request) {
 
 	roleInterface := models.ClientSettings.RoleBindings(roleInterfaceParsing.Namespace)
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 
 func ListRoleBinding(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
+	var requestParams= handler.ReceiveHandler(request,"namespace")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.ListOptions{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	roleInterface := models.ClientSettings.RoleBindings(namespace)
+	roleInterface := models.ClientSettings.RoleBindings(requestParams[0])
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 
 func DeleteRoleBinding(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
-	category := vars["name"]
+	var requestParams= handler.ReceiveHandler(request,"namespace","name")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.DeleteOptions{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	roleInterface := models.ClientSettings.RoleBindings(namespace)
-	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	result.Send(response,"Success",err)
+	roleInterface := models.ClientSettings.RoleBindings(requestParams[0])
+	err := roleInterface.Delete(requestParams[1], &roleInterfaceParsing)
+	handler.Send(response,"Success",err)
 }
 
 func DeleteCollectionRoleBinding(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
+	var requestParams= handler.ReceiveHandler(request,"namespace")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := models.DeleteCollection{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	roleInterface := models.ClientSettings.RoleBindings(namespace)
+	roleInterface := models.ClientSettings.RoleBindings(requestParams[0])
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	result.Send(response,"Success",err)
+	handler.Send(response,"Success",err)
 }
 
 func GetRoleBinding(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	namespace := vars["namespace"]
-	category := vars["name"]
+	var requestParams= handler.ReceiveHandler(request,"namespace","name")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.GetOptions{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	roleInterface := models.ClientSettings.RoleBindings(namespace)
-	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	result.Send(response,roles,err)
+	roleInterface := models.ClientSettings.RoleBindings(requestParams[0])
+	roles, err := roleInterface.Get(requestParams[1], roleInterfaceParsing)
+	handler.Send(response,roles,err)
 }

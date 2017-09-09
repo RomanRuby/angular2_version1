@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	v1beta1 "k8s.io/api/rbac/v1beta1"
-	mux "github.com/gorilla/mux"
+	
 	types "k8s.io/apimachinery/pkg/apis/meta/v1"
 	models "../../../models"
-	result "../../utils"
+	handler "../../utils"
 )
 
 var roleInterface = models.ClientSettings.ClusterRoles()
@@ -21,7 +21,7 @@ func CreateCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Create(&roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 
 func UpdateCluster(response http.ResponseWriter, request *http.Request) {
@@ -30,7 +30,7 @@ func UpdateCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.Update(&roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 func ListCluster(response http.ResponseWriter, request *http.Request) {
 	data, _ := ioutil.ReadAll(request.Body)
@@ -38,18 +38,17 @@ func ListCluster(response http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	roles, err := roleInterface.List(roleInterfaceParsing)
-	result.Send(response,roles,err)
+	handler.Send(response,roles,err)
 }
 
 func DeleteCluster(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	category := vars["name"]
+	var requestParams = handler.ReceiveHandler(request,"name")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.DeleteOptions{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	err := roleInterface.Delete(category, &roleInterfaceParsing)
-	result.Send(response, "Success",err)
+	err := roleInterface.Delete(requestParams[0], &roleInterfaceParsing)
+	handler.Send(response, "Success",err)
 
 }
 
@@ -59,18 +58,17 @@ func DeleteCollectionCluster(response http.ResponseWriter, request *http.Request
 	json.Unmarshal(data, &roleInterfaceParsing)
 
 	err := roleInterface.DeleteCollection(&roleInterfaceParsing.DeleteOptions, roleInterfaceParsing.ListOptions)
-	result.Send(response,"Success",err)
+	handler.Send(response,"Success",err)
 }
 
 func GetCluster(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	category := vars["name"]
+	var requestParams = handler.ReceiveHandler(request,"namespace")
 	data, _ := ioutil.ReadAll(request.Body)
 	roleInterfaceParsing := types.GetOptions{}
 	json.Unmarshal(data, &roleInterfaceParsing)
 
-	roles, err := roleInterface.Get(category, roleInterfaceParsing)
-	result.Send(response,roles,err)
+	roles, err := roleInterface.Get(requestParams[0], roleInterfaceParsing)
+	handler.Send(response,roles,err)
 }
 
 
